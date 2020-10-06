@@ -95,6 +95,8 @@ public class FP_Controller : MonoBehaviour
 
         GameLoopManager.Instance.UpdatePlayer += Tick;
         InputManager.Instance.OnInteract += OnInteract;
+        InputManager.Instance.UpdateCrouch += CheckCrouch;
+        CheckCrouch(InputManager.Instance.GetIsCrouch);
     }
 
     private void InitDictionnary()
@@ -114,6 +116,18 @@ public class FP_Controller : MonoBehaviour
         _states[E_PlayerState.CROUCHING].Init(this);
 
         _currentState = _startingState;
+    }
+
+    private void CheckCrouch(bool value)
+    {
+        if(value == true)
+        {
+            this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+        else
+        {
+            this.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     private void Tick()
