@@ -15,6 +15,7 @@ public class Pickable : MonoBehaviour, IInteractive
     private bool _isHold = false;
     private Color _particleBaseColor = Color.white;
 
+    public RespawnObject GetRespawner { get { return _respawner; } }
     public Rigidbody GetRigidbody { get { return _rb; } }
 
     private void Start()
