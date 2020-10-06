@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class FP_CameraController : MonoBehaviour
 {
     [SerializeField] private Data _data;
     [Space]

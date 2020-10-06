@@ -372,6 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementData:
     speed: 5
+    crouchSpeed: 3
     smoothTime: 2
     fallSpeed: 9.81
     rotationSpeed: 10

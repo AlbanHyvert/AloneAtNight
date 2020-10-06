@@ -2,13 +2,15 @@
 
 public class FP_WalkingState : MonoBehaviour, IPlayerState
 {
-    private PlayerController _self = null;
+    private FP_Controller _self = null;
     private CharacterController _selfController = null;
     private float _currentSpeed = 0;
 
     void IPlayerState.Enter()
     {
         InputManager.Instance.UpdateDirection += Move;
+        InputManager.Instance.UpdateCrouch += CheckCrouch;
+        CheckCrouch(InputManager.Instance.GetIsCrouch);
         CheckGround(_self.GetIsGrounded);
         _self.UpdateIsGrounded += CheckGround;
     }
@@ -16,6 +18,7 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
     void IPlayerState.Exit()
     {
         _self.UpdateIsGrounded -= CheckGround;
+        InputManager.Instance.UpdateCrouch -= CheckCrouch;
         InputManager.Instance.UpdateDirection -= Move;
     }
 
@@ -28,7 +31,15 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
         }
     }
 
-    void IPlayerState.Init(PlayerController self)
+    private void CheckCrouch(bool value)
+    {
+        if(value == true)
+        {
+            _self.ChangeState(E_PlayerState.CROUCHING);
+        }
+    }
+
+    void IPlayerState.Init(FP_Controller self)
     {
         _self = self;
         _selfController = self.GetData.controller;

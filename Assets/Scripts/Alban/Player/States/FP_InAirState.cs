@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlayerInAirState : MonoBehaviour, IPlayerState
+public class FP_InAirState : MonoBehaviour, IPlayerState
 {
-    private PlayerController _self = null;
+    private FP_Controller _self = null;
     private CharacterController _selfController = null;
     private float _fallSpeed = 1;
     private Vector3 _lastDir = -Vector3.up;
@@ -32,7 +32,7 @@ public class PlayerInAirState : MonoBehaviour, IPlayerState
         }
     }
 
-    void IPlayerState.Init(PlayerController self)
+    void IPlayerState.Init(FP_Controller self)
     {
         _self = self;
         _selfController = self.GetData.controller;

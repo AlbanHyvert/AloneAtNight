@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Engine.Singleton;
-using System.Collections.Generic;
+
 
 public class InputManager : Singleton<InputManager>
 {
@@ -9,8 +9,9 @@ public class InputManager : Singleton<InputManager>
 
     private Vector3 _direction = Vector3.zero;
     private Vector3 _mousePosition = Vector3.zero;
-    private PlayerController _player = null;
+    private FP_Controller _player = null;
     private Camera _camera = null;
+    private bool _isCrouch = false;
 
     private event Action<Vector3> _updateMousePos = null;
     public event Action<Vector3> UpdateMousePos
@@ -37,6 +38,20 @@ public class InputManager : Singleton<InputManager>
         remove
         {
             _updateDirection -= value;
+        }
+    }
+
+    private event Action<bool> _updateCrouch = null;
+    public event Action<bool> UpdateCrouch
+    {
+        add
+        {
+            _updateCrouch -= value;
+            _updateCrouch += value;
+        }
+        remove
+        {
+            _updateCrouch -= value;
         }
     }
 
@@ -68,14 +83,17 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    public bool GetIsCrouch { get { return _isCrouch; } }
+
     #region Structs
     [System.Serializable]
     private struct Keyboard
     {
         public KeyCode forward;
         public KeyCode left;
-        public KeyCode right;
         public KeyCode backward;
+        public KeyCode right;
+        public KeyCode crouch;
         public KeyCode interact;
         public KeyCode launch;
     }
@@ -99,7 +117,7 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    private void CheckPlayer(PlayerController player)
+    private void CheckPlayer(FP_Controller player)
     {
         if(player != null)
         {
@@ -126,6 +144,16 @@ public class InputManager : Singleton<InputManager>
 
         if (_onThrow != null)
             UpdateThrow();
+
+        if(_updateCrouch != null)
+        {
+            if (Input.GetKeyDown(_keyboard.crouch))
+            {
+                _isCrouch = !_isCrouch;
+
+                _updateCrouch(_isCrouch);
+            }
+        }
     }
 
     private void UpdateMovement()
@@ -197,6 +225,9 @@ public class InputManager : Singleton<InputManager>
                 break;
             case E_Key.BACKWARD:
                 _keyboard.backward = keycode;
+                break;
+            case E_Key.CROUCH:
+                _keyboard.crouch = keycode;
                 break;
             case E_Key.INTERACT:
                 _keyboard.interact = keycode;

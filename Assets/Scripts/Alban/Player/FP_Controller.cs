@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+public class FP_Controller : MonoBehaviour
 {
     [SerializeField] private MovementData _movementData;
     [SerializeField] private Data _data;
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     public struct MovementData
     {
         public float speed;
+        public float crouchSpeed;
         public float smoothTime;
         public float fallSpeed;
         public float rotationSpeed;
@@ -72,7 +73,7 @@ public class PlayerController : MonoBehaviour
     public struct Data
     {
         public CharacterController controller;
-        public CameraController cameraController;
+        public FP_CameraController cameraController;
     }
     #endregion Structs
 
@@ -94,14 +95,16 @@ public class PlayerController : MonoBehaviour
 
         GameLoopManager.Instance.UpdatePlayer += Tick;
         InputManager.Instance.OnInteract += OnInteract;
+        InputManager.Instance.UpdateCrouch += CheckCrouch;
+        CheckCrouch(InputManager.Instance.GetIsCrouch);
     }
 
     private void InitDictionnary()
     {
-        _states.Add(E_PlayerState.IDLE, new PlayerIdleState());
-        _states.Add(E_PlayerState.INAIR, new PlayerInAirState());
-        _states.Add(E_PlayerState.TELEPORT, new PlayerTeleportState());
-        _states.Add(E_PlayerState.DEAD, new PlayerDeadState());
+        _states.Add(E_PlayerState.IDLE, new FP_IdleState());
+        _states.Add(E_PlayerState.INAIR, new FP_InAirState());
+        _states.Add(E_PlayerState.TELEPORT, new FP_TeleportState());
+        _states.Add(E_PlayerState.DEAD, new FP_DeadState());
         _states.Add(E_PlayerState.WALKING, new FP_WalkingState());
         _states.Add(E_PlayerState.CROUCHING, new FP_CrouchingState());
 
@@ -113,6 +116,18 @@ public class PlayerController : MonoBehaviour
         _states[E_PlayerState.CROUCHING].Init(this);
 
         _currentState = _startingState;
+    }
+
+    private void CheckCrouch(bool value)
+    {
+        if(value == true)
+        {
+            this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+        else
+        {
+            this.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     private void Tick()

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    [SerializeField] private PlayerController _playerPrefab = null;
+    [SerializeField] private FP_Controller _playerPrefab = null;
 
-    private PlayerController _playerInstance = null;
+    private FP_Controller _playerInstance = null;
 
-    public PlayerController GetPlayer { get { return _playerInstance; } }
-    public PlayerController SetPlayer 
+    public FP_Controller GetPlayer { get { return _playerInstance; } }
+    public FP_Controller SetPlayer 
     {
         set
         {
@@ -27,8 +27,8 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-    private event Action<PlayerController> _updatePlayer = null;
-    public event Action<PlayerController> UpdatePlayer
+    private event Action<FP_Controller> _updatePlayer = null;
+    public event Action<FP_Controller> UpdatePlayer
     {
         add
         {

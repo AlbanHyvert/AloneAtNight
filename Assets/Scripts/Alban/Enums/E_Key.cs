@@ -4,6 +4,7 @@
     LEFT,
     RIGHT,
     BACKWARD,
+    CROUCH,
     INTERACT,
     THROW
 }
