@@ -2,7 +2,7 @@
 
 public class FP_CrouchingState : MonoBehaviour, IPlayerState
 {
-    private PlayerController _self = null;
+    private FP_Controller _self = null;
     private CharacterController _selfController = null;
     private float _currentSpeed = 0;
 
@@ -40,7 +40,7 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
         }
     }
 
-    void IPlayerState.Init(PlayerController self)
+    void IPlayerState.Init(FP_Controller self)
     {
         _self = self;
         _selfController = self.GetData.controller;

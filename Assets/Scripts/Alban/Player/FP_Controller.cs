@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+public class FP_Controller : MonoBehaviour
 {
     [SerializeField] private MovementData _movementData;
     [SerializeField] private Data _data;
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     public struct Data
     {
         public CharacterController controller;
-        public CameraController cameraController;
+        public FP_CameraController cameraController;
     }
     #endregion Structs
 
@@ -99,10 +99,10 @@ public class PlayerController : MonoBehaviour
 
     private void InitDictionnary()
     {
-        _states.Add(E_PlayerState.IDLE, new PlayerIdleState());
-        _states.Add(E_PlayerState.INAIR, new PlayerInAirState());
-        _states.Add(E_PlayerState.TELEPORT, new PlayerTeleportState());
-        _states.Add(E_PlayerState.DEAD, new PlayerDeadState());
+        _states.Add(E_PlayerState.IDLE, new FP_IdleState());
+        _states.Add(E_PlayerState.INAIR, new FP_InAirState());
+        _states.Add(E_PlayerState.TELEPORT, new FP_TeleportState());
+        _states.Add(E_PlayerState.DEAD, new FP_DeadState());
         _states.Add(E_PlayerState.WALKING, new FP_WalkingState());
         _states.Add(E_PlayerState.CROUCHING, new FP_CrouchingState());
 

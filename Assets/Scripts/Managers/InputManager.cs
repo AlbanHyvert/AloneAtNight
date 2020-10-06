@@ -9,7 +9,7 @@ public class InputManager : Singleton<InputManager>
 
     private Vector3 _direction = Vector3.zero;
     private Vector3 _mousePosition = Vector3.zero;
-    private PlayerController _player = null;
+    private FP_Controller _player = null;
     private Camera _camera = null;
     private bool _isCrouch = false;
 
@@ -117,7 +117,7 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    private void CheckPlayer(PlayerController player)
+    private void CheckPlayer(FP_Controller player)
     {
         if(player != null)
         {
