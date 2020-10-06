@@ -9,6 +9,8 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
     void IPlayerState.Enter()
     {
         InputManager.Instance.UpdateDirection += Move;
+        InputManager.Instance.UpdateCrouch += CheckCrouch;
+        CheckCrouch(InputManager.Instance.GetIsCrouch);
         CheckGround(_self.GetIsGrounded);
         _self.UpdateIsGrounded += CheckGround;
     }
@@ -16,6 +18,7 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
     void IPlayerState.Exit()
     {
         _self.UpdateIsGrounded -= CheckGround;
+        InputManager.Instance.UpdateCrouch -= CheckCrouch;
         InputManager.Instance.UpdateDirection -= Move;
     }
 
@@ -25,6 +28,14 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
         {
             InputManager.Instance.UpdateDirection -= Move;
             _self.ChangeState(E_PlayerState.INAIR);
+        }
+    }
+
+    private void CheckCrouch(bool value)
+    {
+        if(value == true)
+        {
+            _self.ChangeState(E_PlayerState.CROUCHING);
         }
     }
 

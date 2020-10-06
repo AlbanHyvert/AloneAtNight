@@ -4,10 +4,13 @@ public class PlayerIdleState : MonoBehaviour, IPlayerState
 {
     private PlayerController _self = null;
     private CharacterController _selfController = null;
+    private bool _isCrouch = false;
 
     void IPlayerState.Enter()
     {
         InputManager.Instance.UpdateDirection += Move;
+        InputManager.Instance.UpdateCrouch += CheckCrouch;
+        CheckCrouch(InputManager.Instance.GetIsCrouch);
         CheckGround(_self.GetIsGrounded);
         _self.UpdateIsGrounded += CheckGround;
     }
@@ -15,6 +18,7 @@ public class PlayerIdleState : MonoBehaviour, IPlayerState
     void IPlayerState.Exit()
     {
         _self.UpdateIsGrounded -= CheckGround;
+        InputManager.Instance.UpdateCrouch -= CheckCrouch;
         InputManager.Instance.UpdateDirection -= Move;
     }
 
@@ -27,6 +31,11 @@ public class PlayerIdleState : MonoBehaviour, IPlayerState
         }
     }
 
+    private void CheckCrouch(bool value)
+    {
+        _isCrouch = value;
+    }
+
     void IPlayerState.Init(PlayerController self)
     {
         _self = self;
@@ -37,7 +46,14 @@ public class PlayerIdleState : MonoBehaviour, IPlayerState
     {
         if(dir != Vector3.zero)
         {
-            _self.ChangeState(E_PlayerState.WALKING);
+            if(_isCrouch == false)
+            {
+                _self.ChangeState(E_PlayerState.WALKING);
+            }
+            else
+            {
+                _self.ChangeState(E_PlayerState.CROUCHING);
+            }
         }
     }
 

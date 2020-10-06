@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     public struct MovementData
     {
         public float speed;
+        public float crouchSpeed;
         public float smoothTime;
         public float fallSpeed;
         public float rotationSpeed;

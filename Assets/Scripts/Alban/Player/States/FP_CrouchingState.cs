@@ -9,6 +9,8 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
     void IPlayerState.Enter()
     {
         InputManager.Instance.UpdateDirection += Move;
+        InputManager.Instance.UpdateCrouch += CheckCrouch;
+        CheckCrouch(InputManager.Instance.GetIsCrouch);
         CheckGround(_self.GetIsGrounded);
         _self.UpdateIsGrounded += CheckGround;
     }
@@ -18,6 +20,7 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
 
         _self.UpdateIsGrounded -= CheckGround;
         InputManager.Instance.UpdateDirection -= Move;
+        InputManager.Instance.UpdateCrouch -= CheckCrouch;
     }
 
     private void CheckGround(bool isGrounded)
@@ -26,6 +29,14 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
         {
             InputManager.Instance.UpdateDirection -= Move;
             _self.ChangeState(E_PlayerState.INAIR);
+        }
+    }
+
+    private void CheckCrouch(bool value)
+    {
+        if (value == false)
+        {
+            _self.ChangeState(E_PlayerState.WALKING);
         }
     }
 
@@ -42,7 +53,7 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
             _self.ChangeState(E_PlayerState.IDLE);
         }
 
-        _currentSpeed = Mathf.Lerp(_currentSpeed, _self.GetMovementData.speed, _self.GetMovementData.smoothTime * Time.deltaTime);
+        _currentSpeed = Mathf.Lerp(_currentSpeed, _self.GetMovementData.crouchSpeed, _self.GetMovementData.smoothTime * Time.deltaTime);
 
         dir *= _currentSpeed * Time.deltaTime;
 
