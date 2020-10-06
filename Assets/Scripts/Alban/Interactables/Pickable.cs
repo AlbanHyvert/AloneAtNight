@@ -3,8 +3,12 @@
 [RequireComponent(typeof(Rigidbody))]
 public class Pickable : MonoBehaviour, IInteractive
 {
+    [SerializeField] private float _maxOutlineWidth = 0.10f;
+    [SerializeField] private Color _outlineColor = Color.yellow;
+    [Space]
     [SerializeField] private ParticleSystem _particle = null;
 
+    private MeshRenderer _meshRenderer = null;
     private Rigidbody _rb = null;
     private Vector3 _lastValidPosition = Vector3.zero;
     private bool _isHold = false;
@@ -17,7 +21,14 @@ public class Pickable : MonoBehaviour, IInteractive
     {
         _rb = this.GetComponent<Rigidbody>();
 
+        _meshRenderer = this.GetComponent<MeshRenderer>();
+
         _lastValidPosition = this.transform.localPosition;
+
+        foreach (Material material in _meshRenderer.materials)
+        {
+            material.SetFloat("_Outline", 0f);
+        }
 
         if (_particle != null)
         {
@@ -36,6 +47,11 @@ public class Pickable : MonoBehaviour, IInteractive
 
             main.startColor = new ParticleSystem.MinMaxGradient(Color.yellow);
             _particle.Stop();
+        }
+
+        foreach (Material material in _meshRenderer.materials)
+        {
+            material.SetFloat("_Outline", 0f);
         }
 
         _lastValidPosition = this.transform.localPosition;
@@ -73,6 +89,12 @@ public class Pickable : MonoBehaviour, IInteractive
         {
             if(_particle != null)
                 _particle.Play();
+
+            foreach (Material material in _meshRenderer.materials)
+            {
+                material.SetFloat("_Outline", _maxOutlineWidth);
+                material.SetColor("_OutlineColor", _outlineColor);
+            }
         }
     }
 
@@ -80,5 +102,10 @@ public class Pickable : MonoBehaviour, IInteractive
     {
         if(_particle != null)
             _particle.Stop();
+
+        foreach (Material material in _meshRenderer.materials)
+        {
+            material.SetFloat("_Outline", 0f);
+        }
     }
 }
