@@ -18,6 +18,7 @@ public class FP_CameraController : MonoBehaviour
     private bool _canInteract = false;
     private bool _isInteracting = false;
 
+    public bool SetIsInteracting { set { _isInteracting = value; } }
     public Data GetData { get { return _data; } }
 
     #region Structs

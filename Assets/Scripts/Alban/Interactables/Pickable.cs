@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(RespawnObject))]
 public class Pickable : MonoBehaviour, IInteractive
 {
+    [SerializeField] private RespawnObject _respawner = null;
+    [Space]
     [SerializeField] private float _maxOutlineWidth = 0.10f;
     [SerializeField] private Color _outlineColor = Color.yellow;
     [Space]
@@ -10,11 +12,10 @@ public class Pickable : MonoBehaviour, IInteractive
 
     private MeshRenderer _meshRenderer = null;
     private Rigidbody _rb = null;
-    private Vector3 _lastValidPosition = Vector3.zero;
     private bool _isHold = false;
     private Color _particleBaseColor = Color.white;
 
-    public Vector3 GetLastValidPos { get { return _lastValidPosition; } }
+    public RespawnObject GetRespawner { get { return _respawner; } }
     public Rigidbody GetRigidbody { get { return _rb; } }
 
     private void Start()
@@ -23,7 +24,12 @@ public class Pickable : MonoBehaviour, IInteractive
 
         _meshRenderer = this.GetComponent<MeshRenderer>();
 
-        _lastValidPosition = this.transform.localPosition;
+        if(_respawner == null)
+        {
+            _respawner = this.GetComponent<RespawnObject>();
+        }
+
+        _respawner.SetLastValidPosition = this.transform.position;
 
         foreach (Material material in _meshRenderer.materials)
         {
@@ -54,7 +60,7 @@ public class Pickable : MonoBehaviour, IInteractive
             material.SetFloat("_Outline", 0f);
         }
 
-        _lastValidPosition = this.transform.localPosition;
+        //_respawner.SetLastValidPosition = this.transform.position;
 
         this.transform.SetParent(parent);
 
@@ -79,8 +85,6 @@ public class Pickable : MonoBehaviour, IInteractive
         _rb.isKinematic = false;
         _rb.useGravity = true;
         _rb.detectCollisions = true;
-
-        _lastValidPosition = this.transform.localPosition;
     }
 
     void IInteractive.OnSeen()

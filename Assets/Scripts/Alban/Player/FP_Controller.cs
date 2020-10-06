@@ -169,6 +169,7 @@ public class FP_Controller : MonoBehaviour
             if(_pickable != null)
             {
                 _pickable.GetComponent<IInteractive>().Exit();
+                _data.cameraController.SetIsInteracting = false;
                 _pickable = null;
             }
         }
