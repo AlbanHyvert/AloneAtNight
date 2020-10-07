@@ -9,6 +9,8 @@ public class FP_Controller : MonoBehaviour
     [SerializeField] private Data _data;
     [Space]
     [SerializeField] private E_PlayerState _startingState = E_PlayerState.IDLE;
+    [Space]
+    [SerializeField] private Inventory _inventory = null;
 
     private E_PlayerState _currentState = E_PlayerState.IDLE;
     private Dictionary<E_PlayerState, IPlayerState> _states = null;
@@ -88,6 +90,8 @@ public class FP_Controller : MonoBehaviour
     private void Start()
     {
         _states = new Dictionary<E_PlayerState, IPlayerState>();
+
+        _inventory = new Inventory();
 
         InitDictionnary();
 
