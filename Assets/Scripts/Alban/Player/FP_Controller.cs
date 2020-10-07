@@ -144,7 +144,9 @@ public class FP_Controller : MonoBehaviour
     public void ChangeState(E_PlayerState nextState)
     {
         _states[_currentState].Exit();
+
         _currentState = nextState;
+
         _states[nextState].Enter();
     }
 
