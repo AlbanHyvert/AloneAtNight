@@ -3,6 +3,8 @@
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(RespawnObject))]
 public class Pickable : MonoBehaviour, IInteractive
 {
+    [SerializeField] private ObjectItem _pickableItem = null;
+    [Space]
     [SerializeField] private RespawnObject _respawner = null;
     [Space]
     [SerializeField] private float _maxOutlineWidth = 0.10f;
@@ -20,6 +22,8 @@ public class Pickable : MonoBehaviour, IInteractive
 
     private void Start()
     {
+        _pickableItem.SetObjectItem(_pickableItem);
+
         _rb = this.GetComponent<Rigidbody>();
 
         _meshRenderer = this.GetComponent<MeshRenderer>();
@@ -41,6 +45,11 @@ public class Pickable : MonoBehaviour, IInteractive
             _particleBaseColor = _particle.main.startColor.color;
             _particle.Stop();
         }
+    }
+
+    public ObjectItem GetItem()
+    {
+        return _pickableItem;
     }
 
     void IInteractive.Enter(Transform parent)
@@ -94,10 +103,13 @@ public class Pickable : MonoBehaviour, IInteractive
             if(_particle != null)
                 _particle.Play();
 
-            foreach (Material material in _meshRenderer.materials)
+            if(_meshRenderer != null)
             {
-                material.SetFloat("_Outline", _maxOutlineWidth);
-                material.SetColor("_OutlineColor", _outlineColor);
+                foreach (Material material in _meshRenderer.materials)
+                {
+                    material.SetFloat("_Outline", _maxOutlineWidth);
+                    material.SetColor("_OutlineColor", _outlineColor);
+                }
             }
         }
     }
@@ -107,9 +119,12 @@ public class Pickable : MonoBehaviour, IInteractive
         if(_particle != null)
             _particle.Stop();
 
-        foreach (Material material in _meshRenderer.materials)
+        if(_meshRenderer != null)
         {
-            material.SetFloat("_Outline", 0f);
+            foreach (Material material in _meshRenderer.materials)
+            {
+                material.SetFloat("_Outline", 0f);
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ public class Inventory : ScriptableObject
     [SerializeField] private List<InventoryItemWrapper> _itemList = null;
     [SerializeField] private InventoryUI _inventoryUIPrefab = null;
 
+    private FP_Controller _fpPlayer = null;
     private InventoryUI _inventoryUI = null;
     private InventoryUI InventoryUI
     {
@@ -14,17 +15,22 @@ public class Inventory : ScriptableObject
         {
             if(!_inventoryUI)
             {
-                _inventoryUI = Instantiate(_inventoryUIPrefab, FindObjectOfType<Canvas>().transform.GetChild(0));
+                _inventoryUI = Instantiate(_inventoryUIPrefab, _fpPlayer.GetInventoryUI().transform);
             }
 
             return _inventoryUI;
         }
     }
 
+    private List<InventoryItem> _playerItemList = null;
     private Dictionary<InventoryItem, int> _itemToCountMap = new Dictionary<InventoryItem, int>();
 
-    public void InitInventory()
+    public void InitInventory(FP_Controller player)
     {
+        _fpPlayer = player;
+
+        _playerItemList = new List<InventoryItem>();
+
         for (int i = 0; i < _itemList.Count; i++)
         {
             _itemToCountMap.Add(_itemList[i].GetItem(), _itemList[i].GetItemCount());
@@ -39,7 +45,7 @@ public class Inventory : ScriptableObject
 
     public void AssignItem(InventoryItem item)
     {
-        Debug.Log(string.Format("Player assigned {0} item", item.GetName()));
+        item.AssignItemToPlayer(_fpPlayer);
     }
 
     public Dictionary<InventoryItem, int> GetAllItemsMap()
@@ -47,6 +53,16 @@ public class Inventory : ScriptableObject
         return _itemToCountMap;
     }
 
+    public List<InventoryItemWrapper> GetItemWrappers()
+    {
+        return _itemList;
+    }
+
+    public List<InventoryItem> GetPlayerItems()
+    {
+        return _playerItemList;
+    }
+    
     public void AddItem(InventoryItem item, int count)
     {
         int currentItemCount = 0;
@@ -58,6 +74,7 @@ public class Inventory : ScriptableObject
         else
         {
             _itemToCountMap.Add(item, count);
+            _playerItemList.Add(item);
         }
 
         if(_inventoryUI != null)
@@ -79,6 +96,7 @@ public class Inventory : ScriptableObject
                 if(currentItemCount - count <= 0)
                 {
                     _inventoryUI.DestroySlot(item);
+                    _playerItemList.Remove(item);
                 }
                 else
                 {

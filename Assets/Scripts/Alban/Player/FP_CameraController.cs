@@ -95,12 +95,18 @@ public class FP_CameraController : MonoBehaviour
 
             if (isPickable == true)
             {
-                _interactable = hit.transform.GetComponent<IInteractive>();
-                _interactable.OnSeen();
+                IInteractive interactive = hit.transform.GetComponent<IInteractive>();
+
+                _interactable = interactive;
+
+                if(_interactable != null)
+                    _interactable.OnSeen();
             }
             else
             {
-                _interactable.OnUnseen();
+                if(_interactable != null)
+                    _interactable.OnUnseen();
+
                 _interactable = null;
             }
         }

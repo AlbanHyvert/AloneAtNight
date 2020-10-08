@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d021b2190f05ce44f878c04d22dac5d1, type: 3}
-  m_Name: Item
+  m_Script: {fileID: 11500000, guid: 1d9ba009e1b791946a6fa1009c040d66, type: 3}
+  m_Name: Ball
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 0}
+  _itemPrefab: {fileID: 7536761146169049239, guid: 4d988cd5c1e031142b60f1073fb2210d,
+    type: 3}
   _itemSprite: {fileID: 0}
-  _itemName: 
+  _itemName: Ball
   _itemLocalPosition: {x: 0, y: 0, z: 0}
   _itemLocalRotation: {x: 0, y: 0, z: 0}

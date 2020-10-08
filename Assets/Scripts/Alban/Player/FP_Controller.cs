@@ -10,13 +10,16 @@ public class FP_Controller : MonoBehaviour
     [Space]
     [SerializeField] private E_PlayerState _startingState = E_PlayerState.IDLE;
     [Space]
+    [SerializeField] private Transform _objectAnchor = null;
     [SerializeField] private Inventory _inventory = null;
 
+    private GameObject _currentObjectItem = null;
     private E_PlayerState _currentState = E_PlayerState.IDLE;
     private Dictionary<E_PlayerState, IPlayerState> _states = null;
     private bool _isGrounded = false;
     private bool _handFull = false;
     private Pickable _pickable = null;
+    private InventoryUI _inventoryUI = null;
 
     #region Properties
     public MovementData GetMovementData { get { return _movementData; } }
@@ -91,7 +94,8 @@ public class FP_Controller : MonoBehaviour
     {
         _states = new Dictionary<E_PlayerState, IPlayerState>();
 
-        _inventory = new Inventory();
+        _inventory.InitInventory(this);
+        //_inventory.OpenInventoryUI();
 
         InitDictionnary();
 
@@ -134,6 +138,34 @@ public class FP_Controller : MonoBehaviour
         }
     }
 
+    public void CreateObjectInstance(ObjectItem objectItem)
+    {
+        DestroyIfNotNull(_currentObjectItem);
+        _currentObjectItem = CreateNewItemInstance(objectItem, _objectAnchor);
+
+        _inventory.RemoveItem(objectItem, 1);
+
+        _currentObjectItem.transform.SetParent(null);
+    }
+
+    private void DestroyIfNotNull(GameObject obj)
+    {
+        if(obj)
+        {
+            Destroy(obj);
+        }
+    }
+
+    private GameObject CreateNewItemInstance(ObjectItem objectItem, Transform objectAnchor)
+    {
+        GameObject itemInstance = Instantiate(objectItem.GetPrefab(), objectAnchor);
+
+        itemInstance.transform.localPosition = objectItem.GetLocalPosition();
+        itemInstance.transform.localRotation = objectItem.GetLocalRotation();
+
+        return itemInstance;
+    }
+
     private void Tick()
     {
         if(_data.controller.isGrounded == RaycastGround())
@@ -156,23 +188,40 @@ public class FP_Controller : MonoBehaviour
 
     private void OnInteract()
     {
-        if (_handFull == false)
-        {
-            _pickable = _data.cameraController.Interactable();
-        }      
-
         if (_handFull == true || _pickable != null)
         {
             _handFull = !_handFull;
         }
 
+        if (_handFull == false)
+        {
+            _pickable = _data.cameraController.Interactable();
+
+            if(_pickable != null)
+            {
+                _inventory.AddItem(_pickable.GetItem(), 1);
+
+                Destroy(_pickable.gameObject);
+
+                _pickable = null;
+
+                _handFull = true;
+            }
+
+        }
+
         if(_handFull == true)
         {
-            _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
+            //_pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
         }
         else
         {
-            if(_pickable != null)
+            if(_inventory.GetPlayerItems().Count > 0 && _inventory.GetPlayerItems()[0] != null)
+            {
+                CreateObjectInstance(_inventory.GetPlayerItems()[0].GetObjectItem());
+            }
+
+            if (_pickable != null)
             {
                 _pickable.GetComponent<IInteractive>().Exit();
                 _data.cameraController.SetIsInteracting = false;
@@ -186,5 +235,10 @@ public class FP_Controller : MonoBehaviour
         bool isGrounded = Physics.Raycast(transform.position, -transform.up, 0.5f);
 
         return isGrounded;
+    }
+
+    public InventoryUI GetInventoryUI()
+    {
+        return _inventoryUI;
     }
 }
