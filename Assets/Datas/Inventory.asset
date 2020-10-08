@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8dbc6ddad372f45a9cfeead334efaf, type: 3}
   m_Name: Inventory
   m_EditorClassIdentifier: 
-  _itemList:
-  - _item: {fileID: 11400000, guid: 2cf7e8906add3a34392099da30360c96, type: 2}
-    _count: 1
+  _itemList: []
   _inventoryUIPrefab: {fileID: 0}
