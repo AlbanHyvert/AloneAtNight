@@ -67,14 +67,16 @@ public class Inventory : ScriptableObject
     {
         int currentItemCount = 0;
 
-        if(_itemToCountMap.TryGetValue(item, out currentItemCount))
+        _playerItemList.Add(item);
+
+        if (_itemToCountMap.TryGetValue(item, out currentItemCount))
         {
             _itemToCountMap[item] = currentItemCount + count;
         }
         else
         {
             _itemToCountMap.Add(item, count);
-            _playerItemList.Add(item);
+            //old place Add player item list
         }
 
         if(_inventoryUI != null)

@@ -288,6 +288,7 @@ MonoBehaviour:
     right: 100
     crouch: 306
     interact: 101
+    lookAt: 97
     launch: 102
 --- !u!1 &1949028755
 GameObject:
