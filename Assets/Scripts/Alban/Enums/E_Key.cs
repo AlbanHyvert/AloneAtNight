@@ -6,5 +6,6 @@
     BACKWARD,
     CROUCH,
     INTERACT,
+    LOOKAT,
     THROW
 }

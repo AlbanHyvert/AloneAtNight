@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class FP_CameraController : MonoBehaviour
 {
@@ -13,13 +14,27 @@ public class FP_CameraController : MonoBehaviour
     private float _currentY = 0;
     private float _rotationX = 0;
     private float _rotationY = 0;
-
+    private FP_Controller _fpPlayer = null;
     private IInteractive _interactable = null;
     private bool _canInteract = false;
     private bool _isInteracting = false;
 
     public bool SetIsInteracting { set { _isInteracting = value; } }
     public Data GetData { get { return _data; } }
+
+    private event Action<bool> _updateIsLookable = null;
+    public event Action<bool> UpdateIsLookable
+    {
+        add
+        {
+            _updateIsLookable -= value;
+            _updateIsLookable += value;
+        }
+        remove
+        {
+            _updateIsLookable -= value;
+        }
+    }
 
     #region Structs
     [System.Serializable]
@@ -49,17 +64,37 @@ public class FP_CameraController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
 
-        InputManager.Instance.UpdateMousePos += Tick;
+        InputManager.Instance.UpdateMousePos += CameraRotation;
+
+        _fpPlayer = this.GetComponentInParent<FP_Controller>();
+
+        _fpPlayer.OnLookAt += IsLookingAt;
     }
 
-    private void Tick(Vector3 mousePos)
+    private void IsLookingAt(bool value)
     {
-        CameraRotation();
-
-        CheckInteractable();
+        if(value == true)
+        {
+            InputManager.Instance.UpdateMousePos -= CameraRotation;
+            InputManager.Instance.UpdateMousePos += RotateObject;
+        }
+        else
+        {
+            InputManager.Instance.UpdateMousePos -= RotateObject;
+            InputManager.Instance.UpdateMousePos += CameraRotation;
+        }
     }
 
-    private void CameraRotation()
+    private void RotateObject(Vector3 mousePos)
+    {
+        float rotX = Input.GetAxis("Mouse X") * (float)_movementData.rotationSpeed * Mathf.Deg2Rad;
+        float rotY = Input.GetAxis("Mouse Y") * (float)_movementData.rotationSpeed * Mathf.Deg2Rad;
+
+        _fpPlayer.GetPickable.transform.Rotate(Vector3.up, -rotX);
+        _fpPlayer.GetPickable.transform.Rotate(Vector3.right, rotY);
+    }
+
+    private void CameraRotation(Vector3 mousePos)
     {
         _rotationX = _data.body.localEulerAngles.y;
 
@@ -68,6 +103,8 @@ public class FP_CameraController : MonoBehaviour
 
         mouseX *= (float)_movementData.rotationSpeed;
         mouseY *= (float)_movementData.rotationSpeed;
+
+        CheckInteractable();
 
         _currentX = Mathf.Lerp(_currentX, mouseX, (float)_data.smoothTime * Time.deltaTime);
         _currentY = Mathf.Lerp(_currentY, mouseY, (float)_data.smoothTime * Time.deltaTime);
@@ -87,42 +124,58 @@ public class FP_CameraController : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool isPickable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables); ;
+        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables); ;
 
-        if (isPickable != _canInteract)
+        if (isInteractable != _canInteract)
         {
-            _canInteract = isPickable;
+            _canInteract = isInteractable;
 
-            if (isPickable == true)
+            if (isInteractable == true)
             {
-                _interactable = hit.transform.GetComponent<IInteractive>();
-                _interactable.OnSeen();
+                Transform t = hit.transform;
+
+                IInteractive interactive = t.GetComponent<IInteractive>();
+                Pickable pickable = t.GetComponent<Pickable>();
+
+                _interactable = interactive;
+
+                if(_interactable != null)
+                    _interactable.OnSeen();
+            
+                if(pickable != null)
+                {
+                    _updateIsLookable(true);
+                }
             }
             else
             {
-                _interactable.OnUnseen();
+                if(_interactable != null)
+                    _interactable.OnUnseen();
+
+                _updateIsLookable(false);
+
                 _interactable = null;
             }
         }
     }
-
-    public Pickable Interactable()
+    
+    public Transform Interactive()
     {
-        Pickable pickable = null;
+        Transform interactive = null;
         RaycastHit hit;
 
-        bool isPickable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables);
+        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables);
 
-        if (isPickable != _isInteracting)
+        if (isInteractable != _isInteracting)
         {
-            _isInteracting = isPickable;
+            _isInteracting = isInteractable;
 
-            if(isPickable == true)
+            if (isInteractable == true)
             {
-                pickable = hit.transform.GetComponent<Pickable>();
+                interactive = hit.transform;
             }
         }
 
-        return pickable;
+        return interactive;
     }
 }

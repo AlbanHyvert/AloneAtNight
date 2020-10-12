@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 [RequireComponent(typeof(CharacterController))]
 public class FP_Controller : MonoBehaviour
@@ -9,16 +10,25 @@ public class FP_Controller : MonoBehaviour
     [SerializeField] private Data _data;
     [Space]
     [SerializeField] private E_PlayerState _startingState = E_PlayerState.IDLE;
+    [Space]
+    [SerializeField] private Transform _objectAnchor = null;
+    [SerializeField] private Inventory _inventory = null;
 
+    private GameObject _currentObjectItem = null;
     private E_PlayerState _currentState = E_PlayerState.IDLE;
     private Dictionary<E_PlayerState, IPlayerState> _states = null;
     private bool _isGrounded = false;
+    private bool _isLookAt = false;
     private bool _handFull = false;
     private Pickable _pickable = null;
+    private InventoryUI _inventoryUI = null;
 
     #region Properties
     public MovementData GetMovementData { get { return _movementData; } }
     public Data GetData { get { return _data; } }
+    public Pickable GetPickable { get { return _pickable; } }
+    public bool GetIsLookAt { get { return _isLookAt; } }
+    public bool GetHandFull { get { return _handFull; } }
     public bool SetHandFull
     {
         set
@@ -57,6 +67,20 @@ public class FP_Controller : MonoBehaviour
         }
     }
 
+    private event Action<bool> _onLookAt = null;
+    public event Action<bool> OnLookAt
+    {
+        add
+        {
+            _onLookAt -= value;
+            _onLookAt += value;
+        }
+        remove
+        {
+            _onLookAt -= value;
+        }
+    }
+
     #region Structs
     [System.Serializable]
     public struct MovementData
@@ -89,14 +113,32 @@ public class FP_Controller : MonoBehaviour
     {
         _states = new Dictionary<E_PlayerState, IPlayerState>();
 
+        _inventory.InitInventory(this);
+        //_inventory.OpenInventoryUI();
+
         InitDictionnary();
 
         ChangeState(_currentState);
 
         GameLoopManager.Instance.UpdatePlayer += Tick;
         InputManager.Instance.OnInteract += OnInteract;
+        InputManager.Instance.OnInventory += AddOrRemoveToInventory;
         InputManager.Instance.UpdateCrouch += CheckCrouch;
         CheckCrouch(InputManager.Instance.GetIsCrouch);
+
+        _data.cameraController.UpdateIsLookable += IsLookable;
+    }
+
+    private void IsLookable(bool value)
+    {
+        if(value == true)
+        {
+            InputManager.Instance.OnLookAt += LookAt;
+        }
+        else
+        {
+            InputManager.Instance.OnLookAt -= LookAt;
+        }
     }
 
     private void InitDictionnary()
@@ -130,6 +172,34 @@ public class FP_Controller : MonoBehaviour
         }
     }
 
+    public void CreateObjectInstance(ObjectItem objectItem)
+    {
+        DestroyIfNotNull(_currentObjectItem);
+        _currentObjectItem = CreateNewItemInstance(objectItem, _objectAnchor);
+
+        _inventory.RemoveItem(objectItem, 1);
+
+        _currentObjectItem.transform.SetParent(null);
+    }
+
+    private void DestroyIfNotNull(GameObject obj)
+    {
+        if(obj)
+        {
+            Destroy(obj);
+        }
+    }
+
+    private GameObject CreateNewItemInstance(ObjectItem objectItem, Transform objectAnchor)
+    {
+        GameObject itemInstance = Instantiate(objectItem.GetPrefab(), objectAnchor);
+
+        itemInstance.transform.localPosition = objectItem.GetLocalPosition();
+        itemInstance.transform.localRotation = objectItem.GetLocalRotation();
+
+        return itemInstance;
+    }
+
     private void Tick()
     {
         if(_data.controller.isGrounded == RaycastGround())
@@ -144,35 +214,126 @@ public class FP_Controller : MonoBehaviour
     public void ChangeState(E_PlayerState nextState)
     {
         _states[_currentState].Exit();
+
         _currentState = nextState;
+
         _states[nextState].Enter();
     }
 
     private void OnInteract()
     {
-        if (_handFull == false)
-        {
-            _pickable = _data.cameraController.Interactable();
-        }      
+        Transform interactable = _data.cameraController.Interactive();
+        Pickable pickable = null;
+        IInteractive interactive = null;
 
-        if (_handFull == true || _pickable != null)
+        if(_handFull == false)
         {
-            _handFull = !_handFull;
-        }
+            if (interactable != null)
+            {
+                pickable = interactable.GetComponent<Pickable>();
 
-        if(_handFull == true)
-        {
-            _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
+                if (pickable == null)
+                {
+                    interactive = interactable.GetComponent<IInteractive>();
+
+                    interactive.Enter();
+
+                    _data.cameraController.SetIsInteracting = false;
+                }
+                else
+                {
+                    _pickable = pickable;
+
+                    _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
+
+                    _handFull = true;
+                }
+            }
         }
         else
         {
-            if(_pickable != null)
+            _pickable.GetComponent<IInteractive>().Exit();
+            _data.cameraController.SetIsInteracting = false;
+            SetHandFull = false;
+        }
+    }
+
+    private void LookAt()
+    {
+        Transform t = _data.cameraController.Interactive();
+        
+        if(t != null)
+            _pickable = t.GetComponent<Pickable>();
+
+        if(_pickable != null)
+        {
+            _isLookAt = !_isLookAt;
+
+            if (_isLookAt == true)
+            {
+                _pickable.GetComponent<IInteractive>().Enter();
+                _pickable.transform.position = _objectAnchor.position;
+            }
+            else
             {
                 _pickable.GetComponent<IInteractive>().Exit();
-                _data.cameraController.SetIsInteracting = false;
-                _pickable = null;
+            }
+
+            if(_onLookAt != null)
+            {
+                _onLookAt(_isLookAt);
             }
         }
+    }
+
+    private void AddOrRemoveToInventory()
+    {
+        if (_inventory.GetPlayerItems().Count > 0 && _inventory.GetPlayerItems()[0] != null)
+        {
+            ObjectItem objectItem = _inventory.GetPlayerItems()[0].GetObjectItem();
+
+            CreateObjectInstance(objectItem);
+            _inventory.RemoveItem(objectItem, 1);
+            _inventory.GetPlayerItems().Remove(objectItem);
+        }
+        else
+        {
+            if (_handFull == true)
+            {
+                _pickable.GetComponent<IInteractive>().Exit();
+                _inventory.AddItem(_pickable.GetItem(), 1);
+
+                _handFull = false;
+                _data.cameraController.SetIsInteracting = false;
+
+                _isLookAt = false;
+                _onLookAt(_isLookAt);
+
+                Destroy(_pickable.gameObject);
+            }
+            else
+            {
+                Transform t = _data.cameraController.Interactive();
+
+                if(t != null)
+                    _pickable = t.GetComponent<Pickable>();
+
+                if (_pickable != null)
+                {
+                    _inventory.AddItem(_pickable.GetItem(), 1);
+
+                    _handFull = false;
+                    _data.cameraController.SetIsInteracting = false;
+
+                    _isLookAt = false;
+                    _onLookAt(_isLookAt);
+
+                    Destroy(_pickable.gameObject);
+                }
+            }
+        }
+
+        _pickable = null;
     }
 
     private bool RaycastGround()
@@ -180,5 +341,10 @@ public class FP_Controller : MonoBehaviour
         bool isGrounded = Physics.Raycast(transform.position, -transform.up, 0.5f);
 
         return isGrounded;
+    }
+
+    public InventoryUI GetInventoryUI()
+    {
+        return _inventoryUI;
     }
 }

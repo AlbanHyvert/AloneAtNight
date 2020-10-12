@@ -13,6 +13,7 @@ public class InputManager : Singleton<InputManager>
     private Camera _camera = null;
     private bool _isCrouch = false;
 
+    #region Events
     private event Action<Vector3> _updateMousePos = null;
     public event Action<Vector3> UpdateMousePos
     {
@@ -69,6 +70,34 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    private event Action _onLookAt = null;
+    public event Action OnLookAt
+    {
+        add
+        {
+            _onLookAt -= value;
+            _onLookAt += value;
+        }
+        remove
+        {
+            _onLookAt -= value;
+        }
+    }
+
+    private event Action _onInventory = null;
+    public event Action OnInventory
+    {
+        add
+        {
+            _onInventory -= value;
+            _onInventory += value;
+        }
+        remove
+        {
+            _onInventory -= value;
+        }
+    }
+
     private event Action _onThrow = null;
     public event Action OnThrow
     {
@@ -82,6 +111,7 @@ public class InputManager : Singleton<InputManager>
             _onThrow -= value;
         }
     }
+    #endregion Events
 
     public bool GetIsCrouch { get { return _isCrouch; } }
 
@@ -95,6 +125,7 @@ public class InputManager : Singleton<InputManager>
         public KeyCode right;
         public KeyCode crouch;
         public KeyCode interact;
+        public KeyCode lookAt;
         public KeyCode launch;
     }
     #endregion Structs
@@ -152,6 +183,22 @@ public class InputManager : Singleton<InputManager>
                 _isCrouch = !_isCrouch;
 
                 _updateCrouch(_isCrouch);
+            }
+        }
+    
+        if(_onLookAt != null)
+        {
+            if(Input.GetKeyDown(_keyboard.lookAt))
+            {
+                _onLookAt();
+            }
+        }
+    
+        if(_onInventory != null)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                _onInventory();
             }
         }
     }
@@ -231,6 +278,9 @@ public class InputManager : Singleton<InputManager>
                 break;
             case E_Key.INTERACT:
                 _keyboard.interact = keycode;
+                break;
+            case E_Key.LOOKAT:
+                _keyboard.lookAt = keycode;
                 break;
             case E_Key.THROW:
                 _keyboard.launch = keycode;

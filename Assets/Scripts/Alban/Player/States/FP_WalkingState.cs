@@ -8,7 +8,8 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
 
     void IPlayerState.Enter()
     {
-        InputManager.Instance.UpdateDirection += Move;
+        _self.OnLookAt += IsLookingAt;
+        IsLookingAt(_self.GetIsLookAt);
         InputManager.Instance.UpdateCrouch += CheckCrouch;
         CheckCrouch(InputManager.Instance.GetIsCrouch);
         CheckGround(_self.GetIsGrounded);
@@ -20,6 +21,18 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
         _self.UpdateIsGrounded -= CheckGround;
         InputManager.Instance.UpdateCrouch -= CheckCrouch;
         InputManager.Instance.UpdateDirection -= Move;
+    }
+
+    private void IsLookingAt(bool value)
+    {
+        if (value == true)
+        {
+            InputManager.Instance.UpdateDirection -= Move;
+        }
+        else
+        {
+            InputManager.Instance.UpdateDirection += Move;
+        }
     }
 
     private void CheckGround(bool isGrounded)
