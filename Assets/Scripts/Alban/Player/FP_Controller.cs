@@ -12,6 +12,7 @@ public class FP_Controller : MonoBehaviour
     [Space]
     [SerializeField] private Transform _objectAnchor = null;
     [SerializeField] private Inventory _inventory = null;
+    [SerializeField] private FP_Interactions _interactions = null;
 
     private GameObject _currentObjectItem = null;
     private E_PlayerState _currentState = E_PlayerState.IDLE;
@@ -24,6 +25,8 @@ public class FP_Controller : MonoBehaviour
     #region Properties
     public MovementData GetMovementData { get { return _movementData; } }
     public Data GetData { get { return _data; } }
+    public Pickable GetPickable { get { return _pickable; } }
+    public bool GetHandFull { get { return _handFull; } }
     public bool SetHandFull
     {
         set
@@ -93,6 +96,20 @@ public class FP_Controller : MonoBehaviour
     private void Start()
     {
         _states = new Dictionary<E_PlayerState, IPlayerState>();
+
+        if(_interactions == null)
+        {
+            _interactions = this.GetComponent<FP_Interactions>();
+
+            if(_interactions != null)
+            {
+                _interactions.InitInteraction(this, _inventory);
+            }
+        }
+        else
+        {
+            _interactions.InitInteraction(this, _inventory);
+        }
 
         _inventory.InitInventory(this);
         //_inventory.OpenInventoryUI();
@@ -188,46 +205,40 @@ public class FP_Controller : MonoBehaviour
 
     private void OnInteract()
     {
-        if (_handFull == true || _pickable != null)
+        if(_handFull == false)
         {
-            _handFull = !_handFull;
+            Pickable pickable = _data.cameraController.Interactive().GetComponent<Pickable>();
+
+            _pickable = pickable;
         }
 
-        if (_handFull == false)
+        _interactions.Interact(_data.cameraController.Interactive() , _handFull);
+    }
+
+    private void OnAddRemoveFromInventory()
+    {
+        if (_inventory.GetPlayerItems().Count > 0 && _inventory.GetPlayerItems()[0] != null)
         {
-            _pickable = _data.cameraController.Interactable();
-
-            if(_pickable != null)
-            {
-                _inventory.AddItem(_pickable.GetItem(), 1);
-
-                Destroy(_pickable.gameObject);
-
-                _pickable = null;
-
-                _handFull = true;
-            }
-
-        }
-
-        if(_handFull == true)
-        {
-            //_pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
+            CreateObjectInstance(_interactions.CreateObjectItem());
         }
         else
         {
-            if(_inventory.GetPlayerItems().Count > 0 && _inventory.GetPlayerItems()[0] != null)
+            if(_pickable == null)
             {
-                CreateObjectInstance(_inventory.GetPlayerItems()[0].GetObjectItem());
+                _interactions.AddToInventory(_data.cameraController.Pickable(), _data.cameraController.Pickable().GetItem());
             }
-
-            if (_pickable != null)
+            else
             {
-                _pickable.GetComponent<IInteractive>().Exit();
-                _data.cameraController.SetIsInteracting = false;
-                _pickable = null;
+                _interactions.AddToInventory(_pickable, _pickable.GetItem());
             }
         }
+    }
+
+    private void LookObject()
+    {
+        _pickable = _data.cameraController.Pickable();
+
+        _interactions.LookAt(_pickable);
     }
 
     private bool RaycastGround()

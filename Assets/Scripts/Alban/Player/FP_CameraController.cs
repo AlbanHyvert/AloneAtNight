@@ -17,6 +17,7 @@ public class FP_CameraController : MonoBehaviour
     private IInteractive _interactable = null;
     private bool _canInteract = false;
     private bool _isInteracting = false;
+    private bool _isPickable = false;
 
     public bool SetIsInteracting { set { _isInteracting = value; } }
     public Data GetData { get { return _data; } }
@@ -87,13 +88,13 @@ public class FP_CameraController : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool isPickable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables); ;
+        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables); ;
 
-        if (isPickable != _canInteract)
+        if (isInteractable != _canInteract)
         {
-            _canInteract = isPickable;
+            _canInteract = isInteractable;
 
-            if (isPickable == true)
+            if (isInteractable == true)
             {
                 IInteractive interactive = hit.transform.GetComponent<IInteractive>();
 
@@ -112,16 +113,16 @@ public class FP_CameraController : MonoBehaviour
         }
     }
 
-    public Pickable Interactable()
+    public Pickable Pickable()
     {
         Pickable pickable = null;
         RaycastHit hit;
 
         bool isPickable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables);
 
-        if (isPickable != _isInteracting)
+        if (isPickable != _isPickable)
         {
-            _isInteracting = isPickable;
+            _isPickable = isPickable;
 
             if(isPickable == true)
             {
@@ -130,5 +131,25 @@ public class FP_CameraController : MonoBehaviour
         }
 
         return pickable;
+    }
+    
+    public Transform Interactive()
+    {
+        Transform interactive = null;
+        RaycastHit hit;
+
+        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables);
+
+        if (isInteractable != _isInteracting)
+        {
+            _isInteracting = isInteractable;
+
+            if (isInteractable == true)
+            {
+                interactive = hit.transform;
+            }
+        }
+
+        return interactive;
     }
 }
