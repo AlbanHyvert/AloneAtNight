@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 915766457368535412}
   - component: {fileID: 7014403699123923604}
   - component: {fileID: 4197395654178194406}
+  - component: {fileID: 6928397816002085014}
   m_Layer: 8
   m_Name: LittleCube
   m_TagString: Untagged
@@ -141,3 +142,16 @@ MonoBehaviour:
   _maxOutlineWidth: 0.1
   _outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _particle: {fileID: 0}
+--- !u!114 &6928397816002085014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3526652157591118348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79617b818c02315439e87c2592273575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _index: 0

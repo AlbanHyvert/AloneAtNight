@@ -26,6 +26,7 @@ public class FP_Controller : MonoBehaviour
     #region Properties
     public MovementData GetMovementData { get { return _movementData; } }
     public Data GetData { get { return _data; } }
+    public Inventory GetInventory { get { return _inventory; } }
     public Pickable GetPickable { get { return _pickable; } }
     public bool GetIsLookAt { get { return _isLookAt; } }
     public bool GetHandFull { get { return _handFull; } }
@@ -188,16 +189,18 @@ public class FP_Controller : MonoBehaviour
         }
     }
 
-    public void CreateObjectInstance(ObjectItem objectItem)
+    public GameObject CreateObjectInstance(ObjectItem objectItem, Transform objectAnchor = null)
     {
-        DestroyIfNotNull(_currentObjectItem);
-        _currentObjectItem = CreateNewItemInstance(objectItem, _objectAnchor);
+        //  DestroyIfNotNull(_currentObjectItem);
+        _currentObjectItem = CreateNewItemInstance(objectItem, objectAnchor);
 
         _inventory.RemoveItem(objectItem, 1);
 
         _currentObjectItem.transform.SetParent(null);
 
-        _currentObjectItem = null;
+        _currentObjectItem.transform.localScale = objectItem.GetPrefab().transform.localScale;
+
+        return _currentObjectItem;
     }
 
     private void DestroyIfNotNull(GameObject obj)
@@ -387,9 +390,11 @@ public class FP_Controller : MonoBehaviour
         {
             if (_inventory.GetPlayerItems().Count > 0 && _inventory.GetPlayerItems()[0] != null)
             {
+                _currentObjectItem = null;
+
                 ObjectItem objectItem = _inventory.GetPlayerItems()[0].GetObjectItem();
 
-                CreateObjectInstance(objectItem);
+                CreateObjectInstance(objectItem, _objectAnchor);
                 _inventory.RemoveItem(objectItem, 1);
                 _inventory.GetPlayerItems().RemoveAt(0);
             }
