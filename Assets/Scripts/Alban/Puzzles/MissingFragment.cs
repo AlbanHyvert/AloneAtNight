@@ -33,6 +33,7 @@ public class MissingFragment : MonoBehaviour
 
                     if (dist >= -_validScope && dist <= _validScope)
                     {
+                        Debug.Log(_missingIndex.ToString() + " " + "is Valid");
                         _isValid = true;
                     }
                     else
@@ -42,13 +43,47 @@ public class MissingFragment : MonoBehaviour
                 }
             }
         }
+
+        if(_isValid == true)
+        {
+            switch (_missingIndex)
+            {
+                case E_FragmentIndex.PLACEMENT_1:
+                    Debug.Log("CUM");
+                    break;
+                case E_FragmentIndex.PLACEMENT_2:
+                    Debug.Log("CUMON");
+                    break;
+                case E_FragmentIndex.PLACEMENT_3:
+                    Debug.Log("CUMAS");
+                    break;
+                case E_FragmentIndex.PLACEMENT_4:
+                    Debug.Log("CUMY");
+                    break;
+                case E_FragmentIndex.PLACEMENT_5:
+                    Debug.Log("CUMRAW");
+                    break;
+                case E_FragmentIndex.PLACEMENT_6:
+                    Debug.Log("CUMWHY");
+                    break;
+                case E_FragmentIndex.PLACEMENT_7:
+                    Debug.Log("CUMWHERE");
+                    break;
+                case E_FragmentIndex.PLACEMENT_8:
+                    Debug.Log("CUMWHAT");
+                    break;
+                case E_FragmentIndex.PLACEMENT_9:
+                    Debug.Log("CUMWHO");
+                    break;
+                case E_FragmentIndex.PLACEMENT_10:
+                    Debug.Log("CAM");
+                    break;
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject == _fragment)
-        {
-            _fragment = null;
-        }
+        _fragment = null;
     }
 }
