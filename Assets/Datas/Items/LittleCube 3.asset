@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d9ba009e1b791946a6fa1009c040d66, type: 3}
-  m_Name: LittleCube
+  m_Name: LittleCube 3
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 3526652157591118348, guid: 2b21b6d52b2ab114b9a40b3a499ba45f,
+  _itemPrefab: {fileID: 8591681836424303087, guid: e01aa22293cd2f8448b24c87d4cfb265,
     type: 3}
   _itemSprite: {fileID: 0}
   _itemName: 

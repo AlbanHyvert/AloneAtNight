@@ -8,6 +8,7 @@ public class FP_CameraController : MonoBehaviour
     [SerializeField] private LayerMask _interactables = 0;
     [SerializeField] private int _interactDist = 10;
 
+    #region Variables
     private Vector3 _startPos = Vector3.zero;
     private MovementData _movementData;
     private float _currentX = 0;
@@ -18,6 +19,7 @@ public class FP_CameraController : MonoBehaviour
     private IInteractive _interactable = null;
     private bool _canInteract = false;
     private bool _isInteracting = false;
+    #endregion Variables
 
     public bool SetIsInteracting { set { _isInteracting = value; } }
     public Data GetData { get { return _data; } }
@@ -69,6 +71,26 @@ public class FP_CameraController : MonoBehaviour
         _fpPlayer = this.GetComponentInParent<FP_Controller>();
 
         _fpPlayer.OnLookAt += IsLookingAt;
+        _fpPlayer.OnStopEveryMovement += StopCamera;
+    }
+
+    private void StopCamera(bool value)
+    {
+        if(value == true)
+        {
+            InputManager.Instance.UpdateMousePos -= CameraRotation;
+            InputManager.Instance.UpdateMousePos += MoveObjectAround;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            _data.camera.gameObject.SetActive(false);
+        }
+        else
+        {
+            _data.camera.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
+            InputManager.Instance.UpdateMousePos -= MoveObjectAround;
+            InputManager.Instance.UpdateMousePos += CameraRotation;
+        }
     }
 
     private void IsLookingAt(bool value)
@@ -85,6 +107,11 @@ public class FP_CameraController : MonoBehaviour
         }
     }
 
+    private void MoveObjectAround(Vector3 mousePos)
+    {
+
+    }
+
     private void RotateObject(Vector3 mousePos)
     {
         float rotX = Input.GetAxis("Mouse X") * (float)_movementData.rotationSpeed * Mathf.Deg2Rad;
@@ -92,6 +119,12 @@ public class FP_CameraController : MonoBehaviour
 
         _fpPlayer.GetPickable.transform.Rotate(Vector3.up, -rotX);
         _fpPlayer.GetPickable.transform.Rotate(Vector3.right, rotY);
+
+        CheckInteractable();
+
+        Vector3 rotation = _fpPlayer.GetPickable.transform.eulerAngles;
+
+        Debug.Log("Rotation: " + rotation);
     }
 
     private void CameraRotation(Vector3 mousePos)
