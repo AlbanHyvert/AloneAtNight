@@ -10,14 +10,20 @@ public class MissingFragment : MonoBehaviour
 
     private bool _isValid = false;
     private Fragments _fragment = null;
+    private GlassWindow _soul = null;
 
     public bool GetIsValid { get { return _isValid; } }
+
+    public void Init(GlassWindow glassWindow)
+    {
+        _soul = glassWindow;
+    }
 
     private void OnTriggerStay(Collider other)
     {
         LayerMask objectLayer = other.gameObject.layer;
 
-        if (objectLayer == _layer)
+        if (_isValid == false && objectLayer == _layer)
         {
             if (_fragment == null)
             {
@@ -33,7 +39,8 @@ public class MissingFragment : MonoBehaviour
 
                     if (dist >= -_validScope && dist <= _validScope)
                     {
-                        Debug.Log(_missingIndex.ToString() + " " + "is Valid");
+                        _soul.RemoveFragment(_fragment);
+
                         _isValid = true;
                     }
                     else

@@ -15,6 +15,7 @@ public class GlassWindow : MonoBehaviour, IInteractive
     private List<bool> _isValidList = null;
     private List<Fragments> _fragmentList = null;
     private int _index = 0;
+    private FP_Controller _player = null;
 
     public Camera GetCamera { get { return _camera; } }
 
@@ -40,11 +41,10 @@ public class GlassWindow : MonoBehaviour, IInteractive
             {
                 if (_fragments[i] != null)
                 {
+                    _fragments[i].Init(this);
                     _isValidList.Add(_fragments[i].GetIsValid);
                 }
             }
-
-            GameLoopManager.Instance.UpdatePuzzles += Tick;
         }
         else
         {
@@ -58,21 +58,21 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         _camera.gameObject.SetActive(true);
 
-        FP_Controller fP_Controller = PlayerManager.Instance.GetPlayer;
+        _player = PlayerManager.Instance.GetPlayer;
 
-        int itemCount = fP_Controller.GetInventory.GetPlayerItems().Count;
+        int itemCount = _player.GetInventory.GetPlayerItems().Count;
 
         if (itemCount > 0)
         {
             for (int i = 0; i < itemCount; i++)
             {
-                InventoryItem item = fP_Controller.GetInventory.GetPlayerItems()[i];
+                InventoryItem item = _player.GetInventory.GetPlayerItems()[i];
 
                 Fragments fragments = item.GetPrefab().GetComponent<Fragments>();
 
                 if(fragments != null)
                 {
-                    GameObject gameObject = fP_Controller.CreateObjectInstance(item.GetObjectItem(), _fragmentsSpawnPos[_index]);
+                    GameObject gameObject = _player.CreateObjectInstance(item.GetObjectItem(), _fragmentsSpawnPos[_index]);
 
                     _index++;
 
@@ -89,7 +89,8 @@ public class GlassWindow : MonoBehaviour, IInteractive
         }
 
         Debug.Log("Activated");
-        //Activate Puzzle System
+
+        GameLoopManager.Instance.UpdatePuzzles += Tick;
     }
 
     public void Exit()
@@ -98,17 +99,19 @@ public class GlassWindow : MonoBehaviour, IInteractive
         {
             for (int i = 0; i < _fragmentList.Count; i++)
             {
-                Fragments fragments = _fragmentList[i];
+                GameObject fragments = _fragmentList[i].gameObject;
 
-                Destroy(fragments.gameObject);
-
-                _fragmentList.Remove(fragments);
+                if(fragments != null)
+                    Destroy(fragments);
             }
+
+            _fragmentList.Clear();
         }
 
         Debug.Log("Desactivated");
         _camera.gameObject.SetActive(false);
-        //Exit Puzzle System
+
+        GameLoopManager.Instance.UpdatePuzzles -= Tick;
     }
 
     void IInteractive.OnSeen()
@@ -156,10 +159,15 @@ public class GlassWindow : MonoBehaviour, IInteractive
                 }
             }
         }
-
-        if(_validIndex >= _isValidList.Count)
+        if (_validIndex >= _isValidList.Count)
         {
             Debug.Log("DONE");
         }
+    }
+
+    public void RemoveFragment(Fragments fragments)
+    {
+        _fragmentList.Remove(fragments);
+        _player.RemoveFragment(fragments);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -20,6 +21,7 @@ public class FP_Controller : MonoBehaviour
     private bool _isLookAt = false;
     private bool _handFull = false;
     private bool _stopMoveAndCam = false;
+    private GlassWindow _stainedGlassWindow = null;
     private Pickable _pickable = null;
     private InventoryUI _inventoryUI = null;
 
@@ -128,6 +130,8 @@ public class FP_Controller : MonoBehaviour
     private void Start()
     {
         _states = new Dictionary<E_PlayerState, IPlayerState>();
+
+        _stainedGlassWindow = null;
 
         _inventory.InitInventory(this);
         //_inventory.OpenInventoryUI();
@@ -246,23 +250,30 @@ public class FP_Controller : MonoBehaviour
         Transform interactable = _data.cameraController.Interactive();
         Pickable pickable = null;
         IInteractive interactive = null;
+        GlassWindow glassWindow = null;
 
-        if(_handFull == false)
+        if (_handFull == false)
         {
-            if (interactable != null)
+            if (interactable != null || _stainedGlassWindow != null)
             {
-                pickable = interactable.GetComponent<Pickable>();
+                if(interactable != null)
+                    pickable = interactable.GetComponent<Pickable>();
 
                 if (pickable == null)
                 {
-                    GlassWindow glassWindow = interactable.GetComponent<GlassWindow>();
-                    
-                    if(glassWindow != null)
+                    if(_stainedGlassWindow == null)
+                        glassWindow = interactable.GetComponent<GlassWindow>();
+                    else
+                        glassWindow = _stainedGlassWindow;
+
+                    if (glassWindow != null)
                     {
+                        _stainedGlassWindow = glassWindow;
+
                         _handFull = false;
                         _stopMoveAndCam = !_stopMoveAndCam;
 
-                        if(_stopMoveAndCam == true)
+                        if (_stopMoveAndCam == true)
                         {
                             glassWindow.Enter();
 
@@ -274,14 +285,16 @@ public class FP_Controller : MonoBehaviour
                             if (_onStopEveryMovement != null)
                                 _onStopEveryMovement(_stopMoveAndCam);
 
-                            glassWindow.Exit();
+                            _stainedGlassWindow.Exit();
+                            _stainedGlassWindow = null;
                         }
                     }
                     else
                     {
                         interactive = interactable.GetComponent<IInteractive>();
 
-                        interactive.Enter();
+                        if(interactive != null)
+                            interactive.Enter();
                     }
 
                     _data.cameraController.SetIsInteracting = false;
@@ -303,7 +316,7 @@ public class FP_Controller : MonoBehaviour
         else
         {
             _pickable.GetComponent<IInteractive>().Exit();
-            
+
             _isLookAt = false;
 
             _onLookAt(_isLookAt);
@@ -312,7 +325,6 @@ public class FP_Controller : MonoBehaviour
             SetHandFull = false;
         }
     }
-
     private void LookAt()
     {
         Transform t = _data.cameraController.Interactive();
@@ -399,6 +411,14 @@ public class FP_Controller : MonoBehaviour
                 _inventory.GetPlayerItems().RemoveAt(0);
             }
         }
+    }
+
+    public void RemoveFragment(Fragments fragments)
+    {
+        ObjectItem objectItem = fragments.GetComponent<Pickable>().GetItem();
+
+        _inventory.RemoveItem(objectItem, 1);
+        _inventory.GetPlayerItems().Remove(objectItem);
     }
 
     private bool RaycastGround()
