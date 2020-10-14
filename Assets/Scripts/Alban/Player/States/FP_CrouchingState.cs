@@ -9,9 +9,9 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
     void IPlayerState.Enter()
     {
         _self.OnLookAt += IsLookingAt;
-
+        _self.OnStopEveryMovement += StopMovemevent;
+        StopMovemevent(_self.GetStopEveryMovement);
         IsLookingAt(_self.GetIsLookAt);
-
         InputManager.Instance.UpdateCrouch += CheckCrouch;
         CheckCrouch(InputManager.Instance.GetIsCrouch);
         CheckGround(_self.GetIsGrounded);
@@ -24,6 +24,23 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
         _self.UpdateIsGrounded -= CheckGround;
         InputManager.Instance.UpdateDirection -= Move;
         InputManager.Instance.UpdateCrouch -= CheckCrouch;
+    }
+
+    private void StopMovemevent(bool value)
+    {
+        if(value == true)
+        {
+            _self.OnLookAt -= IsLookingAt;
+            InputManager.Instance.UpdateDirection -= Move;
+            InputManager.Instance.UpdateCrouch -= CheckCrouch;
+        }
+        else
+        {
+            _self.OnLookAt += IsLookingAt;
+            IsLookingAt(_self.GetIsLookAt);
+            InputManager.Instance.UpdateCrouch += CheckCrouch;
+            CheckCrouch(InputManager.Instance.GetIsCrouch);
+        }
     }
 
     private void IsLookingAt(bool value)

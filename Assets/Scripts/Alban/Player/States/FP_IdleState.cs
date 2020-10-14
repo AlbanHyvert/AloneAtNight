@@ -10,6 +10,8 @@ public class FP_IdleState : MonoBehaviour, IPlayerState
     {
         _self.OnLookAt += IsLookingAt;
         IsLookingAt(_self.GetIsLookAt);
+        _self.OnStopEveryMovement += StopMovemevent;
+        StopMovemevent(_self.GetStopEveryMovement);
         InputManager.Instance.UpdateCrouch += CheckCrouch;
         CheckCrouch(InputManager.Instance.GetIsCrouch);
         CheckGround(_self.GetIsGrounded);
@@ -21,6 +23,23 @@ public class FP_IdleState : MonoBehaviour, IPlayerState
         _self.UpdateIsGrounded -= CheckGround;
         InputManager.Instance.UpdateCrouch -= CheckCrouch;
         InputManager.Instance.UpdateDirection -= Move;
+    }
+
+    private void StopMovemevent(bool value)
+    {
+        if (value == true)
+        {
+            _self.OnLookAt -= IsLookingAt;
+            InputManager.Instance.UpdateDirection -= Move;
+            InputManager.Instance.UpdateCrouch -= CheckCrouch;
+        }
+        else
+        {
+            _self.OnLookAt += IsLookingAt;
+            IsLookingAt(_self.GetIsLookAt);
+            InputManager.Instance.UpdateCrouch += CheckCrouch;
+            CheckCrouch(InputManager.Instance.GetIsCrouch);
+        }
     }
 
     private void IsLookingAt(bool value)

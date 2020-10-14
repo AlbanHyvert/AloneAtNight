@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8dbc6ddad372f45a9cfeead334efaf, type: 3}
-  m_Name: Inventory
+  m_Name: FP_Inventory
   m_EditorClassIdentifier: 
   _itemList: []
   _inventoryUIPrefab: {fileID: 0}

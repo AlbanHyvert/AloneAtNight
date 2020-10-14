@@ -69,6 +69,21 @@ public class FP_CameraController : MonoBehaviour
         _fpPlayer = this.GetComponentInParent<FP_Controller>();
 
         _fpPlayer.OnLookAt += IsLookingAt;
+        _fpPlayer.OnStopEveryMovement += StopCamera;
+    }
+
+    private void StopCamera(bool value)
+    {
+        if(value == true)
+        {
+            InputManager.Instance.UpdateMousePos -= CameraRotation;
+            _data.camera.gameObject.SetActive(false);
+        }
+        else
+        {
+            _data.camera.gameObject.SetActive(true);
+            InputManager.Instance.UpdateMousePos += CameraRotation;
+        }
     }
 
     private void IsLookingAt(bool value)
@@ -92,6 +107,12 @@ public class FP_CameraController : MonoBehaviour
 
         _fpPlayer.GetPickable.transform.Rotate(Vector3.up, -rotX);
         _fpPlayer.GetPickable.transform.Rotate(Vector3.right, rotY);
+
+        CheckInteractable();
+
+        Vector3 rotation = _fpPlayer.GetPickable.transform.eulerAngles;
+
+        Debug.Log("Rotation: " + rotation);
     }
 
     private void CameraRotation(Vector3 mousePos)

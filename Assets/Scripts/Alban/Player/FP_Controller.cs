@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 [RequireComponent(typeof(CharacterController))]
 public class FP_Controller : MonoBehaviour
@@ -20,6 +19,7 @@ public class FP_Controller : MonoBehaviour
     private bool _isGrounded = false;
     private bool _isLookAt = false;
     private bool _handFull = false;
+    private bool _stopMoveAndCam = false;
     private Pickable _pickable = null;
     private InventoryUI _inventoryUI = null;
 
@@ -51,6 +51,7 @@ public class FP_Controller : MonoBehaviour
                 _updateIsGrounded(_isGrounded);
         }
     }
+    public bool GetStopEveryMovement { get { return _stopMoveAndCam; } }
     #endregion Properties
 
     private event Action<bool> _updateIsGrounded = null;
@@ -78,6 +79,20 @@ public class FP_Controller : MonoBehaviour
         remove
         {
             _onLookAt -= value;
+        }
+    }
+
+    private event Action<bool> _onStopEveryMovement = null;
+    public event Action<bool> OnStopEveryMovement
+    {
+        add
+        {
+            _onStopEveryMovement -= value;
+            _onStopEveryMovement += value;
+        }
+        remove
+        {
+            _onStopEveryMovement -= value;
         }
     }
 
@@ -122,7 +137,8 @@ public class FP_Controller : MonoBehaviour
 
         GameLoopManager.Instance.UpdatePlayer += Tick;
         InputManager.Instance.OnInteract += OnInteract;
-        InputManager.Instance.OnInventory += AddOrRemoveToInventory;
+        InputManager.Instance.OnAddToInventory += AddToInventory;
+        InputManager.Instance.OnRemoveFromInventory += RemoveFromInventory;
         InputManager.Instance.UpdateCrouch += CheckCrouch;
         CheckCrouch(InputManager.Instance.GetIsCrouch);
 
@@ -180,6 +196,8 @@ public class FP_Controller : MonoBehaviour
         _inventory.RemoveItem(objectItem, 1);
 
         _currentObjectItem.transform.SetParent(null);
+
+        _currentObjectItem = null;
     }
 
     private void DestroyIfNotNull(GameObject obj)
@@ -234,9 +252,34 @@ public class FP_Controller : MonoBehaviour
 
                 if (pickable == null)
                 {
-                    interactive = interactable.GetComponent<IInteractive>();
+                    GlassWindow glassWindow = interactable.GetComponent<GlassWindow>();
+                    
+                    if(glassWindow != null)
+                    {
+                        _handFull = false;
+                        _stopMoveAndCam = !_stopMoveAndCam;
 
-                    interactive.Enter();
+                        if(_stopMoveAndCam == true)
+                        {
+                            glassWindow.Enter();
+
+                            if (_onStopEveryMovement != null)
+                                _onStopEveryMovement(_stopMoveAndCam);
+                        }
+                        else
+                        {
+                            if (_onStopEveryMovement != null)
+                                _onStopEveryMovement(_stopMoveAndCam);
+
+                            glassWindow.Exit();
+                        }
+                    }
+                    else
+                    {
+                        interactive = interactable.GetComponent<IInteractive>();
+
+                        interactive.Enter();
+                    }
 
                     _data.cameraController.SetIsInteracting = false;
                 }
@@ -246,6 +289,10 @@ public class FP_Controller : MonoBehaviour
 
                     _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
 
+                    _isLookAt = false;
+
+                    _onLookAt(_isLookAt);
+
                     _handFull = true;
                 }
             }
@@ -253,6 +300,11 @@ public class FP_Controller : MonoBehaviour
         else
         {
             _pickable.GetComponent<IInteractive>().Exit();
+            
+            _isLookAt = false;
+
+            _onLookAt(_isLookAt);
+
             _data.cameraController.SetIsInteracting = false;
             SetHandFull = false;
         }
@@ -271,12 +323,16 @@ public class FP_Controller : MonoBehaviour
 
             if (_isLookAt == true)
             {
-                _pickable.GetComponent<IInteractive>().Enter();
+                if(_handFull == false)
+                    _pickable.GetComponent<IInteractive>().Enter();
+                else
+                    _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
                 _pickable.transform.position = _objectAnchor.position;
             }
             else
             {
-                _pickable.GetComponent<IInteractive>().Exit();
+                if(_handFull == false)
+                    _pickable.GetComponent<IInteractive>().Exit();
             }
 
             if(_onLookAt != null)
@@ -286,21 +342,30 @@ public class FP_Controller : MonoBehaviour
         }
     }
 
-    private void AddOrRemoveToInventory()
+    private void AddToInventory()
     {
-        if (_inventory.GetPlayerItems().Count > 0 && _inventory.GetPlayerItems()[0] != null)
+        if (_handFull == true)
         {
-            ObjectItem objectItem = _inventory.GetPlayerItems()[0].GetObjectItem();
+            _pickable.GetComponent<IInteractive>().Exit();
+            _inventory.AddItem(_pickable.GetItem(), 1);
 
-            CreateObjectInstance(objectItem);
-            _inventory.RemoveItem(objectItem, 1);
-            _inventory.GetPlayerItems().Remove(objectItem);
+            _handFull = false;
+            _data.cameraController.SetIsInteracting = false;
+
+            _isLookAt = false;
+            _onLookAt(_isLookAt);
+
+            Destroy(_pickable.gameObject);
         }
         else
         {
-            if (_handFull == true)
+            Transform t = _data.cameraController.Interactive();
+
+            if (t != null)
+                _pickable = t.GetComponent<Pickable>();
+
+            if (_pickable != null)
             {
-                _pickable.GetComponent<IInteractive>().Exit();
                 _inventory.AddItem(_pickable.GetItem(), 1);
 
                 _handFull = false;
@@ -311,29 +376,24 @@ public class FP_Controller : MonoBehaviour
 
                 Destroy(_pickable.gameObject);
             }
-            else
-            {
-                Transform t = _data.cameraController.Interactive();
-
-                if(t != null)
-                    _pickable = t.GetComponent<Pickable>();
-
-                if (_pickable != null)
-                {
-                    _inventory.AddItem(_pickable.GetItem(), 1);
-
-                    _handFull = false;
-                    _data.cameraController.SetIsInteracting = false;
-
-                    _isLookAt = false;
-                    _onLookAt(_isLookAt);
-
-                    Destroy(_pickable.gameObject);
-                }
-            }
         }
 
         _pickable = null;
+    }
+
+    private void RemoveFromInventory()
+    {
+        if(_handFull == false)
+        {
+            if (_inventory.GetPlayerItems().Count > 0 && _inventory.GetPlayerItems()[0] != null)
+            {
+                ObjectItem objectItem = _inventory.GetPlayerItems()[0].GetObjectItem();
+
+                CreateObjectInstance(objectItem);
+                _inventory.RemoveItem(objectItem, 1);
+                _inventory.GetPlayerItems().RemoveAt(0);
+            }
+        }
     }
 
     private bool RaycastGround()

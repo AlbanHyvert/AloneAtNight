@@ -84,17 +84,31 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    private event Action _onInventory = null;
-    public event Action OnInventory
+    private event Action _onAddToInventory = null;
+    public event Action OnAddToInventory
     {
         add
         {
-            _onInventory -= value;
-            _onInventory += value;
+            _onAddToInventory -= value;
+            _onAddToInventory += value;
         }
         remove
         {
-            _onInventory -= value;
+            _onAddToInventory -= value;
+        }
+    }
+
+    private event Action _onRemoveFromInventory = null;
+    public event Action OnRemoveFromInventory
+    {
+        add
+        {
+            _onRemoveFromInventory -= value;
+            _onRemoveFromInventory += value;
+        }
+        remove
+        {
+            _onRemoveFromInventory -= value;
         }
     }
 
@@ -194,11 +208,19 @@ public class InputManager : Singleton<InputManager>
             }
         }
     
-        if(_onInventory != null)
+        if(_onAddToInventory != null)
         {
             if(Input.GetMouseButtonDown(0))
             {
-                _onInventory();
+                _onAddToInventory();
+            }
+        }
+        
+        if(_onRemoveFromInventory != null)
+        {
+            if(Input.GetMouseButtonDown(1))
+            {
+                _onRemoveFromInventory();
             }
         }
     }
