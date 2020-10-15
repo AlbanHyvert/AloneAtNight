@@ -6,10 +6,6 @@ public class GlassWindow : MonoBehaviour, IInteractive
     [SerializeField] private MissingFragment[] _fragments = null;
     [SerializeField] private Transform[] _fragmentsSpawnPos = null;
     [SerializeField] private Camera _camera = null;
-    [Space]
-    [SerializeField] private float _maxOutlineWidth = 0.10f;
-    [SerializeField] private Color _outlineColor = Color.yellow;
-    [SerializeField] private MeshRenderer _meshRenderer = null;
     
     private int _validIndex = 0;
     private List<bool> _isValidList = null;
@@ -27,14 +23,6 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         _fragmentList = new List<Fragments>();
 
-        if (_meshRenderer == null)
-            _meshRenderer = this.GetComponent<MeshRenderer>();
-
-        foreach (Material material in _meshRenderer.materials)
-        {
-            material.SetFloat("_Outline", 0f);
-        }
-
         if (_fragments.Length > 0)
         {
             for (int i = 0; i < _fragments.Length; i++)
@@ -50,6 +38,8 @@ public class GlassWindow : MonoBehaviour, IInteractive
         {
             Debug.LogError("Missing Reference");
         }
+
+        Debug.Log("IsValid: " + _isValidList.Count + '\n' + "Fragments: " + _fragments.Length);
     }
 
     public void Enter(Transform parent = null)
@@ -80,6 +70,14 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
                     fragments.GetComponent<Rigidbody>().isKinematic = true;
                     fragments.GetComponent<Rigidbody>().useGravity = false;
+
+                    int rdmZ = Random.Range(10, 180);
+
+                    Quaternion quaternion = fragments.transform.rotation;
+
+                    quaternion.eulerAngles = new Vector3(0, 180, rdmZ);
+
+                    fragments.transform.rotation = quaternion;
 
                     gameObject.AddComponent<DragObject>().Init(_camera);
 
@@ -116,25 +114,12 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
     void IInteractive.OnSeen()
     {
-        if (_meshRenderer != null)
-        {
-            foreach (Material material in _meshRenderer.materials)
-            {
-                material.SetFloat("_Outline", _maxOutlineWidth);
-                material.SetColor("_OutlineColor", _outlineColor);
-            }
-        }
+        
     }
 
     void IInteractive.OnUnseen()
     {
-        if (_meshRenderer != null)
-        {
-            foreach (Material material in _meshRenderer.materials)
-            {
-                material.SetFloat("_Outline", 0f);
-            }
-        }
+
     }
 
     private void Tick()
@@ -143,31 +128,32 @@ public class GlassWindow : MonoBehaviour, IInteractive
         {
             if(_fragments[i] != null)
             {
-                if(_fragments[i].GetIsValid != _isValidList[i])
+                MissingFragment currentPlacementFragment = _fragments[i];
+                Fragments currentFragment = currentPlacementFragment.GetFragment;
+
+                if (currentPlacementFragment.GetIsValid != _isValidList[i])
                 {
-                    _isValidList[i] = _fragments[i].GetIsValid;
+                    _isValidList[i] = currentPlacementFragment.GetIsValid;
 
                     if(_isValidList[i] == true)
                     {
                         _validIndex += 1;
-                    }
-                    else
-                    {
-                        if(_validIndex > 0)
-                            _validIndex -= 1;
+                        _fragmentList.Remove(currentFragment);
+                        RemoveFragment(currentFragment);
                     }
                 }
             }
         }
         if (_validIndex >= _isValidList.Count)
         {
-            Debug.Log("DONE");
+            //Activate Something
+            Debug.Log("FINISHED");
+            GameLoopManager.Instance.UpdatePuzzles -= Tick;
         }
     }
 
     public void RemoveFragment(Fragments fragments)
     {
-        _fragmentList.Remove(fragments);
         _player.RemoveFragment(fragments);
     }
 }

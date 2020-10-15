@@ -7,9 +7,6 @@ public class Pickable : MonoBehaviour, IInteractive
     [Space]
     [SerializeField] private RespawnObject _respawner = null;
     [Space]
-    [SerializeField] private float _maxOutlineWidth = 0.10f;
-    [SerializeField] private Color _outlineColor = Color.yellow;
-    [Space]
     [SerializeField] private ParticleSystem _particle = null;
 
     private MeshRenderer _meshRenderer = null;
@@ -64,11 +61,6 @@ public class Pickable : MonoBehaviour, IInteractive
             _particle.Stop();
         }
 
-        foreach (Material material in _meshRenderer.materials)
-        {
-            material.SetFloat("_Outline", 0f);
-        }
-
         //_respawner.SetLastValidPosition = this.transform.position;
 
         this.transform.SetParent(parent);
@@ -102,15 +94,6 @@ public class Pickable : MonoBehaviour, IInteractive
         {
             if(_particle != null)
                 _particle.Play();
-
-            if(_meshRenderer != null)
-            {
-                foreach (Material material in _meshRenderer.materials)
-                {
-                    material.SetFloat("_Outline", _maxOutlineWidth);
-                    material.SetColor("_OutlineColor", _outlineColor);
-                }
-            }
         }
     }
 
@@ -118,13 +101,5 @@ public class Pickable : MonoBehaviour, IInteractive
     {
         if(_particle != null)
             _particle.Stop();
-
-        if(_meshRenderer != null)
-        {
-            foreach (Material material in _meshRenderer.materials)
-            {
-                material.SetFloat("_Outline", 0f);
-            }
-        }
     }
 }

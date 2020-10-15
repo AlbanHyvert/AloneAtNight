@@ -1,4 +1,5 @@
-﻿using System;
+﻿using cakeslice;
+using System;
 using UnityEngine;
 
 public class FP_CameraController : MonoBehaviour
@@ -7,7 +8,8 @@ public class FP_CameraController : MonoBehaviour
     [Space]
     [SerializeField] private LayerMask _interactables = 0;
     [SerializeField] private int _interactDist = 10;
-
+    [SerializeField] private OutlineEffect _outlineEffect = null;
+    
     #region Variables
     private Vector3 _startPos = Vector3.zero;
     private MovementData _movementData;
@@ -37,6 +39,8 @@ public class FP_CameraController : MonoBehaviour
             _updateIsLookable -= value;
         }
     }
+
+    private Outline _currentObject = null;
 
     #region Structs
     [System.Serializable]
@@ -69,6 +73,8 @@ public class FP_CameraController : MonoBehaviour
         InputManager.Instance.UpdateMousePos += CameraRotation;
 
         _fpPlayer = this.GetComponentInParent<FP_Controller>();
+
+        _outlineEffect.LineIntensity = 0;
 
         _fpPlayer.OnLookAt += IsLookingAt;
         _fpPlayer.OnStopEveryMovement += StopCamera;
@@ -172,8 +178,20 @@ public class FP_CameraController : MonoBehaviour
 
                 _interactable = interactive;
 
-                if(_interactable != null)
+                if (_interactable != null)
+                {
                     _interactable.OnSeen();
+
+                    if (t.TryGetComponent(out Outline outline))
+                    {
+                        _currentObject = outline;
+                    }
+
+                    if (_currentObject != null)
+                        _outlineEffect.AddOutline(_currentObject);
+
+                    _outlineEffect.LineIntensity = 2;
+                }
             
                 if(pickable != null)
                 {
@@ -182,8 +200,18 @@ public class FP_CameraController : MonoBehaviour
             }
             else
             {
-                if(_interactable != null)
+                if (_currentObject != null)
+                {
+                    _outlineEffect.RemoveOutline(_currentObject);
+                    _currentObject = null;
+                }
+
+                //_outlineEffect.LineIntensity = 0;
+
+                if (_interactable != null)
+                {
                     _interactable.OnUnseen();
+                }   
 
                 _updateIsLookable(false);
 

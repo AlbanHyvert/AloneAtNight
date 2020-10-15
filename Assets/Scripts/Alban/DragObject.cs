@@ -41,12 +41,12 @@ public class DragObject : MonoBehaviour
     {
         if(Input.mouseScrollDelta.y > 0)
         {
-            transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y, 10));
+            transform.Rotate(new Vector3(0, 0, 10));
         }
 
         if(Input.mouseScrollDelta.y < 0)
         {
-            transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y, -10));
+            transform.Rotate(new Vector3(0, 0, -10));
         }
 
         transform.position = transform.position = new Vector3(GetMouseAsWorldPoint().x + mOffset.x, GetMouseAsWorldPoint().y + mOffset.y, transform.position.z);

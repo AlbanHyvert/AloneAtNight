@@ -5,54 +5,63 @@ public class MissingFragment : MonoBehaviour
     [SerializeField] private E_FragmentIndex _missingIndex = E_FragmentIndex.PLACEMENT_1;
     [SerializeField] Vector3 _validRotation = Vector3.zero;
     [SerializeField] int _validScope = 10;
-    
-    private LayerMask _layer = 8;
+    [Space]
+    [SerializeField] private Transform _snapPosition = null;
 
+    private LayerMask _layer = 8;
     private bool _isValid = false;
     private Fragments _fragment = null;
     private GlassWindow _soul = null;
 
     public bool GetIsValid { get { return _isValid; } }
+    public Fragments GetFragment { get { return _fragment; } }
 
     public void Init(GlassWindow glassWindow)
     {
         _soul = glassWindow;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         LayerMask objectLayer = other.gameObject.layer;
 
         if (_isValid == false && objectLayer == _layer)
         {
-            if (_fragment == null)
+            if(other.TryGetComponent(out Fragments fragments))
             {
-                _fragment = other.GetComponent<Fragments>();
-            }
-            else
-            {
-                if(_fragment.GetIndex == _missingIndex)
+                if(fragments.GetIndex == _missingIndex)
                 {
-                    Vector3 neededRot = new Vector3(_fragment.GetRotation.x, _fragment.GetRotation.y, _validRotation.z);
+                    _fragment = fragments;
 
-                    float dist = Vector3.Distance(_fragment.GetRotation, neededRot);
-
-                    if (dist >= -_validScope && dist <= _validScope)
-                    {
-                        _soul.RemoveFragment(_fragment);
-
-                        _isValid = true;
-                    }
-                    else
-                    {
-                        _isValid = false;
-                    }
+                    GameLoopManager.Instance.UpdatePuzzles += Tick;
                 }
             }
         }
+    }
 
-        if(_isValid == true)
+    private void Tick()
+    {
+        Vector3 neededRot = new Vector3(_fragment.GetRotation.x, _fragment.GetRotation.y, _validRotation.z);
+
+        float dist = Vector3.Distance(_fragment.GetRotation, neededRot);
+
+        if (dist >= -_validScope && dist <= _validScope)
         {
+            _isValid = true;
+
+            _fragment.GetComponent<Collider>().enabled = false;
+
+            _fragment.SetIsSnap = true;
+        }
+
+        if (_isValid == true)
+        {
+            _fragment.transform.SetParent(this.transform);
+
+            _fragment.transform.position = Vector3.zero;
+            _fragment.transform.localPosition = Vector3.zero;
+            _fragment.transform.rotation = new Quaternion(0, 0, 0, 0);
+
             switch (_missingIndex)
             {
                 case E_FragmentIndex.PLACEMENT_1:
@@ -86,11 +95,18 @@ public class MissingFragment : MonoBehaviour
                     Debug.Log("CAM");
                     break;
             }
+
+            GameLoopManager.Instance.UpdatePuzzles -= Tick;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if(_fragment != null)
+        {
+            GameLoopManager.Instance.UpdatePuzzles -= Tick;
+        }
+
         _fragment = null;
     }
 }
