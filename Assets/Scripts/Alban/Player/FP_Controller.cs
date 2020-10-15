@@ -146,7 +146,7 @@ public class FP_Controller : MonoBehaviour
         InputManager.Instance.OnRemoveFromInventory += RemoveFromInventory;
         InputManager.Instance.UpdateCrouch += CheckCrouch;
         CheckCrouch(InputManager.Instance.GetIsCrouch);
-
+        OnStopEveryMovement += CheckShouldBeStop;
         _data.cameraController.UpdateIsLookable += IsLookable;
     }
 
@@ -410,6 +410,20 @@ public class FP_Controller : MonoBehaviour
                 _inventory.RemoveItem(objectItem, 1);
                 _inventory.GetPlayerItems().RemoveAt(0);
             }
+        }
+    }
+
+    private void CheckShouldBeStop(bool value)
+    {
+        if(value == true)
+        {
+            InputManager.Instance.OnAddToInventory -= AddToInventory;
+            InputManager.Instance.OnRemoveFromInventory -= RemoveFromInventory;
+        }
+        else
+        {
+            InputManager.Instance.OnAddToInventory += AddToInventory;
+            InputManager.Instance.OnRemoveFromInventory += RemoveFromInventory;
         }
     }
 
