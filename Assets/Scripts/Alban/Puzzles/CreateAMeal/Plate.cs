@@ -8,6 +8,7 @@ public class Plate : MonoBehaviour, IInteractive
     [SerializeField] private Camera _dishCamera = null;
 
     private int _index = 0;
+    private int _wrongIndex = 0;
     private int _indexSpawnPos = 0;
     private List<Food> _foodList = new List<Food>();
 
@@ -91,12 +92,20 @@ public class Plate : MonoBehaviour, IInteractive
                 {
                     _index++;
                 }
+                else
+                {
+                    _wrongIndex++;
+                }
             }
         }
 
         if(_index >= _mealIndex.Length)
         {
             Debug.Log("Dish Done");
+        }
+        else if(_wrongIndex >= 3)
+        {
+            Exit();
         }
     }
 
@@ -109,6 +118,10 @@ public class Plate : MonoBehaviour, IInteractive
                 if (food.GetIndex == _mealIndex[i])
                 {
                     _index--;
+                }
+                else
+                {
+                    _wrongIndex--;
                 }
             }
         }

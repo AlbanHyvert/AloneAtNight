@@ -330,7 +330,7 @@ public class FP_Controller : MonoBehaviour
         }
     }
     
-    private void OnDrop()
+    public void OnDrop()
     {
         _pickable.GetComponent<IInteractive>().Exit();
 
