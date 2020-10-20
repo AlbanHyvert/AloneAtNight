@@ -6,6 +6,8 @@ public class Plate : MonoBehaviour, IInteractive
     [SerializeField] private E_AlimentIndex[] _mealIndex = null;
     [SerializeField] private Transform[] _foodSpawnPosition = null;
     [SerializeField] private Camera _dishCamera = null;
+    [Space]
+    [SerializeField] private Animator _wardrobeDoor = null;
 
     private int _index = 0;
     private int _wrongIndex = 0;
@@ -16,16 +18,13 @@ public class Plate : MonoBehaviour, IInteractive
     {
         _dishCamera.gameObject.SetActive(false);
         _index = 0;
-
-        if(_mealIndex.Length != _foodSpawnPosition.Length)
-        {
-            Debug.LogError("Missing Reference, for the Dish Puzzle");
-        }
+        _wrongIndex = 0;
     }
 
     public void Enter(Transform parent = null)
     {
         _index = 0;
+        _wrongIndex = 0;
         _indexSpawnPos = 0;
 
         FP_Controller player = PlayerManager.Instance.GetPlayer;
@@ -84,6 +83,9 @@ public class Plate : MonoBehaviour, IInteractive
 
     private void OnTriggerEnter(Collider other)
     {
+        int index = _index;
+        int wrong = 0;
+
         if(other.TryGetComponent(out Food food))
         {
             for (int i = 0; i < _mealIndex.Length; i++)
@@ -94,6 +96,11 @@ public class Plate : MonoBehaviour, IInteractive
                 }
                 else
                 {
+                    wrong++;
+                }
+
+                if(index == _index && wrong == _mealIndex.Length)
+                {
                     _wrongIndex++;
                 }
             }
@@ -102,15 +109,20 @@ public class Plate : MonoBehaviour, IInteractive
         if(_index >= _mealIndex.Length)
         {
             Debug.Log("Dish Done");
+            _wardrobeDoor.SetBool("IsActive", true);
         }
         else if(_wrongIndex >= 3)
         {
+            PlayerManager.Instance.GetPlayer.SetStopEveryMovement = false;
             Exit();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        int index = _index;
+        int wrong = 0;
+
         if (other.TryGetComponent(out Food food))
         {
             for (int i = 0; i < _mealIndex.Length; i++)
@@ -120,6 +132,11 @@ public class Plate : MonoBehaviour, IInteractive
                     _index--;
                 }
                 else
+                {
+                    wrong++;
+                }
+
+                if (index == _index && wrong == _mealIndex.Length)
                 {
                     _wrongIndex--;
                 }
