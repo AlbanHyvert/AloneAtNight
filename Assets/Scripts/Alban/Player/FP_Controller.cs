@@ -21,7 +21,10 @@ public class FP_Controller : MonoBehaviour
     private bool _handFull = false;
     private bool _stopMoveAndCam = false;
     private GlassWindow _stainedGlassWindow = null;
+    private Plate _plate = null;
     private Pickable _pickable = null;
+    private Lookable _lookable = null;
+    private Transform t_lookable = null;
     private InventoryUI _inventoryUI = null;
 
     #region Properties
@@ -29,6 +32,7 @@ public class FP_Controller : MonoBehaviour
     public Data GetData { get { return _data; } }
     public Inventory GetInventory { get { return _inventory; } }
     public Pickable GetPickable { get { return _pickable; } }
+    public Transform GetLookable { get { return t_lookable; } }
     public bool GetIsLookAt { get { return _isLookAt; } }
     public bool GetHandFull { get { return _handFull; } }
     public bool SetHandFull
@@ -54,6 +58,18 @@ public class FP_Controller : MonoBehaviour
         }
     }
     public bool GetStopEveryMovement { get { return _stopMoveAndCam; } }
+    public bool SetStopEveryMovement
+    {
+        set
+        {
+            _stopMoveAndCam = value;
+
+            if(_onStopEveryMovement != null)
+            {
+                _onStopEveryMovement(value);
+            }
+        }
+    }
     #endregion Properties
 
     private event Action<bool> _updateIsGrounded = null;
@@ -141,15 +157,16 @@ public class FP_Controller : MonoBehaviour
 
         GameLoopManager.Instance.UpdatePlayer += Tick;
         InputManager.Instance.OnInteract += OnInteract;
+        InputManager.Instance.OnLookAt += LookAt;
         InputManager.Instance.OnAddToInventory += AddToInventory;
         InputManager.Instance.OnRemoveFromInventory += RemoveFromInventory;
         InputManager.Instance.UpdateCrouch += CheckCrouch;
         CheckCrouch(InputManager.Instance.GetIsCrouch);
         OnStopEveryMovement += CheckShouldBeStop;
-        _data.cameraController.UpdateIsLookable += IsLookable;
+        //_data.cameraController.UpdateIsLookable += IsLookable;
     }
 
-    private void IsLookable(bool value)
+    /*private void IsLookable(bool value)
     {
         if(value == true)
         {
@@ -160,6 +177,7 @@ public class FP_Controller : MonoBehaviour
             InputManager.Instance.OnLookAt -= LookAt;
         }
     }
+    */
 
     private void InitDictionnary()
     {
@@ -246,113 +264,188 @@ public class FP_Controller : MonoBehaviour
 
     private void OnInteract()
     {
-        Transform interactable = _data.cameraController.Interactive();
-        Pickable pickable = null;
-        IInteractive interactive = null;
-        GlassWindow glassWindow = null;
+        Transform t = _data.cameraController.Interactive();
 
-        if (_handFull == false)
+        if (t != null)
         {
-            if (interactable != null || _stainedGlassWindow != null)
+            if (t.TryGetComponent(out Pickable pickable) == true)
             {
-                if(interactable != null)
-                    pickable = interactable.GetComponent<Pickable>();
+                _pickable = pickable;
 
-                if (pickable == null)
+                _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
+
+                _isLookAt = false;
+
+                _onLookAt(_isLookAt);
+
+                _handFull = true;
+
+                InputManager.Instance.OnInteract += OnDrop;
+                InputManager.Instance.OnInteract -= OnInteract;
+            }
+            else
+            {
+                if (t.TryGetComponent(out GlassWindow glassWindow))
                 {
-                    if(_stainedGlassWindow == null)
-                        glassWindow = interactable.GetComponent<GlassWindow>();
-                    else
-                        glassWindow = _stainedGlassWindow;
+                    _stainedGlassWindow = glassWindow;
 
-                    if (glassWindow != null)
-                    {
-                        _stainedGlassWindow = glassWindow;
+                    _handFull = false;
 
-                        _handFull = false;
-                        _stopMoveAndCam = !_stopMoveAndCam;
+                    SetStopEveryMovement = true;
 
-                        if (_stopMoveAndCam == true)
-                        {
-                            glassWindow.Enter();
+                    glassWindow.Enter();
 
-                            if (_onStopEveryMovement != null)
-                                _onStopEveryMovement(_stopMoveAndCam);
-                        }
-                        else
-                        {
-                            if (_onStopEveryMovement != null)
-                                _onStopEveryMovement(_stopMoveAndCam);
-
-                            _stainedGlassWindow.Exit();
-                            _stainedGlassWindow = null;
-                        }
-                    }
-                    else
-                    {
-                        interactive = interactable.GetComponent<IInteractive>();
-
-                        if(interactive != null)
-                            interactive.Enter();
-                    }
-
-                    _data.cameraController.SetIsInteracting = false;
+                    InputManager.Instance.OnInteract += OnLeavePuzzle;
+                    InputManager.Instance.OnInteract -= OnInteract;
                 }
                 else
                 {
-                    _pickable = pickable;
+                    if (t.TryGetComponent(out Plate plate))
+                    {
+                        _handFull = false;
 
-                    _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
+                        SetStopEveryMovement = true;
 
-                    _isLookAt = false;
+                        plate.Enter();
 
-                    _onLookAt(_isLookAt);
+                        _plate = plate;
 
-                    _handFull = true;
+                        InputManager.Instance.OnInteract += OnLeavePuzzle;
+                        InputManager.Instance.OnInteract -= OnInteract;
+                    }
+                    else
+                    {
+                        if (t.TryGetComponent(out IInteractive interactive))
+                        {
+                            interactive.Enter();
+                        }
+                        _data.cameraController.SetIsInteracting = false;
+                    }
                 }
             }
         }
         else
         {
-            _pickable.GetComponent<IInteractive>().Exit();
-
-            _isLookAt = false;
-
-            _onLookAt(_isLookAt);
-
             _data.cameraController.SetIsInteracting = false;
-            SetHandFull = false;
         }
     }
+    
+    private void OnDrop()
+    {
+        _pickable.GetComponent<IInteractive>().Exit();
+
+        _isLookAt = false;
+
+        _onLookAt(_isLookAt);
+
+        _data.cameraController.SetIsInteracting = false;
+
+        _pickable = null;
+
+        SetHandFull = false;
+
+        InputManager.Instance.OnInteract += OnInteract;
+        InputManager.Instance.OnInteract -= OnDrop;
+    }
+
+    private void OnLeavePuzzle()
+    {
+        if(_plate != null)
+        {        
+            _plate.Exit();
+
+            SetStopEveryMovement = false;
+        }
+        else if(_stainedGlassWindow != null)
+        {
+            _stainedGlassWindow.Exit();
+
+            SetStopEveryMovement = false;
+        }
+
+        _data.cameraController.SetIsInteracting = false;
+
+        InputManager.Instance.OnInteract += OnInteract;
+        InputManager.Instance.OnInteract -= OnLeavePuzzle;
+    }
+
     private void LookAt()
     {
         Transform t = _data.cameraController.Interactive();
         
-        if(t != null)
-            _pickable = t.GetComponent<Pickable>();
-
         if(_pickable != null)
         {
             _isLookAt = !_isLookAt;
 
             if (_isLookAt == true)
             {
-                if(_handFull == false)
-                    _pickable.GetComponent<IInteractive>().Enter();
-                else
-                    _pickable.GetComponent<IInteractive>().Enter(_data.cameraController.GetData.camera.transform);
                 _pickable.transform.position = _objectAnchor.position;
+                t_lookable = _pickable.transform;
             }
-            else
+        }
+
+        if (_lookable != null)
+            _isLookAt = !_isLookAt;
+
+        if (t != null)
+        {
+            if (_pickable == null && t.TryGetComponent(out Pickable pickable))
             {
-                if(_handFull == false)
-                    _pickable.GetComponent<IInteractive>().Exit();
+                _isLookAt = !_isLookAt;
+
+                if (_isLookAt == true)
+                {
+                    pickable.GetComponent<IInteractive>().Enter();
+                    pickable.transform.position = _objectAnchor.position;
+
+                    t_lookable = pickable.transform;
+
+                    _pickable = pickable;
+                }
             }
 
-            if(_onLookAt != null)
+            if (t.TryGetComponent(out Lookable lookable))
             {
-                _onLookAt(_isLookAt);
+                _isLookAt = !_isLookAt;
+
+                if (_isLookAt == true)
+                {
+                    lookable.Enter();
+
+                    lookable.transform.position = _objectAnchor.position;
+                    t_lookable = lookable.transform;
+
+                    _lookable = lookable;
+                }
             }
+        }
+
+        if (_isLookAt == false)
+        {
+            if(_pickable != null && _handFull == false)
+            {
+                _pickable.GetComponent<IInteractive>().Exit();
+
+                _pickable = null;
+                t_lookable = null;
+
+                _data.cameraController.SetIsInteracting = false;
+            }
+
+            if(_lookable != null)
+            {
+                _lookable.Exit();
+
+                _lookable = null;
+                t_lookable = null;
+
+                _data.cameraController.SetIsInteracting = false;
+            }
+        }
+
+        if (_onLookAt != null)
+        {
+            _onLookAt(_isLookAt);
         }
     }
 
@@ -446,3 +539,16 @@ public class FP_Controller : MonoBehaviour
         return _inventoryUI;
     }
 }
+
+
+
+
+/*                        if (t.TryGetComponent(out IInteractive interactive))
+                        {
+                            interactive.Enter();
+                        }
+                        else
+                        {
+                            _data.cameraController.SetIsInteracting = false;
+                        }
+*/
