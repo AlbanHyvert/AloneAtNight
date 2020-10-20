@@ -40,8 +40,12 @@ public class Mirror : MonoBehaviour
         // Skip rendering the view from this portal if player is not looking at the linked portal
         if (!CameraUtility.VisibleFromCamera(_screen, _playerCamera))
         {
-            Debug.Log("Cannot see mirror");
+            _mirrorCamera.enabled = false;
             return;
+        }
+        else
+        {
+            _mirrorCamera.enabled = true;
         }
 
         CreateViewTexture();
@@ -122,5 +126,11 @@ public class Mirror : MonoBehaviour
         {
             return _mirrorCamera.transform.rotation.eulerAngles;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if(GameLoopManager.Instance != null)
+            GameLoopManager.Instance.UpdateCamera -= Tick;
     }
 }

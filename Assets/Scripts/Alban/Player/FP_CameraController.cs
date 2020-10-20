@@ -19,6 +19,8 @@ public class FP_CameraController : MonoBehaviour
     private float _rotationY = 0;
     private FP_Controller _fpPlayer = null;
     private IInteractive _interactable = null;
+    private Pickable _pickable = null;
+    private Lookable _lookable = null;
     private bool _canInteract = false;
     private bool _isInteracting = false;
     #endregion Variables
@@ -63,6 +65,8 @@ public class FP_CameraController : MonoBehaviour
 
     private void Start()
     {
+        _canInteract = false;
+
         _startPos = _data.camera.transform.localPosition;
         _movementData.rotationSpeed = PlayerManager.Instance.GetPlayer.GetMovementData.rotationSpeed;
         _movementData.maxXRotation = PlayerManager.Instance.GetPlayer.GetMovementData.maxXRotation;
@@ -123,14 +127,12 @@ public class FP_CameraController : MonoBehaviour
         float rotX = Input.GetAxis("Mouse X") * (float)_movementData.rotationSpeed * Mathf.Deg2Rad;
         float rotY = Input.GetAxis("Mouse Y") * (float)_movementData.rotationSpeed * Mathf.Deg2Rad;
 
-        _fpPlayer.GetPickable.transform.Rotate(Vector3.up, -rotX);
-        _fpPlayer.GetPickable.transform.Rotate(Vector3.right, rotY);
+        _fpPlayer.GetLookable.Rotate(Vector3.up, -rotX);
+        _fpPlayer.GetLookable.Rotate(Vector3.right, rotY);
 
         CheckInteractable();
 
-        Vector3 rotation = _fpPlayer.GetPickable.transform.eulerAngles;
-
-        Debug.Log("Rotation: " + rotation);
+        Vector3 rotation = _fpPlayer.GetLookable.eulerAngles;
     }
 
     private void CameraRotation(Vector3 mousePos)
@@ -163,7 +165,7 @@ public class FP_CameraController : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables); ;
+        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables);
 
         if (isInteractable != _canInteract)
         {
@@ -173,29 +175,27 @@ public class FP_CameraController : MonoBehaviour
             {
                 Transform t = hit.transform;
 
-                IInteractive interactive = t.GetComponent<IInteractive>();
-                Pickable pickable = t.GetComponent<Pickable>();
+                _interactable = t.GetComponent<IInteractive>();
+                _pickable = t.GetComponent<Pickable>();
+                _lookable = t.GetComponent<Lookable>();
 
-                _interactable = interactive;
+                _interactable.OnSeen();
 
-                if (_interactable != null)
+                if (t.TryGetComponent(out Outline outline))
                 {
-                    _interactable.OnSeen();
-
-                    if (t.TryGetComponent(out Outline outline))
-                    {
-                        _currentObject = outline;
-                    }
-
-                    if (_currentObject != null)
-                        _outlineEffect.AddOutline(_currentObject);
-
-                    _outlineEffect.LineIntensity = 2;
+                    _currentObject = outline;
                 }
-            
-                if(pickable != null)
+
+                if (_currentObject != null)
+                    _outlineEffect.AddOutline(_currentObject);
+
+                _outlineEffect.LineIntensity = 2;
+
+                if (_pickable != null || _lookable != null)
                 {
-                    _updateIsLookable(true);
+
+                    if(_updateIsLookable != null)
+                        _updateIsLookable(true);
                 }
             }
             else
@@ -206,16 +206,20 @@ public class FP_CameraController : MonoBehaviour
                     _currentObject = null;
                 }
 
-                //_outlineEffect.LineIntensity = 0;
-
                 if (_interactable != null)
                 {
                     _interactable.OnUnseen();
-                }   
+                }
 
-                _updateIsLookable(false);
-
+                if (_updateIsLookable != null)
+                {
+                    if (_pickable == null && _lookable == null)
+                        _updateIsLookable(false);
+                }
+                
                 _interactable = null;
+                _pickable = null;
+                _lookable = null;
             }
         }
     }

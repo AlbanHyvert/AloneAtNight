@@ -38,8 +38,6 @@ public class GlassWindow : MonoBehaviour, IInteractive
         {
             Debug.LogError("Missing Reference");
         }
-
-        Debug.Log("IsValid: " + _isValidList.Count + '\n' + "Fragments: " + _fragments.Length);
     }
 
     public void Enter(Transform parent = null)
@@ -86,8 +84,6 @@ public class GlassWindow : MonoBehaviour, IInteractive
             }
         }
 
-        Debug.Log("Activated");
-
         GameLoopManager.Instance.UpdatePuzzles += Tick;
     }
 
@@ -106,7 +102,6 @@ public class GlassWindow : MonoBehaviour, IInteractive
             _fragmentList.Clear();
         }
 
-        Debug.Log("Desactivated");
         _camera.gameObject.SetActive(false);
 
         GameLoopManager.Instance.UpdatePuzzles -= Tick;
