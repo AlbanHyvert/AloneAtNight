@@ -30,6 +30,7 @@ public class Mirror : MonoBehaviour
         GameLoopManager.Instance.UpdateCamera += Tick;
     }
 
+    [ExecuteInEditMode]
     private void Tick()
     {
         Render();
