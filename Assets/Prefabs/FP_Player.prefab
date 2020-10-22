@@ -54,6 +54,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _interactDist: 10
+  _outlineEffect: {fileID: 4716155498814861616}
 --- !u!1 &4716155497968409147
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,6 +67,7 @@ GameObject:
   - component: {fileID: 4716155497968409140}
   - component: {fileID: 4716155497968409141}
   - component: {fileID: 4716155497968409143}
+  - component: {fileID: 4716155498814861616}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -119,7 +121,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3895
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -155,6 +157,39 @@ MonoBehaviour:
     walkBobbingSpeed: 2
     sprintBobbingSpeed: 4
     bobbingAmount: 0.2
+--- !u!114 &4716155498814861616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4716155497968409147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78da3f00f3328541b4526c0b0b5ec5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineThickness: 1.25
+  lineIntensity: 0.5
+  fillAmount: 0.2
+  lineColor0: {r: 0.8490566, g: 0.5616399, b: 0.17221431, a: 1}
+  lineColor1: {r: 0, g: 1, b: 0, a: 1}
+  lineColor2: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+  additiveRendering: 1
+  backfaceCulling: 0
+  fillColor: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
+  useFillColor: 1
+  cornerOutlines: 0
+  addLinesBetweenColors: 0
+  scaleWithScreenSize: 1
+  alphaCutoff: 0.5
+  flipY: 0
+  sourceCamera: {fileID: 4716155497968409140}
+  autoEnableOutlines: 0
+  outlineCamera: {fileID: 0}
+  outlineShaderMaterial: {fileID: 0}
+  renderTexture: {fileID: 0}
+  extraRenderTexture: {fileID: 0}
 --- !u!1 &4716155498914360731
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,7 +215,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4716155498914360731}
-  m_LocalRotation: {x: -0, y: -0.109081276, z: -0, w: 0.99403286}
+  m_LocalRotation: {x: 0, y: -0.10908369, z: 0, w: 0.9940326}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -274,7 +309,7 @@ GameObject:
   - component: {fileID: 4716155499095445129}
   - component: {fileID: 4716155499095445130}
   - component: {fileID: 4716155499095445131}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
