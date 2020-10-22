@@ -17,7 +17,7 @@ public class Mirror : MonoBehaviour
         _screenMeshFilter = _screen.GetComponent<MeshFilter>();
 
         _playerCamera = PlayerManager.Instance.GetPlayer.GetData.cameraController.GetData.camera;
-
+/*
         Vector3 cameraEulerAngles = _mirrorCamera.transform.rotation.eulerAngles;
         Quaternion quaternion = _mirrorCamera.transform.rotation;
 
@@ -26,7 +26,7 @@ public class Mirror : MonoBehaviour
         quaternion.eulerAngles = cameraEulerAngles;
 
         _mirrorCamera.transform.rotation = quaternion;
-
+*/
         GameLoopManager.Instance.UpdateCamera += Tick;
     }
 
@@ -54,7 +54,7 @@ public class Mirror : MonoBehaviour
 
         _mirrorCamera.projectionMatrix = _playerCamera.projectionMatrix;
 
-        Vector3 CameraPos = new Vector3(CameraPosition.x, _playerCamera.transform.position.y, CameraPosition.z);
+        /*Vector3 CameraPos = new Vector3(CameraPosition.x, _playerCamera.transform.position.y, CameraPosition.z);
         Vector3 cameraEulerAngles = _mirrorCamera.transform.rotation.eulerAngles;
         Quaternion quaternion = _mirrorCamera.transform.rotation;
 
@@ -68,7 +68,6 @@ public class Mirror : MonoBehaviour
         {
             _mirrorCamera.transform.position = CameraPos;
             _mirrorCamera.transform.localRotation = quaternion;
-            //_mirrorCamera.transform.SetPositionAndRotation(CameraPos, CameraRot);
         }
 
         // Hide screen so that camera can see through portal
@@ -80,16 +79,13 @@ public class Mirror : MonoBehaviour
             _mirrorCamera.transform.position = CameraPos;
             _mirrorCamera.transform.localRotation = quaternion;
 
-            //_mirrorCamera.transform.SetPositionAndRotation(CameraPos, CameraRot);
-            //SetNearClipPlane();
-            //HandleClipping();
             _mirrorCamera.Render();
 
             if (i == startIndex)
             {
                 //_mainSettings.linkedPortal.GetMainSettings.screen.material.SetInt("displayMask", 1);
             }
-        }
+        }*/
 
         // Unhide objects hidden at start of render
         _screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
