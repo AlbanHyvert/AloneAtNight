@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Mirror : MonoBehaviour
 {
     [SerializeField] private Camera _mirrorCamera = null;
@@ -30,7 +31,6 @@ public class Mirror : MonoBehaviour
         GameLoopManager.Instance.UpdateCamera += Tick;
     }
 
-    [ExecuteInEditMode]
     private void Tick()
     {
         Render();
