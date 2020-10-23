@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using cakeslice;
+using UnityEngine;
 
 public class ButtonAction : MonoBehaviour, IInteractive
 {
@@ -8,17 +9,16 @@ public class ButtonAction : MonoBehaviour, IInteractive
     void IInteractive.Enter(Transform parent)
     {
         Debug.Log("Hi there");
+        
         SpawnObject();
 
-        this.gameObject.layer = 0;
-
-        Destroy(this);
+        Destroy(this.gameObject);
 
     }
 
     private void SpawnObject()
     {
-        Instantiate(_objectItem.GetPrefab(), _spawnPos);
+       GameObject gameObject = Instantiate(_objectItem.GetPrefab(), _spawnPos.position, _objectItem.GetLocalRotation());
     }
 
     void IInteractive.Exit()
@@ -33,5 +33,13 @@ public class ButtonAction : MonoBehaviour, IInteractive
 
     void IInteractive.OnUnseen()
     {
+    }
+
+    private void OnDestroy()
+    {
+        if(TryGetComponent(out Outline outline))
+        {
+            outline.DesactivateOutline();
+        }
     }
 }
