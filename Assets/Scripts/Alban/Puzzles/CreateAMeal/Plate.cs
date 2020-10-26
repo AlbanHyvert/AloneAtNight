@@ -28,17 +28,17 @@ public class Plate : MonoBehaviour, IInteractive
         _indexSpawnPos = 0;
 
         FP_Controller player = PlayerManager.Instance.GetPlayer;
-        List<InventoryItem> inventory = player.GetInventory.GetPlayerItems();
+        Inventory inventory = player.GetInventory;
 
         _dishCamera.gameObject.SetActive(true);
 
-        for (int i = 0; i < inventory.Count; i++)
+        for (int i = 0; i < inventory.GetPlayerItems().Count; i++)
         {
-            InventoryItem item = inventory[i];
+            GameObject prefab = inventory.GetPlayerItems()[i].GetPrefab();
 
-            if (item.GetPrefab().TryGetComponent(out Food food))
+            if (prefab.TryGetComponent(out Food food))
             {
-                GameObject gameObject = player.CreateObjectInstance(item.GetObjectItem(), _foodSpawnPosition[_indexSpawnPos]);
+                GameObject gameObject = CreateObjectInstance(prefab, _foodSpawnPosition[_indexSpawnPos]);
 
                 food = gameObject.GetComponent<Food>();
 
@@ -79,6 +79,16 @@ public class Plate : MonoBehaviour, IInteractive
     public void OnUnseen()
     {
         
+    }
+
+    private GameObject CreateObjectInstance(GameObject prefab, Transform objectAnchor)
+    {
+        GameObject gameObject = Instantiate(prefab, transform);
+
+        gameObject.transform.position = objectAnchor.position;
+        gameObject.transform.localScale = new Vector3(1, 1, 1);
+
+        return gameObject;
     }
 
     private void OnTriggerEnter(Collider other)

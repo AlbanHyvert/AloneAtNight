@@ -8,9 +8,9 @@ public class Pickable : MonoBehaviour, IInteractive
     [SerializeField] private RespawnObject _respawner = null;
     [Space]
     [SerializeField] private ParticleSystem _particle = null;
+    [SerializeField] private Rigidbody _rb = null;
 
     private MeshRenderer _meshRenderer = null;
-    private Rigidbody _rb = null;
     private bool _isHold = false;
     private Color _particleBaseColor = Color.white;
 
