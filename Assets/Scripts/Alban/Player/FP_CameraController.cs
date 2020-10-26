@@ -179,7 +179,6 @@ public class FP_CameraController : MonoBehaviour
                 _pickable = t.GetComponent<Pickable>();
                 _lookable = t.GetComponent<Lookable>();
 
-                _interactable.OnSeen();
 
                 if (t.TryGetComponent(out Outline outline))
                 {
@@ -204,11 +203,6 @@ public class FP_CameraController : MonoBehaviour
                 {
                     _outlineEffect.RemoveOutline(_currentObject);
                     _currentObject = null;
-                }
-
-                if (_interactable != null)
-                {
-                    _interactable.OnUnseen();
                 }
 
                 if (_updateIsLookable != null)
