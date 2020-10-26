@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4550801570813647623}
   - component: {fileID: 6172004095142516957}
   - component: {fileID: 8808244159828698000}
+  - component: {fileID: 1741941164992509978}
   m_Layer: 0
   m_Name: GA_pitcher_01
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6625443280177019212}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.0934997e-10, y: 0, z: 0.25759184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1741941164992509978
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6625443280177019212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2663342055488362338, guid: b7bc2ed27c3e813469c154e1658b80b2, type: 3}
 --- !u!1 &7256638451594203697
 GameObject:
   m_ObjectHideFlags: 0

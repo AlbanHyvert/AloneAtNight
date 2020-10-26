@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4239417237906557612}
   - component: {fileID: 1797633983649790623}
   - component: {fileID: 1006718270865519102}
+  - component: {fileID: 9079200724842252353}
   m_Layer: 0
   m_Name: GA_glass_01
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9060370758990723006}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0000000065453682, y: 0, z: -0.10630053}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -80,3 +81,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &9079200724842252353
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9060370758990723006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5397921029944423998, guid: b7bc2ed27c3e813469c154e1658b80b2, type: 3}

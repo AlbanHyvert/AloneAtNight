@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4884266596030608994}
   - component: {fileID: 8387880647602665927}
   - component: {fileID: 6017735217252011277}
+  - component: {fileID: 2545538111766034853}
   m_Layer: 0
   m_Name: GA_Chair_01
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &2545538111766034853
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5225220360655711448}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -587340726572068259, guid: 0dde81df9352197409df955f00a1ef51, type: 3}
