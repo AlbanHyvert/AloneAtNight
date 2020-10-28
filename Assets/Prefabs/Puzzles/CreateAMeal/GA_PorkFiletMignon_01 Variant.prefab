@@ -123,7 +123,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1023701583322111091, guid: ecae74a80f2965a4ea0c9ac87a34e94d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ecae74a80f2965a4ea0c9ac87a34e94d, type: 3}
 --- !u!1001 &7643985859189949479
 PrefabInstance:
@@ -192,7 +193,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4167530291758813485, guid: 495b1fe017731fa44bcc14cdc56b2b88, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 495b1fe017731fa44bcc14cdc56b2b88, type: 3}
 --- !u!1001 &7643985860083180517
 PrefabInstance:
@@ -259,14 +261,15 @@ PrefabInstance:
     - target: {fileID: 2988525077931612849, guid: 19786ee9a0892d44f80d4259710eb2c4,
         type: 3}
       propertyPath: m_Name
-      value: GA_PorkFiletMignon_01 Variant
+      value: GA_PorkFiletMignon_01
       objectReference: {fileID: 0}
     - target: {fileID: 2988525077931612849, guid: 19786ee9a0892d44f80d4259710eb2c4,
         type: 3}
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 332471259690645421, guid: 19786ee9a0892d44f80d4259710eb2c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 19786ee9a0892d44f80d4259710eb2c4, type: 3}
 --- !u!1 &4858745295932504404 stripped
 GameObject:
