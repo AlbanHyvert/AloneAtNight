@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: 1096510741580706536, guid: dbe3e3855877c43438bfae615bef8d5a,
         type: 3}
       propertyPath: m_Name
-      value: GA_RoastedPork_Main Variant
+      value: GA_RoastedPork_Main
       objectReference: {fileID: 0}
     - target: {fileID: 1096510741580706536, guid: dbe3e3855877c43438bfae615bef8d5a,
         type: 3}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 2168122616109919562, guid: dbe3e3855877c43438bfae615bef8d5a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.24292594
+      value: 0.281
       objectReference: {fileID: 0}
     - target: {fileID: 2168122616109919562, guid: dbe3e3855877c43438bfae615bef8d5a,
         type: 3}
@@ -128,7 +128,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3346663359101521237, guid: dbe3e3855877c43438bfae615bef8d5a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dbe3e3855877c43438bfae615bef8d5a, type: 3}
 --- !u!1 &8722041159256912539 stripped
 GameObject:
