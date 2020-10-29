@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2212539049390546814}
   - component: {fileID: 2962065769838776539}
   - component: {fileID: 1080767524364444689}
-  - component: {fileID: 1023701583322111091}
+  - component: {fileID: 7358778327165124007}
   m_Layer: 0
   m_Name: GA_PorkFiletMignon_03
   m_TagString: Untagged
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1023701583322111091
-MeshCollider:
+--- !u!65 &7358778327165124007
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,7 +90,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6099800089077584851, guid: 6c738ccac9597d841aeba80afebfcd54, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.09042168, y: 0.07438904, z: 0.025848031}
+  m_Center: {x: 0, y: 0.037194937, z: 0.00095516443}
