@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7692234524718996139}
   - component: {fileID: 6732763927258600718}
   - component: {fileID: 8830259620908949956}
-  - component: {fileID: 546434552711585427}
+  - component: {fileID: 990604230970253793}
   m_Layer: 0
   m_Name: GA_Coldcuts_01
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &546434552711585427
+--- !u!64 &990604230970253793
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

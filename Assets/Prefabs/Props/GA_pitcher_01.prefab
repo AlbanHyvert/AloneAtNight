@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4550801570813647623}
   - component: {fileID: 6172004095142516957}
   - component: {fileID: 8808244159828698000}
-  - component: {fileID: 1741941164992509978}
+  - component: {fileID: 1656482350925366211}
   m_Layer: 0
   m_Name: GA_pitcher_01
   m_TagString: Untagged
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1741941164992509978
-MeshCollider:
+--- !u!136 &1656482350925366211
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,10 +92,10 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2663342055488362338, guid: b7bc2ed27c3e813469c154e1658b80b2, type: 3}
+  m_Radius: 0.0959913
+  m_Height: 0.30901393
+  m_Direction: 1
+  m_Center: {x: 0.000000018626453, y: 0.15450697, z: 0.023093434}
 --- !u!1 &7256638451594203697
 GameObject:
   m_ObjectHideFlags: 0

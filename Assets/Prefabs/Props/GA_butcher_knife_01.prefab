@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 579144422871651670}
   - component: {fileID: 100498159738435942}
   - component: {fileID: 2153101208071347305}
-  - component: {fileID: 7584047785077704516}
+  - component: {fileID: 754350520819025296}
   m_Layer: 0
   m_Name: GA_butcher_knife_01
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6521217588830092018}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.5536542, y: 1.389, z: 0.24166836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &7584047785077704516
-MeshCollider:
+--- !u!65 &754350520819025296
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,7 +90,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8949251233691079512, guid: 5625ed9557efc7345a15cde12af775ad, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.4248376, y: 0.29768813, z: 0.024313629}
+  m_Center: {x: 0.00000020861626, y: 0.00000014901161, z: -0.000000010244548}

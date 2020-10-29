@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2168122616109919562}
   - component: {fileID: 1749632703387788226}
   - component: {fileID: 2208972293845079161}
-  - component: {fileID: 3346663359101521237}
+  - component: {fileID: 4135162059902011785}
   m_Layer: 0
   m_Name: GA_RoastedPork_Main
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096510741580706536}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.16380727, y: 0.807, z: 8.365462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -82,8 +82,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &3346663359101521237
-MeshCollider:
+--- !u!65 &4135162059902011785
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,10 +92,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4718707316481850730, guid: d94586c1133e8eb4e92b9367a9216dd0, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.33482325, y: 0.13836606, z: 0.21005768}
+  m_Center: {x: 0.000000014901161, y: 0.06590303, z: -0.000000007450581}
 --- !u!1 &1256544600426482080
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +106,7 @@ GameObject:
   - component: {fileID: 6888602906939078092}
   - component: {fileID: 720860575814457154}
   - component: {fileID: 4131713781193942947}
-  - component: {fileID: 6163492856700154151}
+  - component: {fileID: 4363138949863654383}
   m_Layer: 0
   m_Name: RoastedPork_Slice
   m_TagString: Untagged
@@ -176,8 +175,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &6163492856700154151
-MeshCollider:
+--- !u!65 &4363138949863654383
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -186,10 +185,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2882386428415349200, guid: d94586c1133e8eb4e92b9367a9216dd0, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.106224775, y: 0.092768714, z: 0.16688043}
+  m_Center: {x: 0.0000004656613, y: 0.045986272, z: -0.000000007450581}
 --- !u!1001 &1367552137686056811
 PrefabInstance:
   m_ObjectHideFlags: 0

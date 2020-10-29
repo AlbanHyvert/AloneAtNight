@@ -5329,16 +5329,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 90796133}
     m_Modifications:
-    - target: {fileID: 1945978948576733514, guid: b922fc1b7dd817d4998c231b0a04706a,
-        type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1945978948576733514, guid: b922fc1b7dd817d4998c231b0a04706a,
-        type: 3}
-      propertyPath: m_CastShadows
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1945978948576733515, guid: b922fc1b7dd817d4998c231b0a04706a,
         type: 3}
       propertyPath: m_CapsuleColliders.Array.data[0]
@@ -8053,6 +8043,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 90796133}
     m_Modifications:
+    - target: {fileID: 3408373444189081919, guid: 00c9a2b8f1d415443b98034082116d58,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4939492198513541185, guid: 00c9a2b8f1d415443b98034082116d58,
         type: 3}
       propertyPath: m_LocalPosition.x
