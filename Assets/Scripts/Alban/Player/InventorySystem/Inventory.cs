@@ -13,10 +13,10 @@ public class Inventory : ScriptableObject
     {
         get
         {
-            if(!_inventoryUI)
+            /*if(!_inventoryUI)
             {
                 _inventoryUI = Instantiate(_inventoryUIPrefab, _fpPlayer.GetInventoryUI().transform);
-            }
+            }*/
 
             return _inventoryUI;
         }

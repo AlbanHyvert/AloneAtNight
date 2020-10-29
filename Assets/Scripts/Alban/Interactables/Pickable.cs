@@ -49,7 +49,7 @@ public class Pickable : MonoBehaviour, IInteractive
         return _pickableItem;
     }
 
-    void IInteractive.Enter(Transform parent)
+    public void Enter(Transform parent)
     {
         _isHold = true;
         
@@ -70,7 +70,7 @@ public class Pickable : MonoBehaviour, IInteractive
         _rb.detectCollisions = true;
     }
 
-    void IInteractive.Exit()
+    public void Exit()
     {
         _isHold = false;
 
@@ -88,7 +88,7 @@ public class Pickable : MonoBehaviour, IInteractive
         _rb.detectCollisions = true;
     }
 
-    void IInteractive.OnSeen()
+    public void OnSeen()
     {
         if(_isHold == false)
         {
@@ -97,7 +97,7 @@ public class Pickable : MonoBehaviour, IInteractive
         }
     }
 
-    void IInteractive.OnUnseen()
+    public void OnUnseen()
     {
         if(_particle != null)
             _particle.Stop();

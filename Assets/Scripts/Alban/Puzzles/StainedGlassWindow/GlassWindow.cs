@@ -60,7 +60,7 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
                 if(fragments != null)
                 {
-                    GameObject gameObject = _player.CreateObjectInstance(item.GetObjectItem(), _fragmentsSpawnPos[_index]);
+                    GameObject gameObject = CreateObjectInstance(item.GetObjectItem(), _fragmentsSpawnPos[_index]);
 
                     _index++;
 
@@ -117,6 +117,11 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
     }
 
+    private GameObject CreateObjectInstance(ObjectItem objectItem, Transform anchor)
+    {
+        return Instantiate(objectItem.GetPrefab(), anchor.position, objectItem.GetLocalRotation());
+    }
+
     private void Tick()
     {
         for (int i = 0; i < _fragments.Length; i++)
@@ -149,6 +154,6 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
     public void RemoveFragment(Fragments fragments)
     {
-        _player.RemoveFragment(fragments);
+        //_player.RemoveFragment(fragments);
     }
 }

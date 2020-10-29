@@ -7,6 +7,6 @@ public class ObjectItem : InventoryItem
 {
     public override void AssignItemToPlayer(FP_Controller player)
     {
-        player.CreateObjectInstance(this);
+       // player.CreateObjectInstance(this);
     }
 }
