@@ -5,6 +5,7 @@ using UnityEngine;
 public class FP_CameraController : MonoBehaviour
 {
     [SerializeField] private Data _data;
+    [SerializeField] private D_FpCamera _cameraData = null;
     [Space]
     [SerializeField] private LayerMask _interactables = 0;
     [SerializeField] private int _interactDist = 10;
@@ -12,7 +13,6 @@ public class FP_CameraController : MonoBehaviour
     
     #region Variables
     private Vector3 _startPos = Vector3.zero;
-    private MovementData _movementData;
     private float _currentX = 0;
     private float _currentY = 0;
     private float _rotationX = 0;
@@ -50,16 +50,8 @@ public class FP_CameraController : MonoBehaviour
     {
         public Camera camera;
         public HeadBobbing headBobbing;
-        public double smoothTime;
         public Transform body;
         public Transform hand;
-    }
-
-    private struct MovementData
-    {
-        public double rotationSpeed;
-        public int maxXRotation;
-        public int minXRotation;
     }
     #endregion Structs
 
@@ -68,9 +60,6 @@ public class FP_CameraController : MonoBehaviour
         _canInteract = false;
 
         _startPos = _data.camera.transform.localPosition;
-        _movementData.rotationSpeed = PlayerManager.Instance.GetPlayer.GetMovementData.rotationSpeed;
-        _movementData.maxXRotation = PlayerManager.Instance.GetPlayer.GetMovementData.maxXRotation;
-        _movementData.minXRotation = PlayerManager.Instance.GetPlayer.GetMovementData.minXRotation;
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -124,8 +113,8 @@ public class FP_CameraController : MonoBehaviour
 
     private void RotateObject(Vector3 mousePos)
     {
-        float rotX = Input.GetAxis("Mouse X") * (float)_movementData.rotationSpeed * Mathf.Deg2Rad;
-        float rotY = Input.GetAxis("Mouse Y") * (float)_movementData.rotationSpeed * Mathf.Deg2Rad;
+        float rotX = Input.GetAxis("Mouse X") * (float)_cameraData.RotationSpeed * Mathf.Deg2Rad;
+        float rotY = Input.GetAxis("Mouse Y") * (float)_cameraData.RotationSpeed * Mathf.Deg2Rad;
 
         _fpPlayer.GetLookable.Rotate(Vector3.up, -rotX);
         _fpPlayer.GetLookable.Rotate(Vector3.right, rotY);
@@ -142,18 +131,18 @@ public class FP_CameraController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        mouseX *= (float)_movementData.rotationSpeed;
-        mouseY *= (float)_movementData.rotationSpeed;
+        mouseX *= (float)_cameraData.RotationSpeed;
+        mouseY *= (float)_cameraData.RotationSpeed;
 
         CheckInteractable();
 
-        _currentX = Mathf.Lerp(_currentX, mouseX, (float)_data.smoothTime * Time.deltaTime);
-        _currentY = Mathf.Lerp(_currentY, mouseY, (float)_data.smoothTime * Time.deltaTime);
+        _currentX = Mathf.Lerp(_currentX, mouseX, (float)_cameraData.SmoothTime * Time.deltaTime);
+        _currentY = Mathf.Lerp(_currentY, mouseY, (float)_cameraData.SmoothTime * Time.deltaTime);
 
-        _rotationX = _data.body.localEulerAngles.y + _currentX * (float)_movementData.rotationSpeed;
+        _rotationX = _data.body.localEulerAngles.y + _currentX * (float)_cameraData.RotationSpeed;
 
-        _rotationY += _currentY * (float)_movementData.rotationSpeed;
-        _rotationY = Mathf.Clamp(_rotationY, _movementData.minXRotation, _movementData.maxXRotation);
+        _rotationY += _currentY * (float)_cameraData.RotationSpeed;
+        _rotationY = Mathf.Clamp(_rotationY, _cameraData.MinXRotation, _cameraData.MaxXRotation);
 
         _data.body.rotation = Quaternion.Euler(new Vector3(0, _rotationX, 0));
         _data.camera.transform.localRotation = Quaternion.Euler(-_rotationY, 0, 0);

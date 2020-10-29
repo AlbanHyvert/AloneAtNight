@@ -46,19 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c2bc1115a45044a99fed346f99f260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementData:
-    speed: 2
-    crouchSpeed: 1.5
-    smoothTime: 2
-    fallSpeed: 9.81
-    rotationSpeed: 3
-    maxXRotation: 80
-    minXRotation: -40
+  _movementData: {fileID: 11400000, guid: 5e0083fde0b71ad49b8021f3e51a0c3b, type: 2}
   _data:
-    controller: {fileID: 433803200994426053}
     cameraController: {fileID: 433803202812254204}
-  _startingState: 0
-  _objectAnchor: {fileID: 433803201138497889}
+    crouchSize: {x: 0.5, y: 0.5, z: 0.5}
+    standingSize: {x: 1, y: 1, z: 1}
   _inventory: {fileID: 11400000, guid: e31267df7470afd419407aeecc27d33d, type: 2}
 --- !u!143 &433803200994426053
 CharacterController:
@@ -304,9 +296,9 @@ MonoBehaviour:
   _data:
     camera: {fileID: 433803202208533349}
     headBobbing: {fileID: 433803202208533350}
-    smoothTime: 2
     body: {fileID: 433803200994426059}
-    hand: {fileID: 0}
+    hand: {fileID: 433803201138497889}
+  _cameraData: {fileID: 11400000, guid: ed2a9a7a7cacd284dab4764c20e8ed2f, type: 2}
   _interactables:
     serializedVersion: 2
     m_Bits: 256

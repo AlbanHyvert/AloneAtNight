@@ -60,7 +60,7 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
 
                 FP_Controller fP_Controller = PlayerManager.Instance?.GetPlayer;
 
-                fP_Controller.OnDrop();
+                fP_Controller.Drop();
 
                 pickable.GetComponent<IInteractive>().Enter(_applePosition);
 
