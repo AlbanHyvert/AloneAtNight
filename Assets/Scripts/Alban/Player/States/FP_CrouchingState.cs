@@ -85,7 +85,7 @@ public class FP_CrouchingState : MonoBehaviour, IPlayerState
             _self.ChangeState(E_PlayerState.IDLE);
         }
 
-        _currentSpeed = Mathf.Lerp(_currentSpeed, _self.GetMovementData.crouchSpeed, _self.GetMovementData.smoothTime * Time.deltaTime);
+        _currentSpeed = Mathf.Lerp(_currentSpeed, _self.GetMovementData.CrouchSpeed, _self.GetMovementData.SmoothTime * Time.deltaTime);
 
         dir *= _currentSpeed * Time.deltaTime;
 

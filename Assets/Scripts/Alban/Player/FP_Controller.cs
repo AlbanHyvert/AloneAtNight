@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class FP_Controller : MonoBehaviour
 {
-    [SerializeField] private MovementData _movementData;
+    [SerializeField] private D_FpController _movementData;
     [SerializeField] private Data _data;
     [Space]
     [SerializeField] private E_PlayerState _startingState = E_PlayerState.IDLE;
@@ -28,7 +28,7 @@ public class FP_Controller : MonoBehaviour
     private InventoryUI _inventoryUI = null;
 
     #region Properties
-    public MovementData GetMovementData { get { return _movementData; } }
+    public D_FpController GetMovementData { get { return _movementData; } }
     public Data GetData { get { return _data; } }
     public Inventory GetInventory { get { return _inventory; } }
     public Pickable GetPickable { get { return _pickable; } }
@@ -115,17 +115,6 @@ public class FP_Controller : MonoBehaviour
     }
 
     #region Structs
-    [System.Serializable]
-    public struct MovementData
-    {
-        public float speed;
-        public float crouchSpeed;
-        public float smoothTime;
-        public float fallSpeed;
-        public float rotationSpeed;
-        public int maxXRotation;
-        public int minXRotation;
-    }
     [System.Serializable]
     public struct Data
     {
@@ -539,16 +528,3 @@ public class FP_Controller : MonoBehaviour
         return _inventoryUI;
     }
 }
-
-
-
-
-/*                        if (t.TryGetComponent(out IInteractive interactive))
-                        {
-                            interactive.Enter();
-                        }
-                        else
-                        {
-                            _data.cameraController.SetIsInteracting = false;
-                        }
-*/

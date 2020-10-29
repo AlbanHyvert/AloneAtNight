@@ -84,7 +84,7 @@ public class FP_WalkingState : MonoBehaviour, IPlayerState
             _self.ChangeState(E_PlayerState.IDLE);
         }
 
-        _currentSpeed = Mathf.Lerp(_currentSpeed, _self.GetMovementData.speed, _self.GetMovementData.smoothTime * Time.deltaTime);
+        _currentSpeed = Mathf.Lerp(_currentSpeed, _self.GetMovementData.MovingSpeed, _self.GetMovementData.SmoothTime * Time.deltaTime);
 
         dir *= _currentSpeed * Time.deltaTime;
 

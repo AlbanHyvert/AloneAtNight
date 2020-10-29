@@ -36,7 +36,7 @@ public class FP_InAirState : MonoBehaviour, IPlayerState
     {
         _self = self;
         _selfController = self.GetData.controller;
-        _fallSpeed = _self.GetMovementData.fallSpeed;
+        _fallSpeed = _self.GetMovementData.FallSpeed;
     }
 
     private void Move(Vector3 dir)
