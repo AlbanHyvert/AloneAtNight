@@ -102,6 +102,7 @@ public class Plate : MonoBehaviour, IInteractive
             {
                 if(food.GetIndex == _mealIndex[i])
                 {
+                    _mealIndex[i] = E_AlimentIndex.NULL;
                     _index++;
                 }
                 else
@@ -120,6 +121,13 @@ public class Plate : MonoBehaviour, IInteractive
         {
             Debug.Log("Dish Done");
             _wardrobeDoor.SetBool("IsActive", true);
+
+            _foodList.Clear();
+
+            FP_Controller controller = PlayerManager.Instance.GetPlayer;
+
+            controller.SetStopEveryMovement = false;
+            Exit();
         }
         else if(_wrongIndex >= 3)
         {

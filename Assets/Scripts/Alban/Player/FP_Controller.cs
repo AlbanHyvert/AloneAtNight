@@ -246,7 +246,7 @@ public class FP_Controller : StateMachine
 
     public void Drop()
     {
-        _pickable.Exit();
+        _pickable?.Exit();
 
         _pickable = null;
 
@@ -334,5 +334,11 @@ public class FP_Controller : StateMachine
     public GameObject CreateObjectInstance(ObjectItem objectItem, Transform anchor)
     {
         return Instantiate(objectItem.GetPrefab(), anchor.position, objectItem.GetLocalRotation());
+    }
+
+    private void OnDestroy()
+    {
+        _inventory.GetPlayerItems().Clear();
+        _inventory.GetAllItemsMap().Clear();
     }
 }

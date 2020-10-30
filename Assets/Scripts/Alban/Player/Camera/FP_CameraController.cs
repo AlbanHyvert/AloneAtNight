@@ -67,6 +67,7 @@ public class FP_CameraController : MonoBehaviour
 
         _fpPlayer = this.GetComponentInParent<FP_Controller>();
 
+        _outlineEffect.ClearOutline();
         _outlineEffect.LineIntensity = 0;
 
         _fpPlayer.OnLookAt += IsLookingAt;
@@ -160,49 +161,21 @@ public class FP_CameraController : MonoBehaviour
         {
             _canInteract = isInteractable;
 
-            if (isInteractable == true)
+            if(isInteractable == true)
             {
                 Transform t = hit.transform;
 
-                _interactable = t.GetComponent<IInteractive>();
-                _pickable = t.GetComponent<Pickable>();
-                _lookable = t.GetComponent<Lookable>();
-
-
-                if (t.TryGetComponent(out Outline outline))
+                if(t.TryGetComponent(out Outline outline))
                 {
-                    _currentObject = outline;
-                }
+                    outline.ActivateOutline();
 
-                if (_currentObject != null)
-                    _outlineEffect.AddOutline(_currentObject);
-
-                _outlineEffect.LineIntensity = 2;
-
-                if (_pickable != null || _lookable != null)
-                {
-
-                    if(_updateIsLookable != null)
-                        _updateIsLookable(true);
+                    _outlineEffect.LineIntensity = 2;
                 }
             }
             else
             {
-                if (_currentObject != null)
-                {
-                    _outlineEffect.RemoveOutline(_currentObject);
-                    _currentObject = null;
-                }
-
-                if (_updateIsLookable != null)
-                {
-                    if (_pickable == null && _lookable == null)
-                        _updateIsLookable(false);
-                }
-                
-                _interactable = null;
-                _pickable = null;
-                _lookable = null;
+                _outlineEffect.ClearOutline();
+                _outlineEffect.LineIntensity = 0;
             }
         }
     }

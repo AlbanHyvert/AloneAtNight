@@ -62,7 +62,7 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
 
                 fP_Controller.Drop();
 
-                pickable.GetComponent<IInteractive>().Enter(_applePosition);
+                pickable.Enter(_applePosition);
 
                 _wardrobeDoor.SetBool("IsActive", true);
 

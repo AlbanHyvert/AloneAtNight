@@ -477,5 +477,7 @@ namespace cakeslice
 
 		public void RemoveOutline(Outline outline)
 			 => outlines.Remove(outline);
+		public void ClearOutline()
+			=> outlines.Clear();
 	}
 }

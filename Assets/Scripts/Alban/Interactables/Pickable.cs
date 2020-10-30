@@ -25,6 +25,9 @@ public class Pickable : MonoBehaviour, IInteractive
 
         _meshRenderer = this.GetComponent<MeshRenderer>();
 
+        if (_meshRenderer == null)
+            _meshRenderer = this.GetComponentInChildren<MeshRenderer>();
+
         if(_respawner == null)
         {
             _respawner = this.GetComponent<RespawnObject>();
