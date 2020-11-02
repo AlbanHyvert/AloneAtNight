@@ -8,7 +8,11 @@ public class FP_Controller : StateMachine
     [SerializeField] private Data _data;
     [Space]
     [SerializeField] private Inventory _inventory = null;
+    [Space]
+    [SerializeField] private LayerMask _groundLayer = 0;
+    [SerializeField] private float _groundCheckDist = 0.05f;
 
+    #region Variables
     private bool _isCrouch = false;
     private bool _stopEveryMovement = false;
     private bool _isGrounded = false;
@@ -18,6 +22,7 @@ public class FP_Controller : StateMachine
     private Transform _lookable = null;
     private Plate _plate = null;
     private CharacterController _controller = null;
+    #endregion Variables
 
     #region Structs
     [System.Serializable]
@@ -123,6 +128,17 @@ public class FP_Controller : StateMachine
 
         SetState(new Fp_IdleState(this));
 
+        _isGrounded = IsGrounded();
+
+        if (_isGrounded == false)
+        {
+            SetState(new Fp_FallState(this));
+        }
+        else
+        {
+            SetState(new Fp_IdleState(this));
+        }
+
         InputManager.Instance.UpdateDirection += Direction;
         InputManager.Instance.UpdateCrouch += IsCrouch;
         InputManager.Instance.OnLookAt += LookAt;
@@ -133,11 +149,11 @@ public class FP_Controller : StateMachine
 
     private void Direction(Vector3 dir)
     {
-        if(_isGrounded != IsGrounded())
+        if (_isGrounded != IsGrounded())
         {
             _isGrounded = IsGrounded();
 
-            if(_isGrounded == false)
+            if (_isGrounded == false)
             {
                 SetState(new Fp_FallState(this));
             }
@@ -159,10 +175,7 @@ public class FP_Controller : StateMachine
     
     private bool IsGrounded()
     {
-        bool isGrounded = Physics.Raycast(transform.position, -transform.up, 0.5f);
-
-        if (_controller.isGrounded)
-            isGrounded = true;
+        bool isGrounded = Physics.Raycast(transform.position, -transform.up, _groundCheckDist, _groundLayer);
 
         return isGrounded;
     }

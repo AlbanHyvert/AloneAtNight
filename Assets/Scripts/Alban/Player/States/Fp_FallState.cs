@@ -8,7 +8,6 @@ public class Fp_FallState : State
 
     public override void Start()
     {
-        Debug.Log("Fall State");
         Player.SetIsCrouch = false;
         Player.transform.localScale = Player.GetData.standingSize;
     }
