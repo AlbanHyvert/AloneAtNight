@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15af979427e51b749b3d3cd2b286b436, type: 3}
   m_Name: Movement Data
   m_EditorClassIdentifier: 
-  _movingSpeed: 5
+  _movingSpeed: 3
   _crouchSpeed: 2
-  _smoothTime: 2
+  _smoothTime: 0
   _fallSpeed: 9.81
