@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class Mirror : MonoBehaviour
@@ -10,7 +8,6 @@ public class Mirror : MonoBehaviour
     [SerializeField] private MeshRenderer _screen = null;
 
     private MeshFilter _screenMeshFilter = null;
-    private int _recursionLimit = 2;
     private Camera _playerCamera = null;
 
     void Start()
@@ -51,42 +48,7 @@ public class Mirror : MonoBehaviour
 
         CreateViewTexture();
 
-        int startIndex = 0;
-
         _mirrorCamera.projectionMatrix = _playerCamera.projectionMatrix;
-
-        /*Vector3 CameraPos = new Vector3(CameraPosition.x, _playerCamera.transform.position.y, CameraPosition.z);
-        Vector3 cameraEulerAngles = _mirrorCamera.transform.rotation.eulerAngles;
-        Quaternion quaternion = _mirrorCamera.transform.rotation;
-
-        cameraEulerAngles = new Vector3(0, 90, 0);
-
-        quaternion.eulerAngles = cameraEulerAngles;
-
-        _mirrorCamera.transform.localRotation = quaternion;
-
-        for (int i = 0; i < _recursionLimit; i++)
-        {
-            _mirrorCamera.transform.position = CameraPos;
-            _mirrorCamera.transform.localRotation = quaternion;
-        }
-
-        // Hide screen so that camera can see through portal
-        _screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-        //_mainSettings.linkedPortal.GetMainSettings.screen.material.SetInt("displayMask", 0);
-
-        for (int i = startIndex; i < _recursionLimit; i++)
-        {
-            _mirrorCamera.transform.position = CameraPos;
-            _mirrorCamera.transform.localRotation = quaternion;
-
-            _mirrorCamera.Render();
-
-            if (i == startIndex)
-            {
-                //_mainSettings.linkedPortal.GetMainSettings.screen.material.SetInt("displayMask", 1);
-            }
-        }*/
 
         // Unhide objects hidden at start of render
         _screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;

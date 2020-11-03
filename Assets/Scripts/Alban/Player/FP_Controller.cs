@@ -5,7 +5,7 @@ using UnityEngine;
 public class FP_Controller : StateMachine
 {
     [SerializeField] private D_FpController _movementData = null;
-    [SerializeField] private Data _data;
+    [SerializeField] private Data _data = new Data();
     [Space]
     [SerializeField] private Inventory _inventory = null;
     [Space]

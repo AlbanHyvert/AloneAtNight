@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &1359612404
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931425136741161648}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.23434147, y: 0.5038715, z: 0.05079185}
+  m_Center: {x: 0.115116045, y: -0.000000059604645, z: -0.00784885}
+--- !u!65 &1359612405
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5643440333333004595}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.23867854, y: 0.50387144, z: 0.039233908}
+  m_Center: {x: -0.11723682, y: -0.000000059604645, z: -0.015048677}
 --- !u!95 &1359612407
 Animator:
   serializedVersion: 3
@@ -19,32 +45,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!65 &1359612405
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5643440333333004595}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.23867854, y: 0.50387144, z: 0.039233908}
-  m_Center: {x: -0.11723682, y: -0.000000059604645, z: -0.015048677}
---- !u!65 &1359612404
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2931425136741161648}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.23434147, y: 0.5038715, z: 0.05079185}
-  m_Center: {x: 0.115116045, y: -0.000000059604645, z: -0.00784885}
 --- !u!1001 &2222810417865640953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115,17 +115,17 @@ PrefabInstance:
     - target: {fileID: 6436846369117613364, guid: 01bf36195d5050f4192b06d7167c0444,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6436846369117613364, guid: 01bf36195d5050f4192b06d7167c0444,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.041687943
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6436846369117613364, guid: 01bf36195d5050f4192b06d7167c0444,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6436846369117613364, guid: 01bf36195d5050f4192b06d7167c0444,
         type: 3}
@@ -170,7 +170,7 @@ PrefabInstance:
     - target: {fileID: 7147849433892721968, guid: 01bf36195d5050f4192b06d7167c0444,
         type: 3}
       propertyPath: m_Name
-      value: nightstand
+      value: nightstand Variant
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7179100951905594581, guid: 01bf36195d5050f4192b06d7167c0444, type: 3}
