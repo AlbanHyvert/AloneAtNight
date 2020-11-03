@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FP_CameraController : MonoBehaviour
 {
-    [SerializeField] private Data _data;
+    [SerializeField] private Data _data = new Data();
     [SerializeField] private D_FpCamera _cameraData = null;
     [Space]
     [SerializeField] private LayerMask _interactables = 0;
@@ -12,37 +12,17 @@ public class FP_CameraController : MonoBehaviour
     [SerializeField] private OutlineEffect _outlineEffect = null;
     
     #region Variables
-    private Vector3 _startPos = Vector3.zero;
     private float _currentX = 0;
     private float _currentY = 0;
     private float _rotationX = 0;
     private float _rotationY = 0;
     private FP_Controller _fpPlayer = null;
-    private IInteractive _interactable = null;
-    private Pickable _pickable = null;
-    private Lookable _lookable = null;
     private bool _canInteract = false;
     private bool _isInteracting = false;
     #endregion Variables
 
     public bool SetIsInteracting { set { _isInteracting = value; } }
     public Data GetData { get { return _data; } }
-
-    private event Action<bool> _updateIsLookable = null;
-    public event Action<bool> UpdateIsLookable
-    {
-        add
-        {
-            _updateIsLookable -= value;
-            _updateIsLookable += value;
-        }
-        remove
-        {
-            _updateIsLookable -= value;
-        }
-    }
-
-    private Outline _currentObject = null;
 
     #region Structs
     [System.Serializable]
@@ -58,8 +38,6 @@ public class FP_CameraController : MonoBehaviour
     private void Start()
     {
         _canInteract = false;
-
-        _startPos = _data.camera.transform.localPosition;
 
         Cursor.lockState = CursorLockMode.Locked;
 

@@ -58,43 +58,9 @@ public class MissingFragment : MonoBehaviour
         {
             _fragment.transform.SetParent(this.transform);
 
-            _fragment.transform.position = Vector3.zero;
-            _fragment.transform.localPosition = Vector3.zero;
+            _fragment.transform.position = _snapPosition.position;
+            _fragment.transform.localPosition = _snapPosition.position;
             _fragment.transform.rotation = new Quaternion(0, 0, 0, 0);
-
-            switch (_missingIndex)
-            {
-                case E_FragmentIndex.PLACEMENT_1:
-                    Debug.Log("CUM");
-                    break;
-                case E_FragmentIndex.PLACEMENT_2:
-                    Debug.Log("CUMON");
-                    break;
-                case E_FragmentIndex.PLACEMENT_3:
-                    Debug.Log("CUMAS");
-                    break;
-                case E_FragmentIndex.PLACEMENT_4:
-                    Debug.Log("CUMY");
-                    break;
-                case E_FragmentIndex.PLACEMENT_5:
-                    Debug.Log("CUMRAW");
-                    break;
-                case E_FragmentIndex.PLACEMENT_6:
-                    Debug.Log("CUMWHY");
-                    break;
-                case E_FragmentIndex.PLACEMENT_7:
-                    Debug.Log("CUMWHERE");
-                    break;
-                case E_FragmentIndex.PLACEMENT_8:
-                    Debug.Log("CUMWHAT");
-                    break;
-                case E_FragmentIndex.PLACEMENT_9:
-                    Debug.Log("CUMWHO");
-                    break;
-                case E_FragmentIndex.PLACEMENT_10:
-                    Debug.Log("CAM");
-                    break;
-            }
 
             GameLoopManager.Instance.UpdatePuzzles -= Tick;
         }

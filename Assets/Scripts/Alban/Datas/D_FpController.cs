@@ -5,8 +5,8 @@ public class D_FpController : ScriptableObject
 {
     [SerializeField] private float _movingSpeed = 5;
     [SerializeField] private float _crouchSpeed = 2;
-    [SerializeField] private float _smoothTime;
-    [SerializeField] private float _fallSpeed;
+    [SerializeField] private float _smoothTime = 2;
+    [SerializeField] private float _fallSpeed = 9.81f;
 
     public float MovingSpeed { get { return _movingSpeed; } set { _movingSpeed = value; } }
     public float CrouchSpeed { get { return _crouchSpeed; } set { _crouchSpeed = value; } }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class FP_Controller : StateMachine
 {
     [SerializeField] private D_FpController _movementData = null;
-    [SerializeField] private Data _data;
+    [SerializeField] private Data _data = new Data();
     [Space]
     [SerializeField] private Inventory _inventory = null;
     [Space]
@@ -122,7 +122,7 @@ public class FP_Controller : StateMachine
     {
         _controller = this.GetComponent<CharacterController>();
 
-        _data.standingSize = this.transform.localScale;
+        transform.localScale = _data.standingSize;
 
         PlayerManager.Instance.SetPlayer = this;
 
@@ -204,6 +204,8 @@ public class FP_Controller : StateMachine
 
     private void Interact()
     {
+        _data.cameraController.SetIsInteracting = false;
+
         Transform t = _data.cameraController.Interactive();
 
         if (t == null)
