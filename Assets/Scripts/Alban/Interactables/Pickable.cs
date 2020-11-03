@@ -19,7 +19,8 @@ public class Pickable : MonoBehaviour, IInteractive
 
     private void Start()
     {
-        _pickableItem.SetObjectItem(_pickableItem);
+
+        _pickableItem?.SetObjectItem(_pickableItem);
 
         _rb = this.GetComponent<Rigidbody>();
 

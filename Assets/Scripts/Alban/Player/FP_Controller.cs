@@ -122,7 +122,7 @@ public class FP_Controller : StateMachine
     {
         _controller = this.GetComponent<CharacterController>();
 
-        _data.standingSize = this.transform.localScale;
+        transform.localScale = _data.standingSize;
 
         PlayerManager.Instance.SetPlayer = this;
 
@@ -204,6 +204,8 @@ public class FP_Controller : StateMachine
 
     private void Interact()
     {
+        _data.cameraController.SetIsInteracting = false;
+
         Transform t = _data.cameraController.Interactive();
 
         if (t == null)

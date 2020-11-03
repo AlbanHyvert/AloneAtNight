@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 169501170361875470}
   - component: {fileID: 8442265413187770256}
   - component: {fileID: 7367671106472831002}
-  - component: {fileID: 1497384563887955574}
   m_Layer: 0
   m_Name: arrondi
   m_TagString: Untagged
@@ -173,20 +172,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1497384563887955574
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4788421937330517313}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2221780630994421476, guid: 57b9120f1678d544db02b7014263cff1, type: 3}
 --- !u!1 &5626534518352517543
 GameObject:
   m_ObjectHideFlags: 0
