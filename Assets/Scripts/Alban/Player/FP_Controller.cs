@@ -118,7 +118,7 @@ public class FP_Controller : StateMachine
     }
     #endregion Events
 
-    private void Start()
+    private void Awake()
     {
         _controller = this.GetComponent<CharacterController>();
 
@@ -175,7 +175,7 @@ public class FP_Controller : StateMachine
     
     private bool IsGrounded()
     {
-        bool isGrounded = Physics.Raycast(transform.position, -transform.up, _groundCheckDist, _groundLayer);
+        bool isGrounded = Physics.Raycast(transform.position, -transform.up, _groundCheckDist);
 
         return isGrounded;
     }
