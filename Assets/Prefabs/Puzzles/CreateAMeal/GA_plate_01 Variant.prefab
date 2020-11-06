@@ -93,7 +93,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 28471
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -260,7 +260,7 @@ PrefabInstance:
     - target: {fileID: 1618718819541762911, guid: 0fd99d33cb5362f469fdd20e48ba22c4,
         type: 3}
       propertyPath: m_Name
-      value: GA_plate_01
+      value: GA_plate_01 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1618718819541762911, guid: 0fd99d33cb5362f469fdd20e48ba22c4,
         type: 3}
@@ -270,17 +270,17 @@ PrefabInstance:
     - target: {fileID: 2106849667805780453, guid: 0fd99d33cb5362f469fdd20e48ba22c4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.284
+      value: -0.17276525
       objectReference: {fileID: 0}
     - target: {fileID: 2106849667805780453, guid: 0fd99d33cb5362f469fdd20e48ba22c4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.325
+      value: 0.89207405
       objectReference: {fileID: 0}
     - target: {fileID: 2106849667805780453, guid: 0fd99d33cb5362f469fdd20e48ba22c4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.537
+      value: 9.618213
       objectReference: {fileID: 0}
     - target: {fileID: 2106849667805780453, guid: 0fd99d33cb5362f469fdd20e48ba22c4,
         type: 3}
@@ -336,6 +336,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471824576896405916, guid: 0fd99d33cb5362f469fdd20e48ba22c4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd99d33cb5362f469fdd20e48ba22c4, type: 3}
