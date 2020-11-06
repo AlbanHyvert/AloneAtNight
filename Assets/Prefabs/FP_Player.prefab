@@ -61,7 +61,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3232558798003265420}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.25
   m_Height: 1
@@ -87,8 +87,8 @@ MonoBehaviour:
   _inventory: {fileID: 11400000, guid: e31267df7470afd419407aeecc27d33d, type: 2}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 1024
-  _groundCheckDist: 0.05
+    m_Bits: 13569
+  _maxDistance: 0.3
 --- !u!1 &3232558798110445200
 GameObject:
   m_ObjectHideFlags: 0

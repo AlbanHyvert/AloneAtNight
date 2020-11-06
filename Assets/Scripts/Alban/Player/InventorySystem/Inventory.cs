@@ -21,7 +21,6 @@ public class Inventory : ScriptableObject
             return _inventoryUI;
         }
     }
-
     private List<InventoryItem> _playerItemList = null;
     private Dictionary<InventoryItem, int> _itemToCountMap = new Dictionary<InventoryItem, int>();
 
@@ -30,6 +29,7 @@ public class Inventory : ScriptableObject
         _fpPlayer = player;
 
         _playerItemList = new List<InventoryItem>();
+        _playerItemList.Clear();
 
         for (int i = 0; i < _itemList.Count; i++)
         {

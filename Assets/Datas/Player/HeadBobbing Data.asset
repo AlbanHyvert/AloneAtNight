@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00b2eaeb1c955446b74505e472f6c30, type: 3}
   m_Name: HeadBobbing Data
   m_EditorClassIdentifier: 
-  _walkBobbingSpeed: 2
-  _bobbingAmount: 0.01
+  _walkBobbingSpeed: 10
+  _bobbingAmount: 0.02
