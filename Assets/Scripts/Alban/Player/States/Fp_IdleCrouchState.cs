@@ -27,7 +27,7 @@ public class Fp_IdleCrouchState : State
             Player.SetState(new Fp_CrouchState(Player));
         }
 
-        Player.GetData.cameraController.GetData.headBobbing.OnWalk();
+        Player.GetData.cameraController.GetData.headBobbing.OnIdle();
     }
 
     public override void IsGrounded(bool value)

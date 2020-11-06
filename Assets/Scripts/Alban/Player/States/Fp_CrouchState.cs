@@ -31,7 +31,7 @@ public class Fp_CrouchState : State
 
         float speed = Player.MovementData.CrouchSpeed;
 
-        Player.GetData.cameraController.GetData.headBobbing.OnWalk();
+        Player.GetData.cameraController.GetData.headBobbing.OnCrouch();
 
         Player.Controller.Move(dir * speed * Time.deltaTime);
     }
