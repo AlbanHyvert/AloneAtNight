@@ -13,14 +13,17 @@ public class CreateFood : MonoBehaviour, IInteractive
 
         rigidbody.isKinematic = true;
         rigidbody.useGravity = false;
+
+        _isStored = false;
     }
 
     public void Enter(Transform parent = null)
     {
         if (_isStored == false)
+        {
             PlayerManager.Instance?.GetPlayer.GetInventory.AddItem(food, 1);
-        else
             _isStored = true;
+        }
     }
 
     public void Exit()

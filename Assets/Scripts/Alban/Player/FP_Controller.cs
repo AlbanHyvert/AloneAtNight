@@ -361,17 +361,18 @@ public class FP_Controller : StateMachine
     
     private void RemoveFromInventory()
     {
-        Debug.Log(_inventory.GetPlayerItems()[0]);
-
-        InventoryItem item = _inventory.GetPlayerItems()[0];
-
-        if (item != null)
+        if(_inventory.GetPlayerItems().Count > 0)
         {
-            CreateObjectInstance(item.GetObjectItem(), _data.cameraController.GetData.hand);
+            InventoryItem item = _inventory.GetPlayerItems()[0];
 
-            _inventory.RemoveItem(item, 1);
+            if (item != null)
+            {
+                CreateObjectInstance(item.GetObjectItem(), _data.cameraController.GetData.hand);
 
-            _data.cameraController.SetIsInteracting = false;
+                _inventory.RemoveItem(item, 1);
+
+                _data.cameraController.SetIsInteracting = false;
+            }
         }
     }
 
