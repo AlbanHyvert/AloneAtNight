@@ -23,6 +23,7 @@ public class FP_Controller : StateMachine
     private Transform _lookable = null;
     private Plate _plate = null;
     private CharacterController _controller = null;
+    private FpControllerUI _cursorUI = null;
     private float _currentHitDistance = 0;
     #endregion Variables
 
@@ -83,6 +84,7 @@ public class FP_Controller : StateMachine
             State.IsGrounded(value);
         }
     }
+    public FpControllerUI CursorUI { get { return _cursorUI; } }
     #endregion Properties 
 
     #region Events
@@ -131,6 +133,10 @@ public class FP_Controller : StateMachine
 
     private void Awake()
     {
+        _cursorUI = PlayerManager.Instance.GetFpCursorUI;
+
+        _cursorUI.gameObject.SetActive(true);
+
         _controller = this.GetComponent<CharacterController>();
 
         _currentHitDistance = _maxDistance;
@@ -224,6 +230,8 @@ public class FP_Controller : StateMachine
 
             _pickable = pickable;
 
+            _cursorUI.SetPointerToClosedHand();
+
             InputManager.Instance.OnInteract += Drop;
             InputManager.Instance.OnInteract -= Interact;
             
@@ -238,6 +246,8 @@ public class FP_Controller : StateMachine
 
             _glass = glass;
 
+            _cursorUI.gameObject.SetActive(false);
+
             InputManager.Instance.OnInteract += LeaveGlass;
             InputManager.Instance.OnInteract -= Interact;
 
@@ -251,6 +261,8 @@ public class FP_Controller : StateMachine
             SetStopEveryMovement = true;
 
             _plate = plate;
+
+            _cursorUI.gameObject.SetActive(false);
 
             InputManager.Instance.OnInteract += LeavePlate;
             InputManager.Instance.OnInteract -= Interact;
@@ -272,6 +284,8 @@ public class FP_Controller : StateMachine
 
         _pickable = null;
 
+        _cursorUI.SetPointerToOpenHand();
+
         _data.cameraController.SetIsInteracting = false;
 
         InputManager.Instance.OnInteract += Interact;
@@ -283,6 +297,9 @@ public class FP_Controller : StateMachine
         _glass.Exit();
 
         SetStopEveryMovement = false;
+
+        _cursorUI.gameObject.SetActive(true);
+        _cursorUI.SetPointerToDefault();
 
         _data.cameraController.SetIsInteracting = false;
 
@@ -297,6 +314,9 @@ public class FP_Controller : StateMachine
         _plate.Exit();
 
         SetStopEveryMovement = false;
+
+        _cursorUI.gameObject.SetActive(true);
+        _cursorUI.SetPointerToDefault();
 
         _data.cameraController.SetIsInteracting = false;
 

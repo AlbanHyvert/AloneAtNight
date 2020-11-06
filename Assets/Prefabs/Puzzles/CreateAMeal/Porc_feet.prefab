@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 4178991235249985149}
   - component: {fileID: 2169104628436378295}
   - component: {fileID: 5126564198140978704}
+  - component: {fileID: 8897193860151277831}
   m_Layer: 8
   m_Name: GA_PigsFoot_01 (8)
   m_TagString: Untagged
@@ -106,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 367827712199656290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.007, z: 0.032}
+  m_LocalPosition: {x: 0, y: 0.010499984, z: 0.032}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4578210385818747469}
@@ -173,6 +174,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 2
   eraseRenderer: 0
+--- !u!136 &8897193860151277831
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367827712199656290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.15
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &510010806071701222
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +200,7 @@ GameObject:
   - component: {fileID: 4321176465857903609}
   - component: {fileID: 2022978593556795187}
   - component: {fileID: 6794339182944854249}
+  - component: {fileID: 8742011858447726305}
   m_Layer: 8
   m_Name: GA_PigsFoot_01 (4)
   m_TagString: Untagged
@@ -200,7 +216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510010806071701222}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.034, z: 0}
+  m_LocalPosition: {x: 0, y: -0.030500025, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4578210385818747469}
@@ -267,6 +283,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 2
   eraseRenderer: 0
+--- !u!136 &8742011858447726305
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510010806071701222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.15
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &1131424522982364243
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +309,7 @@ GameObject:
   - component: {fileID: 3699614332023783756}
   - component: {fileID: 1491638069603349894}
   - component: {fileID: 2424777711141654956}
+  - component: {fileID: 7102759186896261637}
   m_Layer: 8
   m_Name: GA_PigsFoot_01 (7)
   m_TagString: Untagged
@@ -294,7 +325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1131424522982364243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.007, z: 0.097}
+  m_LocalPosition: {x: 0, y: 0.010499984, z: 0.097}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4578210385818747469}
@@ -361,6 +392,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 2
   eraseRenderer: 0
+--- !u!136 &7102759186896261637
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131424522982364243}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.15
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &2026032056516389378
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +418,7 @@ GameObject:
   - component: {fileID: 2376179120574431005}
   - component: {fileID: 512589142569847767}
   - component: {fileID: 7605769107543235928}
+  - component: {fileID: 6806268916303134837}
   m_Layer: 8
   m_Name: GA_PigsFoot_01 (9)
   m_TagString: Untagged
@@ -388,7 +434,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026032056516389378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.052, z: 0.069}
+  m_LocalPosition: {x: 0, y: 0.055499986, z: 0.069}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4578210385818747469}
@@ -455,6 +501,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 2
   eraseRenderer: 0
+--- !u!136 &6806268916303134837
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026032056516389378}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.15
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &3514779241593562503
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,6 +527,7 @@ GameObject:
   - component: {fileID: 874553888477720728}
   - component: {fileID: 3154768692109526098}
   - component: {fileID: 5563837322281064746}
+  - component: {fileID: 645854383329913805}
   m_Layer: 8
   m_Name: GA_PigsFoot_01 (5)
   m_TagString: Untagged
@@ -482,7 +543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3514779241593562503}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.034, z: 0.062}
+  m_LocalPosition: {x: 0, y: -0.0305, z: 0.062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4578210385818747469}
@@ -549,6 +610,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 2
   eraseRenderer: 0
+--- !u!136 &645854383329913805
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3514779241593562503}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.15
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &5758947487285369234
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,6 +723,7 @@ GameObject:
   - component: {fileID: 7553439601716690663}
   - component: {fileID: 5708244382375741997}
   - component: {fileID: 7089451119682538486}
+  - component: {fileID: 3481260796033442985}
   m_Layer: 8
   m_Name: GA_PigsFoot_01 (6)
   m_TagString: Untagged
@@ -663,7 +739,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6068387697688292344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.034, z: 0.128}
+  m_LocalPosition: {x: 0, y: -0.030500025, z: 0.128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4578210385818747469}
@@ -730,6 +806,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 2
   eraseRenderer: 0
+--- !u!136 &3481260796033442985
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6068387697688292344}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.15
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1001 &1056206347266190070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -797,7 +887,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1056387726622650610, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
 --- !u!4 &9116870590474936388 stripped
 Transform:
@@ -872,7 +963,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1056387726622650610, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
 --- !u!4 &7248404592003330354 stripped
 Transform:
@@ -947,7 +1039,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1056387726622650610, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
 --- !u!4 &3511275954073930884 stripped
 Transform:
@@ -1022,7 +1115,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1056387726622650610, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
 --- !u!4 &938928268679135401 stripped
 Transform:
@@ -1097,7 +1191,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1056387726622650610, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3b9b28208d24aac4c8361e0ffc423d3b, type: 3}
 --- !u!4 &1040310555010860938 stripped
 Transform:
