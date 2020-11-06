@@ -4,6 +4,5 @@
     WALKING,
     CROUCHING,
     INAIR,
-    TELEPORT,
     DEAD
 }

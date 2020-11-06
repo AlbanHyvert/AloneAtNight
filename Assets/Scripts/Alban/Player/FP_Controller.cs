@@ -10,18 +10,20 @@ public class FP_Controller : StateMachine
     [SerializeField] private Inventory _inventory = null;
     [Space]
     [SerializeField] private LayerMask _groundLayer = 0;
-    [SerializeField] private float _groundCheckDist = 0.05f;
+    [SerializeField] private float _maxDistance = 0.1f;
 
     #region Variables
     private bool _isCrouch = false;
     private bool _stopEveryMovement = false;
     private bool _isGrounded = false;
     private bool _isLookingAt = false;
+    private E_PlayerState _currentState = E_PlayerState.IDLE;
     private Pickable _pickable = null;
     private GlassWindow _glass = null;
     private Transform _lookable = null;
     private Plate _plate = null;
     private CharacterController _controller = null;
+    private float _currentHitDistance = 0;
     #endregion Variables
 
     #region Structs
@@ -38,6 +40,7 @@ public class FP_Controller : StateMachine
     public CharacterController Controller { get { return _controller; } }
     public D_FpController MovementData { get { return _movementData; } }
     public Inventory GetInventory { get { return _inventory; } }
+    public E_PlayerState SetCurrentState { set { _currentState = value; } }
     public bool SetIsLookingAt
     {
         set
@@ -70,6 +73,14 @@ public class FP_Controller : StateMachine
 
             if (_onStopEveryMovement != null)
                 _onStopEveryMovement(value);
+        }
+    }   
+    public bool SetIsGrounded
+    { 
+        set
+        { 
+            _isGrounded = value;
+            State.IsGrounded(value);
         }
     }
     #endregion Properties 
@@ -122,22 +133,19 @@ public class FP_Controller : StateMachine
     {
         _controller = this.GetComponent<CharacterController>();
 
+        _currentHitDistance = _maxDistance;
+
         transform.localScale = _data.standingSize;
 
         PlayerManager.Instance.SetPlayer = this;
 
-        SetState(new Fp_IdleState(this));
+        _inventory.InitInventory(this);
 
-        _isGrounded = IsGrounded();
+        _isGrounded = false;
 
-        if (_isGrounded == false)
-        {
-            SetState(new Fp_FallState(this));
-        }
-        else
-        {
-            SetState(new Fp_IdleState(this));
-        }
+        SetState(new Fp_FallState(this));
+
+        State.IsGrounded(_isGrounded);
 
         InputManager.Instance.UpdateDirection += Direction;
         InputManager.Instance.UpdateCrouch += IsCrouch;
@@ -149,18 +157,9 @@ public class FP_Controller : StateMachine
 
     private void Direction(Vector3 dir)
     {
-        if (_isGrounded != IsGrounded())
+        if(_isGrounded != RaycastIsGrounded())
         {
-            _isGrounded = IsGrounded();
-
-            if (_isGrounded == false)
-            {
-                SetState(new Fp_FallState(this));
-            }
-            else
-            {
-                SetState(new Fp_IdleState(this));
-            }
+            SetIsGrounded = RaycastIsGrounded();
         }
 
         State.Move(dir);
@@ -173,9 +172,17 @@ public class FP_Controller : StateMachine
         State.IsCrouch(value);
     }
     
-    private bool IsGrounded()
+    private bool RaycastIsGrounded()
     {
-        bool isGrounded = Physics.Raycast(transform.position, -transform.up, _groundCheckDist);
+        Vector3 origin = transform.position;
+        RaycastHit hit;
+
+        bool isGrounded = Physics.Raycast(origin, Vector3.down, out hit, _currentHitDistance);
+
+        _currentHitDistance = hit.transform ? 0.015f : _maxDistance;
+
+        if (_currentHitDistance < 0.015f)
+            _currentHitDistance = 0.015f;
 
         return isGrounded;
     }
@@ -334,6 +341,8 @@ public class FP_Controller : StateMachine
     
     private void RemoveFromInventory()
     {
+        Debug.Log(_inventory.GetPlayerItems()[0]);
+
         InventoryItem item = _inventory.GetPlayerItems()[0];
 
         if (item != null)

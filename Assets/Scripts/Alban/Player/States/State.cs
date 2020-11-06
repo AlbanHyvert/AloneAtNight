@@ -33,4 +33,9 @@ public abstract class State
     {
 
     }
+
+    public virtual void IsGrounded(bool value)
+    {
+
+    }
 }
