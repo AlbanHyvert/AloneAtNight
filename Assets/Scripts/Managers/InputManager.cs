@@ -9,13 +9,13 @@ public class InputManager : Singleton<InputManager>
 
     private Vector3 _direction = Vector3.zero;
     private Vector3 _mousePosition = Vector3.zero;
-    private FP_Controller _player = null;
+    private Players _players = new Players();
     private Camera _camera = null;
     private bool _isCrouch = false;
 
     #region Events
-    private event Action<Vector3> _updateMousePos = null;
-    public event Action<Vector3> UpdateMousePos
+    private event Action _updateMousePos = null;
+    public event Action UpdateMousePos
     {
         add
         {
@@ -142,47 +142,74 @@ public class InputManager : Singleton<InputManager>
         public KeyCode lookAt;
         public KeyCode launch;
     }
+
+    private struct Players
+    {
+        public FP_Controller fpsPlayer;
+        public ThirdPersonMovement tpsPlayer;
+
+        public void OnReset()
+        {
+            fpsPlayer = null;
+            tpsPlayer = null;
+        }
+    }
     #endregion Structs
 
     private void Start()
     {
         PlayerManager.Instance.UpdatePlayer += CheckPlayer;
         GameLoopManager.Instance.UpdatePause += GamePaused;
+
+        CheckPlayer(PlayerManager.Instance.GetPlayers);
     }
 
     private void GamePaused(bool isPaused)
     {
         if(isPaused == true)
         {
-            GameLoopManager.Instance.UpdateManager -= Tick;
+            GameLoopManager.Instance.UpdateManager -= UpdateFPSMovement;
+            GameLoopManager.Instance.UpdateManager -= UpdateTPSMovement;
         }
         else
         {
-            GameLoopManager.Instance.UpdateManager += Tick;
+            CheckPlayer(PlayerManager.Instance.GetPlayers);
         }
     }
 
-    private void CheckPlayer(FP_Controller player)
+    private void CheckPlayer(PlayerManager.Players players)
     {
-        if(player != null)
+        if(players.fpsPlayer != null)
         {
-            _player = player;
-            _camera = player.GetData.cameraController.GetData.camera;
-            GameLoopManager.Instance.UpdateManager += Tick;
+            _players.OnReset();
+            _players.fpsPlayer = players.fpsPlayer;
+            _camera = players.fpsPlayer.GetData.cameraController.GetData.camera;
+            GameLoopManager.Instance.UpdateManager -= UpdateTPSMovement;
+            GameLoopManager.Instance.UpdateManager += UpdateFPSMovement;
+            return;
+        }
+        else if(players.tpsPlayer != null)
+        {
+            _players.OnReset();
+            _players.tpsPlayer = players.tpsPlayer;
+            //_camera = players.fpsPlayer.GetData.cameraController.GetData.camera;
+            GameLoopManager.Instance.UpdateManager -= UpdateFPSMovement;
+            GameLoopManager.Instance.UpdateManager += UpdateTPSMovement;
+            return;
         }
         else
         {
-            GameLoopManager.Instance.UpdateManager -= Tick;
+            _players.OnReset();
+
+            GameLoopManager.Instance.UpdateManager -= UpdateFPSMovement;
+            GameLoopManager.Instance.UpdateManager -= UpdateTPSMovement;
         }
     }
 
     private void Tick()
     {
         if (_updateMousePos != null)
-            UpdateMousePosition();
-
-        if (_updateDirection != null)
-            UpdateMovement();
+            _updateMousePos();
 
         if (_onInteract != null)
             UpdateInteract();
@@ -225,42 +252,42 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    private void UpdateMovement()
+    private void UpdateFPSMovement()
     {
         _direction = Vector3.zero;
 
         //FORWARD
         if (Input.GetKey(_keyboard.forward))
         {
-            _direction += _player.transform.forward;
+            _direction += _players.fpsPlayer.transform.forward;
         }
 
         //BACKWARD
         if(Input.GetKey(_keyboard.backward))
         {
-            _direction += -_player.transform.forward;
+            _direction += -_players.fpsPlayer.transform.forward;
         }
 
         //LEFT
         if(Input.GetKey(_keyboard.left))
         {
-            _direction += -_player.transform.right;
+            _direction += -_players.fpsPlayer.transform.right;
         }
 
         //RIGHT
         if(Input.GetKey(_keyboard.right))
         {
-            _direction += _player.transform.right;
+            _direction += _players.fpsPlayer.transform.right;
         }
 
         _updateDirection(_direction);
+
+        Tick();
     }
 
-    private void UpdateMousePosition()
+    private void UpdateTPSMovement()
     {
-        _mousePosition = Input.mousePosition;
-        _mousePosition = _camera.ScreenToViewportPoint(_mousePosition + Vector3.forward * 10f);
-        _updateMousePos(_mousePosition);
+
     }
 
     private void UpdateInteract()
