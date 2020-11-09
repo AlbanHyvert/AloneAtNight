@@ -8,6 +8,8 @@ public class GameManager : Singleton<GameManager>
     [Space]
     [SerializeField] private GameObject _hud = null;
 
+    public string SceneName { get { return _sceneName; } set { _sceneName = value; } }
+
     private void Start()
     {
         DontDestroyOnLoad(_hud);

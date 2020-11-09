@@ -27,7 +27,7 @@ public class Plate : MonoBehaviour, IInteractive
         _wrongIndex = 0;
         _indexSpawnPos = 0;
 
-        FP_Controller player = PlayerManager.Instance.GetPlayers.fpsPlayer;
+        FP_Controller player = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
         Inventory inventory = player.GetInventory;
 
         _dishCamera.gameObject.SetActive(true);
@@ -124,14 +124,14 @@ public class Plate : MonoBehaviour, IInteractive
 
             _foodList.Clear();
 
-            FP_Controller controller = PlayerManager.Instance.GetPlayers.fpsPlayer;
+            FP_Controller controller = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
 
             controller.SetStopEveryMovement = false;
             Exit();
         }
         else if(_wrongIndex >= 3)
         {
-            PlayerManager.Instance.GetPlayers.fpsPlayer.SetStopEveryMovement = false;
+            PlayerManager.Instance.GetPlayersInstance.fpsPlayer.SetStopEveryMovement = false;
             Exit();
         }
     }

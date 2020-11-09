@@ -1,5 +1,4 @@
 ﻿using cakeslice;
-using System;
 using UnityEngine;
 
 public class FP_CameraController : MonoBehaviour
@@ -23,6 +22,7 @@ public class FP_CameraController : MonoBehaviour
 
     public bool SetIsInteracting { set { _isInteracting = value; } }
     public Data GetData { get { return _data; } }
+    public D_FpCamera GetMovementData { get { return _cameraData; } }
 
     #region Structs
     [System.Serializable]

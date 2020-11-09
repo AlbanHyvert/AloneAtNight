@@ -8,7 +8,7 @@ public class D_FpCamera : ScriptableObject
     [SerializeField] private int _minXRotation = 70;
     [SerializeField] private float _smoothTime = 2;
     
-    public float RotationSpeed { get { return _rotationSpeed; } }
+    public float RotationSpeed { get { return _rotationSpeed; } set { _rotationSpeed = value; } }
     public int MaxXRotation { get { return _maxXRotation; } }
     public int MinXRotation { get { return _minXRotation; } }
     public float SmoothTime { get { return _smoothTime; } }

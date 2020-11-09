@@ -9,7 +9,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private Players _playersInstance = new Players();
 
-    public Players GetPlayers { get { return _playersInstance; } }
+    public Players GetPlayersInstance { get { return _playersInstance; } }
     public Players SetPlayers
     {
         set
@@ -24,6 +24,7 @@ public class PlayerManager : Singleton<PlayerManager>
             _players = _playersInstance;
         }
     }
+    public Players GetPlayersPrefab { get { return _players; } }
     public FpControllerUI GetFpCursorUI { get { return _fpCursorUI; } }
 
     [System.Serializable]

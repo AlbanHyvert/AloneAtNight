@@ -143,7 +143,7 @@ public class FP_Controller : StateMachine
 
         transform.localScale = _data.standingSize;
 
-        PlayerManager.Players players = PlayerManager.Instance.GetPlayers;
+        PlayerManager.Players players = PlayerManager.Instance.GetPlayersInstance;
 
         players.fpsPlayer = this;
 
@@ -212,6 +212,9 @@ public class FP_Controller : StateMachine
         }
         else
         {
+            _cursorUI.gameObject.SetActive(true);
+            _cursorUI.SetPointerToDefault();
+
             InputManager.Instance.UpdateDirection += Direction;
             InputManager.Instance.UpdateCrouch += IsCrouch;
             InputManager.Instance.OnLookAt += LookAt;
@@ -304,9 +307,6 @@ public class FP_Controller : StateMachine
 
         SetStopEveryMovement = false;
 
-        _cursorUI.gameObject.SetActive(true);
-        _cursorUI.SetPointerToDefault();
-
         _data.cameraController.SetIsInteracting = false;
 
         _glass = null;
@@ -320,9 +320,6 @@ public class FP_Controller : StateMachine
         _plate.Exit();
 
         SetStopEveryMovement = false;
-
-        _cursorUI.gameObject.SetActive(true);
-        _cursorUI.SetPointerToDefault();
 
         _data.cameraController.SetIsInteracting = false;
 

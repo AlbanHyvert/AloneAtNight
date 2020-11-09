@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Engine.Singleton;
-
+using System.Collections.Generic;
 
 public class InputManager : Singleton<InputManager>
 {
@@ -12,7 +12,6 @@ public class InputManager : Singleton<InputManager>
     private Players _players = new Players();
     private Camera _camera = null;
     private bool _isCrouch = false;
-
     #region Events
     private event Action _updateMousePos = null;
     public event Action UpdateMousePos
@@ -128,10 +127,11 @@ public class InputManager : Singleton<InputManager>
     #endregion Events
 
     public bool GetIsCrouch { get { return _isCrouch; } }
+    public Keyboard GetKeyboard { get { return _keyboard; } }
 
     #region Structs
     [System.Serializable]
-    private struct Keyboard
+    public struct Keyboard
     {
         public KeyCode forward;
         public KeyCode left;
@@ -157,11 +157,11 @@ public class InputManager : Singleton<InputManager>
     #endregion Structs
 
     private void Start()
-    {
+    { 
         PlayerManager.Instance.UpdatePlayer += CheckPlayer;
         GameLoopManager.Instance.UpdatePause += GamePaused;
 
-        CheckPlayer(PlayerManager.Instance.GetPlayers);
+        CheckPlayer(PlayerManager.Instance.GetPlayersInstance);
     }
 
     private void GamePaused(bool isPaused)
@@ -173,7 +173,7 @@ public class InputManager : Singleton<InputManager>
         }
         else
         {
-            CheckPlayer(PlayerManager.Instance.GetPlayers);
+            CheckPlayer(PlayerManager.Instance.GetPlayersInstance);
         }
     }
 
@@ -280,7 +280,8 @@ public class InputManager : Singleton<InputManager>
             _direction += _players.fpsPlayer.transform.right;
         }
 
-        _updateDirection(_direction);
+        if(_updateDirection != null)
+            _updateDirection(_direction);
 
         Tick();
     }
