@@ -304,8 +304,6 @@ namespace cakeslice
 
 		private void OnEnable()
 		{
-			Debug.Log("Refresh");
-
 			Outline[] o = FindObjectsOfType<Outline>();
 			if (autoEnableOutlines)
 			{

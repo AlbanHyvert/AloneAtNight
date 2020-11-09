@@ -8,7 +8,7 @@ public class Padlock : MonoBehaviour
     {
         if(other.tag == "Key")
         {
-            PlayerManager.Instance.GetPlayers.fpsPlayer.Drop();
+            PlayerManager.Instance.GetPlayersInstance.fpsPlayer.Drop();
 
             Rigidbody rigidbody = other.GetComponent<Rigidbody>();
 

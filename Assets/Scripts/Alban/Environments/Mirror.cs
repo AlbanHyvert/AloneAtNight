@@ -14,7 +14,7 @@ public class Mirror : MonoBehaviour
     {
         _screenMeshFilter = _screen.GetComponent<MeshFilter>();
 
-        _playerCamera = PlayerManager.Instance.GetPlayers.fpsPlayer.GetData.cameraController.GetData.camera;
+        _playerCamera = PlayerManager.Instance.GetPlayersInstance.fpsPlayer.GetData.cameraController.GetData.camera;
 /*
         Vector3 cameraEulerAngles = _mirrorCamera.transform.rotation.eulerAngles;
         Quaternion quaternion = _mirrorCamera.transform.rotation;
