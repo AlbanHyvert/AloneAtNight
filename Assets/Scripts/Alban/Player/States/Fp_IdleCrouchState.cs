@@ -9,6 +9,7 @@ public class Fp_IdleCrouchState : State
     public override void Start()
     {
         Player.transform.localScale = Player.GetData.crouchSize;
+        Player.SetCurrentState = E_PlayerState.CROUCHING;
     }
 
     public override void IsCrouch(bool value)
@@ -26,6 +27,14 @@ public class Fp_IdleCrouchState : State
             Player.SetState(new Fp_CrouchState(Player));
         }
 
-        Player.GetData.cameraController.GetData.headBobbing.OnWalk();
+        Player.GetData.cameraController.GetData.headBobbing.OnIdle();
+    }
+
+    public override void IsGrounded(bool value)
+    {
+        if (value == false)
+        {
+            Player.SetState(new Fp_FallState(Player));
+        }
     }
 }

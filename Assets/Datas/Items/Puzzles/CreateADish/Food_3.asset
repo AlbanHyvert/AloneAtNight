@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9ba009e1b791946a6fa1009c040d66, type: 3}
   m_Name: Food_3
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 3788277006443307149, guid: 6d54d7c8c34914044936fcd2a4205154,
+  _itemPrefab: {fileID: 6546098264871139454, guid: 2e402af8c130b0042880039e5c1f0aa1,
     type: 3}
   _itemSprite: {fileID: 0}
   _itemName: 

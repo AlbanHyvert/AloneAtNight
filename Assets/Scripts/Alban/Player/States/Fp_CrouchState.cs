@@ -11,6 +11,7 @@ public class Fp_CrouchState : State
     public override void Start()
     {
         Player.transform.localScale = Player.GetData.crouchSize;
+        Player.SetCurrentState = E_PlayerState.CROUCHING;
     }
 
     public override void IsCrouch(bool value)
@@ -30,8 +31,16 @@ public class Fp_CrouchState : State
 
         float speed = Player.MovementData.CrouchSpeed;
 
-        Player.GetData.cameraController.GetData.headBobbing.OnWalk();
+        Player.GetData.cameraController.GetData.headBobbing.OnCrouch();
 
         Player.Controller.Move(dir * speed * Time.deltaTime);
+    }
+
+    public override void IsGrounded(bool value)
+    {
+        if (value == false)
+        {
+            Player.SetState(new Fp_FallState(Player));
+        }
     }
 }

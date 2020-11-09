@@ -6,17 +6,25 @@ public class GlassWindow : MonoBehaviour, IInteractive
     [SerializeField] private MissingFragment[] _fragments = null;
     [SerializeField] private Transform[] _fragmentsSpawnPos = null;
     [SerializeField] private Camera _camera = null;
+    [Space]
+    [SerializeField] private GameObject _light = null;
+    [Space]
+    [SerializeField] private Transform _spawnKeyPos = null;
+    [SerializeField] private GameObject _key = null;
     
     private int _validIndex = 0;
+    private int _index = 0;
     private List<bool> _isValidList = null;
     private List<Fragments> _fragmentList = null;
-    private int _index = 0;
     private FP_Controller _player = null;
 
     public Camera GetCamera { get { return _camera; } }
 
     public void Start() 
     {
+        if (_light != null)
+            _light.SetActive(false);
+
         _isValidList = new List<bool>();
 
         _camera.gameObject.SetActive(false);
@@ -144,10 +152,21 @@ public class GlassWindow : MonoBehaviour, IInteractive
                 }
             }
         }
+
+        if (_key != null && _validIndex >= 7)
+        {
+            Instantiate(_key, _spawnKeyPos.position, _key.transform.rotation);
+            _key = null;
+        }
+
         if (_validIndex >= _isValidList.Count)
         {
             //Activate Something
             Debug.Log("FINISHED");
+
+            if (_light != null)
+                _light.SetActive(false);
+
             GameLoopManager.Instance.UpdatePuzzles -= Tick;
         }
     }

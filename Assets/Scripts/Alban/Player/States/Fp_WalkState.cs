@@ -7,8 +7,9 @@ public class Fp_WalkState : State
     }
 
     public override void Start()
-    {
+    { 
         Player.transform.localScale = Player.GetData.standingSize;
+        Player.SetCurrentState = E_PlayerState.WALKING;
     }
 
     public override void IsCrouch(bool value)
@@ -31,5 +32,13 @@ public class Fp_WalkState : State
         Player.GetData.cameraController.GetData.headBobbing.OnWalk();
 
         Player.Controller.Move(dir * speed * Time.deltaTime);
+    }
+
+    public override void IsGrounded(bool value)
+    {
+        if (value == false)
+        {
+            Player.SetState(new Fp_FallState(Player));
+        }
     }
 }

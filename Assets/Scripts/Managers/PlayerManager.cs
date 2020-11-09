@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : Singleton<PlayerManager>
 {
     [SerializeField] private FP_Controller _playerPrefab = null;
+    [SerializeField] private FpControllerUI _fpCursorUI = null;
 
     private FP_Controller _playerInstance = null;
 
@@ -26,6 +27,7 @@ public class PlayerManager : Singleton<PlayerManager>
             }
         }
     }
+    public FpControllerUI GetFpCursorUI { get { return _fpCursorUI; } }
 
     private event Action<FP_Controller> _updatePlayer = null;
     public event Action<FP_Controller> UpdatePlayer

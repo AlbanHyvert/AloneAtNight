@@ -143,17 +143,47 @@ public class FP_CameraController : MonoBehaviour
             {
                 Transform t = hit.transform;
 
-                if(t.TryGetComponent(out Outline outline))
+                if (t.TryGetComponent(out Outline outline))
                 {
                     outline.ActivateOutline();
 
                     _outlineEffect.LineIntensity = 2;
+                }
+
+                if (t.TryGetComponent(out Pickable pickable))
+                {
+                    _fpPlayer.CursorUI.SetPointerToOpenHand();
+
+                    return;
+                }
+
+                if (t.TryGetComponent(out GlassWindow glass))
+                {
+                    _fpPlayer.CursorUI.SetPointerToEye();
+                    
+                    return;
+                }
+
+                if (t.TryGetComponent(out Plate plate))
+                {
+                    _fpPlayer.CursorUI.SetPointerToEye();
+
+                    return;
+                }
+
+                if (t.TryGetComponent(out IInteractive interactive))
+                {
+                    _fpPlayer.CursorUI.SetPointerToOpenHand();
+
+                    return;
                 }
             }
             else
             {
                 _outlineEffect.ClearOutline();
                 _outlineEffect.LineIntensity = 0;
+
+                _fpPlayer.CursorUI.SetPointerToDefault();
             }
         }
     }

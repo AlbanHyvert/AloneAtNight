@@ -10,18 +10,21 @@ public class FP_Controller : StateMachine
     [SerializeField] private Inventory _inventory = null;
     [Space]
     [SerializeField] private LayerMask _groundLayer = 0;
-    [SerializeField] private float _groundCheckDist = 0.05f;
+    [SerializeField] private float _maxDistance = 0.1f;
 
     #region Variables
     private bool _isCrouch = false;
     private bool _stopEveryMovement = false;
     private bool _isGrounded = false;
     private bool _isLookingAt = false;
+    private E_PlayerState _currentState = E_PlayerState.IDLE;
     private Pickable _pickable = null;
     private GlassWindow _glass = null;
     private Transform _lookable = null;
     private Plate _plate = null;
     private CharacterController _controller = null;
+    private FpControllerUI _cursorUI = null;
+    private float _currentHitDistance = 0;
     #endregion Variables
 
     #region Structs
@@ -38,6 +41,7 @@ public class FP_Controller : StateMachine
     public CharacterController Controller { get { return _controller; } }
     public D_FpController MovementData { get { return _movementData; } }
     public Inventory GetInventory { get { return _inventory; } }
+    public E_PlayerState SetCurrentState { set { _currentState = value; } }
     public bool SetIsLookingAt
     {
         set
@@ -71,7 +75,16 @@ public class FP_Controller : StateMachine
             if (_onStopEveryMovement != null)
                 _onStopEveryMovement(value);
         }
+    }   
+    public bool SetIsGrounded
+    { 
+        set
+        { 
+            _isGrounded = value;
+            State.IsGrounded(value);
+        }
     }
+    public FpControllerUI CursorUI { get { return _cursorUI; } }
     #endregion Properties 
 
     #region Events
@@ -120,24 +133,25 @@ public class FP_Controller : StateMachine
 
     private void Awake()
     {
+        _cursorUI = PlayerManager.Instance.GetFpCursorUI;
+
+        _cursorUI.gameObject.SetActive(true);
+
         _controller = this.GetComponent<CharacterController>();
+
+        _currentHitDistance = _maxDistance;
 
         transform.localScale = _data.standingSize;
 
         PlayerManager.Instance.SetPlayer = this;
 
-        SetState(new Fp_IdleState(this));
+        _inventory.InitInventory(this);
 
-        _isGrounded = IsGrounded();
+        _isGrounded = false;
 
-        if (_isGrounded == false)
-        {
-            SetState(new Fp_FallState(this));
-        }
-        else
-        {
-            SetState(new Fp_IdleState(this));
-        }
+        SetState(new Fp_FallState(this));
+
+        State.IsGrounded(_isGrounded);
 
         InputManager.Instance.UpdateDirection += Direction;
         InputManager.Instance.UpdateCrouch += IsCrouch;
@@ -149,18 +163,9 @@ public class FP_Controller : StateMachine
 
     private void Direction(Vector3 dir)
     {
-        if (_isGrounded != IsGrounded())
+        if(_isGrounded != RaycastIsGrounded())
         {
-            _isGrounded = IsGrounded();
-
-            if (_isGrounded == false)
-            {
-                SetState(new Fp_FallState(this));
-            }
-            else
-            {
-                SetState(new Fp_IdleState(this));
-            }
+            SetIsGrounded = RaycastIsGrounded();
         }
 
         State.Move(dir);
@@ -173,9 +178,17 @@ public class FP_Controller : StateMachine
         State.IsCrouch(value);
     }
     
-    private bool IsGrounded()
+    private bool RaycastIsGrounded()
     {
-        bool isGrounded = Physics.Raycast(transform.position, -transform.up, _groundCheckDist);
+        Vector3 origin = transform.position;
+        RaycastHit hit;
+
+        bool isGrounded = Physics.Raycast(origin, Vector3.down, out hit, _currentHitDistance);
+
+        _currentHitDistance = hit.transform ? 0.015f : _maxDistance;
+
+        if (_currentHitDistance < 0.015f)
+            _currentHitDistance = 0.015f;
 
         return isGrounded;
     }
@@ -217,6 +230,8 @@ public class FP_Controller : StateMachine
 
             _pickable = pickable;
 
+            _cursorUI.SetPointerToClosedHand();
+
             InputManager.Instance.OnInteract += Drop;
             InputManager.Instance.OnInteract -= Interact;
             
@@ -231,6 +246,8 @@ public class FP_Controller : StateMachine
 
             _glass = glass;
 
+            _cursorUI.gameObject.SetActive(false);
+
             InputManager.Instance.OnInteract += LeaveGlass;
             InputManager.Instance.OnInteract -= Interact;
 
@@ -244,6 +261,8 @@ public class FP_Controller : StateMachine
             SetStopEveryMovement = true;
 
             _plate = plate;
+
+            _cursorUI.gameObject.SetActive(false);
 
             InputManager.Instance.OnInteract += LeavePlate;
             InputManager.Instance.OnInteract -= Interact;
@@ -265,6 +284,8 @@ public class FP_Controller : StateMachine
 
         _pickable = null;
 
+        _cursorUI.SetPointerToOpenHand();
+
         _data.cameraController.SetIsInteracting = false;
 
         InputManager.Instance.OnInteract += Interact;
@@ -276,6 +297,9 @@ public class FP_Controller : StateMachine
         _glass.Exit();
 
         SetStopEveryMovement = false;
+
+        _cursorUI.gameObject.SetActive(true);
+        _cursorUI.SetPointerToDefault();
 
         _data.cameraController.SetIsInteracting = false;
 
@@ -290,6 +314,9 @@ public class FP_Controller : StateMachine
         _plate.Exit();
 
         SetStopEveryMovement = false;
+
+        _cursorUI.gameObject.SetActive(true);
+        _cursorUI.SetPointerToDefault();
 
         _data.cameraController.SetIsInteracting = false;
 
@@ -334,15 +361,18 @@ public class FP_Controller : StateMachine
     
     private void RemoveFromInventory()
     {
-        InventoryItem item = _inventory.GetPlayerItems()[0];
-
-        if (item != null)
+        if(_inventory.GetPlayerItems().Count > 0)
         {
-            CreateObjectInstance(item.GetObjectItem(), _data.cameraController.GetData.hand);
+            InventoryItem item = _inventory.GetPlayerItems()[0];
 
-            _inventory.RemoveItem(item, 1);
+            if (item != null)
+            {
+                CreateObjectInstance(item.GetObjectItem(), _data.cameraController.GetData.hand);
 
-            _data.cameraController.SetIsInteracting = false;
+                _inventory.RemoveItem(item, 1);
+
+                _data.cameraController.SetIsInteracting = false;
+            }
         }
     }
 
