@@ -461,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe36be124b8ff64b825b47a4129ccc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: Scene_Tristan
+  _sceneName: AlbanDevScene
   _hud: {fileID: 1861387544}
 --- !u!1 &1792928303
 GameObject:
@@ -701,8 +701,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42fbc044aadb64b45bfad067a291813d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 3232558798003265422, guid: e5c78be39525c0e429806ebb1fd972f0,
-    type: 3}
+  _players:
+    fpsPlayer: {fileID: 3232558798003265422, guid: e5c78be39525c0e429806ebb1fd972f0,
+      type: 3}
+    tpsPlayer: {fileID: 0}
   _fpCursorUI: {fileID: 2123486067}
 --- !u!1 &2123486065
 GameObject:

@@ -35,7 +35,7 @@ public class FP_CameraController : MonoBehaviour
     }
     #endregion Structs
 
-    private void Start()
+    public void Init(FP_Controller player)
     {
         _canInteract = false;
 
@@ -43,7 +43,7 @@ public class FP_CameraController : MonoBehaviour
 
         InputManager.Instance.UpdateMousePos += CameraRotation;
 
-        _fpPlayer = this.GetComponentInParent<FP_Controller>();
+        _fpPlayer = player;
 
         _outlineEffect.ClearOutline();
         _outlineEffect.LineIntensity = 0;
@@ -85,12 +85,12 @@ public class FP_CameraController : MonoBehaviour
         }
     }
 
-    private void MoveObjectAround(Vector3 mousePos)
+    private void MoveObjectAround()
     {
 
     }
 
-    private void RotateObject(Vector3 mousePos)
+    private void RotateObject()
     {
         float rotX = Input.GetAxis("Mouse X") * (float)_cameraData.RotationSpeed * Mathf.Deg2Rad;
         float rotY = Input.GetAxis("Mouse Y") * (float)_cameraData.RotationSpeed * Mathf.Deg2Rad;
@@ -98,12 +98,12 @@ public class FP_CameraController : MonoBehaviour
         _fpPlayer.GetLookable.Rotate(Vector3.up, -rotX);
         _fpPlayer.GetLookable.Rotate(Vector3.right, rotY);
 
-        CheckInteractable();
+        //CheckInteractable();
 
         Vector3 rotation = _fpPlayer.GetLookable.eulerAngles;
     }
 
-    private void CameraRotation(Vector3 mousePos)
+    private void CameraRotation()
     {
         _rotationX = _data.body.localEulerAngles.y;
 

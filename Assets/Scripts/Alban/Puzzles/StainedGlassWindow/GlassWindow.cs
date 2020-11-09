@@ -54,7 +54,7 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         _camera.gameObject.SetActive(true);
 
-        _player = PlayerManager.Instance.GetPlayer;
+        _player = PlayerManager.Instance.GetPlayers.fpsPlayer;
 
         int itemCount = _player.GetInventory.GetPlayerItems().Count;
 

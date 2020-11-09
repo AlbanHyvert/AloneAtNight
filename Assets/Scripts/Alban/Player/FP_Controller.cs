@@ -143,7 +143,11 @@ public class FP_Controller : StateMachine
 
         transform.localScale = _data.standingSize;
 
-        PlayerManager.Instance.SetPlayer = this;
+        PlayerManager.Players players = PlayerManager.Instance.GetPlayers;
+
+        players.fpsPlayer = this;
+
+        PlayerManager.Instance.SetPlayers = players;
 
         _inventory.InitInventory(this);
 
@@ -152,6 +156,8 @@ public class FP_Controller : StateMachine
         SetState(new Fp_FallState(this));
 
         State.IsGrounded(_isGrounded);
+
+        _data.cameraController.Init(this);
 
         InputManager.Instance.UpdateDirection += Direction;
         InputManager.Instance.UpdateCrouch += IsCrouch;

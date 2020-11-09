@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    [SerializeField] private FP_Controller _playerPrefab = null;
+    [SerializeField] private Players _players = new Players();
     [SerializeField] private FpControllerUI _fpCursorUI = null;
 
-    private FP_Controller _playerInstance = null;
+    private Players _playersInstance = new Players();
 
-    public FP_Controller GetPlayer { get { return _playerInstance; } }
-    public FP_Controller SetPlayer 
+    public Players GetPlayers { get { return _playersInstance; } }
+    public Players SetPlayers
     {
         set
         {
-            _playerInstance = value;
+            _playersInstance = value;
 
             if (_updatePlayer != null)
             {
-                _updatePlayer(_playerInstance);
+                _updatePlayer(_playersInstance);
             }
 
-            if (_playerPrefab == null)
-            {
-                _playerPrefab = _playerInstance;
-            }
+            _players = _playersInstance;
         }
     }
     public FpControllerUI GetFpCursorUI { get { return _fpCursorUI; } }
 
-    private event Action<FP_Controller> _updatePlayer = null;
-    public event Action<FP_Controller> UpdatePlayer
+    [System.Serializable]
+    public struct Players
+    {
+        public FP_Controller fpsPlayer;
+        public ThirdPersonMovement tpsPlayer;
+    }
+
+    private event Action<Players> _updatePlayer = null;
+    public event Action<Players> UpdatePlayer
     {
         add
         {
