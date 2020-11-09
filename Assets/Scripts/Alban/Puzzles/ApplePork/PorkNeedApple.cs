@@ -9,7 +9,7 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
 
     public void Enter(Transform parent = null)
     {
-        FP_Controller controller = PlayerManager.Instance?.GetPlayer;
+        FP_Controller controller = PlayerManager.Instance.GetPlayers.fpsPlayer;
 
         for (int i = 0; i < controller.GetInventory.GetPlayerItems().Count; i++)
         {
@@ -58,7 +58,7 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
             {
                 pickable.transform.position = _applePosition.position;
 
-                FP_Controller fP_Controller = PlayerManager.Instance?.GetPlayer;
+                FP_Controller fP_Controller = PlayerManager.Instance.GetPlayers.fpsPlayer;
 
                 fP_Controller.Drop();
 

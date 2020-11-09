@@ -21,7 +21,7 @@ public class CreateFood : MonoBehaviour, IInteractive
     {
         if (_isStored == false)
         {
-            PlayerManager.Instance?.GetPlayer.GetInventory.AddItem(food, 1);
+            PlayerManager.Instance.GetPlayers.fpsPlayer.GetInventory.AddItem(food, 1);
             _isStored = true;
         }
     }
