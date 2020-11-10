@@ -24,6 +24,23 @@ public class CameraSwitch : MonoBehaviour
         camera7AudioLis = camera7.GetComponent<AudioListener>();
         camera8AudioLis = camera8.GetComponent<AudioListener>();
 
+        camera1AudioLis.enabled = false;
+        camera1.SetActive(false);
+        camera2AudioLis.enabled = false;
+        camera2.SetActive(false);
+        camera3AudioLis.enabled = false;
+        camera3.SetActive(false);
+        camera4AudioLis.enabled = false;
+        camera4.SetActive(false);
+        camera5AudioLis.enabled = false;
+        camera5.SetActive(false);
+        camera6AudioLis.enabled = false;
+        camera6.SetActive(false);
+        camera7AudioLis.enabled = false;
+        camera7.SetActive(false);
+        camera8AudioLis.enabled = false;
+        camera8.SetActive(false);
+
         //Camera Position Set
         cameraPositionChange(PlayerPrefs.GetInt("CameraPosition"));
     }
