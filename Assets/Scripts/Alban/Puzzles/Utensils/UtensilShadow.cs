@@ -22,14 +22,18 @@ public class UtensilShadow : MonoBehaviour
         {
             if(tableware.Type == _tableware)
             {
+                _controller.Drop();
+
                 tableware.transform.SetParent(transform);
 
                 tableware.transform.position = _snapPosition.position;
+                tableware.transform.rotation = _snapPosition.rotation;
+
+                tableware.GetComponent<Rigidbody>().isKinematic = false;
 
                 _hasTableware = true;
 
                 Destroy(tableware);
-                Destroy(this);
             }
         }
     }
@@ -49,12 +53,16 @@ public class UtensilShadow : MonoBehaviour
                         tablewareInstance.transform.SetParent(transform);
 
                         tablewareInstance.transform.position = _snapPosition.position;
+                        tablewareInstance.transform.rotation = _snapPosition.rotation;
+
+                        tableware.GetComponent<Rigidbody>().isKinematic = false;
 
                         _hasTableware = true;
 
                         _controller.GetInventory.RemoveItem(_controller.GetInventory.GetPlayerItems()[i], 1);
 
-                        Destroy(tableware);
+                        tableware.gameObject.layer = 0;
+
                         Destroy(this);
                     }
                 }
