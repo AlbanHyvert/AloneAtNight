@@ -57,9 +57,7 @@ public class MissingFragment : MonoBehaviour
         if (_isValid == true)
         {
             _fragment.transform.SetParent(this.transform);
-
             _fragment.transform.position = _snapPosition.position;
-            _fragment.transform.localPosition = _snapPosition.position;
             _fragment.transform.rotation = new Quaternion(0, 0, 0, 0);
 
             GameLoopManager.Instance.UpdatePuzzles -= Tick;
