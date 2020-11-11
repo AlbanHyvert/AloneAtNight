@@ -32,9 +32,9 @@ public class Plate : MonoBehaviour, IInteractive
 
         _dishCamera.gameObject.SetActive(true);
 
-        for (int i = 0; i < inventory.GetPlayerItems().Count; i++)
+        for (int i = 0; i < inventory.GetInventories().Count; i++)
         {
-            GameObject prefab = inventory.GetPlayerItems()[i].GetPrefab();
+            GameObject prefab = inventory.GetInventories()[i].GetPrefab();
 
             if (prefab.TryGetComponent(out Food food))
             {
@@ -119,12 +119,18 @@ public class Plate : MonoBehaviour, IInteractive
 
         if(_index >= _mealIndex.Length)
         {
-            Debug.Log("Dish Done");
+            FP_Controller controller = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
+
+            for (int i = 0; i < _foodList.Count; i++)
+            {
+                Pickable pickable = _foodList[i].GetComponent<Pickable>();
+
+                controller.GetInventory.RemoveItem(pickable.GetItem());
+            }
+
             _wardrobeDoor.SetBool("IsActive", true);
 
             _foodList.Clear();
-
-            FP_Controller controller = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
 
             controller.SetStopEveryMovement = false;
             Exit();

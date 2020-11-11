@@ -40,11 +40,11 @@ public class UtensilShadow : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if(_controller.GetInventory.GetPlayerItems().Count > 0)
+        if(_controller.GetInventory.GetInventories().Count > 0)
         {
-            for (int i = 0; i < _controller.GetInventory.GetPlayerItems().Count; i++)
+            for (int i = 0; i < _controller.GetInventory.GetInventories().Count; i++)
             {
-                if (_controller.GetInventory.GetPlayerItems()[i].GetPrefab().TryGetComponent(out Tableware tableware))
+                if (_controller.GetInventory.GetInventories()[i].GetPrefab().TryGetComponent(out Tableware tableware))
                 {
                     if (tableware.Type == _tableware)
                     {
@@ -59,7 +59,7 @@ public class UtensilShadow : MonoBehaviour
 
                         _hasTableware = true;
 
-                        _controller.GetInventory.RemoveItem(_controller.GetInventory.GetPlayerItems()[i], 1);
+                        _controller.GetInventory.RemoveItem(_controller.GetInventory.GetInventories()[i]);
 
                         tableware.gameObject.layer = 0;
 

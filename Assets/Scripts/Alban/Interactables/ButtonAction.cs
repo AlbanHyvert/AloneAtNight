@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ButtonAction : MonoBehaviour, IInteractive
 {
-    [SerializeField] private ObjectItem _objectItem = null;
+    [SerializeField] private InventoryItem _objectItem = null;
     [SerializeField] private Transform _spawnPos = null;
 
     void IInteractive.Enter(Transform parent)
@@ -20,7 +20,7 @@ public class ButtonAction : MonoBehaviour, IInteractive
     {
        GameObject gameObject = Instantiate(_objectItem.GetPrefab(), _spawnPos.position, _objectItem.GetLocalRotation());
     }
-
+    
     void IInteractive.Exit()
     {
         

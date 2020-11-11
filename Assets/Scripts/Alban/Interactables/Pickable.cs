@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(RespawnObject))]
 public class Pickable : MonoBehaviour, IInteractive
 {
-    [SerializeField] private ObjectItem _pickableItem = null;
+    [SerializeField] private InventoryItem _pickableItem = null;
     [Space]
     [SerializeField] private RespawnObject _respawner = null;
     [Space]
@@ -19,9 +19,6 @@ public class Pickable : MonoBehaviour, IInteractive
 
     private void Start()
     {
-
-        _pickableItem?.SetObjectItem(_pickableItem);
-
         _rb = this.GetComponent<Rigidbody>();
 
         _meshRenderer = this.GetComponent<MeshRenderer>();
@@ -48,7 +45,7 @@ public class Pickable : MonoBehaviour, IInteractive
         }
     }
 
-    public ObjectItem GetItem()
+    public InventoryItem GetItem()
     {
         return _pickableItem;
     }

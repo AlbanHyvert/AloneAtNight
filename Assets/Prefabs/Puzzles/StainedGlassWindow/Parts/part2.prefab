@@ -127,9 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pickableItem: {fileID: 11400000, guid: 13f78ed64164c21429b1ea5d7bf8ca53, type: 2}
   _respawner: {fileID: -4938324199327464437}
-  _maxOutlineWidth: 0.1
-  _outlineColor: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   _particle: {fileID: 0}
+  _rb: {fileID: 0}
 --- !u!114 &2215243834488893329
 MonoBehaviour:
   m_ObjectHideFlags: 0
