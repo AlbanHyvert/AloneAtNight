@@ -56,19 +56,19 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         _player = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
 
-        int itemCount = _player.GetInventory.GetPlayerItems().Count;
+        int itemCount = _player.GetInventory.GetInventories().Count;
 
         if (itemCount > 0)
         {
             for (int i = 0; i < itemCount; i++)
             {
-                InventoryItem item = _player.GetInventory.GetPlayerItems()[i];
+                InventoryItem item = _player.GetInventory.GetInventories()[i];
 
                 Fragments fragments = item.GetPrefab().GetComponent<Fragments>();
 
                 if(fragments != null)
                 {
-                    GameObject gameObject = CreateObjectInstance(item.GetObjectItem(), _fragmentsSpawnPos[_index]);
+                    GameObject gameObject = CreateObjectInstance(item, _fragmentsSpawnPos[_index]);
 
                     _index++;
 
@@ -125,7 +125,7 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
     }
 
-    private GameObject CreateObjectInstance(ObjectItem objectItem, Transform anchor)
+    private GameObject CreateObjectInstance(InventoryItem objectItem, Transform anchor)
     {
         return Instantiate(objectItem.GetPrefab(), anchor.position, objectItem.GetLocalRotation());
     }
@@ -162,10 +162,9 @@ public class GlassWindow : MonoBehaviour, IInteractive
         if (_validIndex >= _isValidList.Count)
         {
             //Activate Something
-            Debug.Log("FINISHED");
 
             if (_light != null)
-                _light.SetActive(false);
+                _light.SetActive(true);
 
             GameLoopManager.Instance.UpdatePuzzles -= Tick;
         }
@@ -173,6 +172,8 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
     public void RemoveFragment(Fragments fragments)
     {
-        //_player.RemoveFragment(fragments);
+        Pickable pickable = fragments.GetComponent<Pickable>();
+
+        _player.GetInventory.RemoveItem(pickable.GetItem());
     }
 }

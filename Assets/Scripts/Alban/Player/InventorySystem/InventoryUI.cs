@@ -9,9 +9,9 @@ public class InventoryUI : MonoBehaviour
 
     private Dictionary<InventoryItem, InventorySlot> _itemToSlotMap = new Dictionary<InventoryItem, InventorySlot>();
 
-    public void InitInventoryUI(Inventory inventory)
+   /* public void InitInventoryUI(Inventory inventory)
     {
-        Dictionary<InventoryItem,int> itemsMap = inventory.GetAllItemsMap();
+        //Dictionary<InventoryItem,int> itemsMap = inventory.GetAllItemsMap();
 
         foreach (KeyValuePair<InventoryItem, int> kvp in itemsMap)
         {
@@ -51,4 +51,5 @@ public class InventoryUI : MonoBehaviour
         Destroy(_itemToSlotMap[item].gameObject);
         _itemToSlotMap.Remove(item);
     }
+    */
 }

@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Rigidbody))]
 public class CreateFood : MonoBehaviour, IInteractive
 {
-    [SerializeField] private ObjectItem food = null;
+    [SerializeField] private InventoryItem food = null;
 
     private bool _isStored = false;
 
@@ -21,7 +21,7 @@ public class CreateFood : MonoBehaviour, IInteractive
     {
         if (_isStored == false)
         {
-            PlayerManager.Instance.GetPlayersInstance.fpsPlayer.GetInventory.AddItem(food, 1);
+            PlayerManager.Instance.GetPlayersInstance.fpsPlayer.GetInventory.AddItem(food);
             _isStored = true;
         }
     }

@@ -651,7 +651,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5758947487285369234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.432, y: 0.856, z: 8.092}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5096829824223437742}
@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f121aa79891fa5a45a1ac3566f9320af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 11400000, guid: 18eb35298b2c9a14cb70101199134728, type: 2}
+  food: {fileID: 11400000, guid: 6141e3b8c21782a4dafc7c2662ac7778, type: 2}
 --- !u!65 &6671931776192987822
 BoxCollider:
   m_ObjectHideFlags: 0

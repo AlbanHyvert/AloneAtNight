@@ -11,9 +11,9 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
     {
         FP_Controller controller = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
 
-        for (int i = 0; i < controller.GetInventory.GetPlayerItems().Count; i++)
+        for (int i = 0; i < controller.GetInventory.GetInventories().Count; i++)
         {
-            InventoryItem apple = controller.GetInventory.GetPlayerItems()[i];
+            InventoryItem apple = controller.GetInventory.GetInventories()[i];
 
             if(apple.GetPrefab().tag == "Apple")
             {
@@ -31,7 +31,7 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
 
                 _wardrobeDoor.SetBool("IsActive", true);
 
-                controller.GetInventory.RemoveItem(apple, 1);
+                controller.GetInventory.RemoveItem(apple);
             }
             else
             {

@@ -354,7 +354,7 @@ public class FP_Controller : StateMachine
 
         if (t.TryGetComponent(out Pickable pickable))
         {
-            _inventory.AddItem(pickable.GetItem(), 1);
+            _inventory.AddItem(pickable.GetItem());
 
             Destroy(pickable.gameObject);
         }
@@ -364,29 +364,28 @@ public class FP_Controller : StateMachine
     
     private void RemoveFromInventory()
     {
-        if(_inventory.GetPlayerItems().Count > 0)
+        if(_inventory.GetInventories().Count > 0)
         {
-            InventoryItem item = _inventory.GetPlayerItems()[0];
+            InventoryItem item = _inventory.GetInventories()[0];
 
             if (item != null)
             {
-                CreateObjectInstance(item.GetObjectItem(), _data.cameraController.GetData.hand);
+                CreateObjectInstance(item, _data.cameraController.GetData.hand);
 
-                _inventory.RemoveItem(item, 1);
+                _inventory.RemoveItem(item);
 
                 _data.cameraController.SetIsInteracting = false;
             }
         }
     }
 
-    public GameObject CreateObjectInstance(ObjectItem objectItem, Transform anchor)
+    public GameObject CreateObjectInstance(InventoryItem objectItem, Transform anchor)
     {
         return Instantiate(objectItem.GetPrefab(), anchor.position, objectItem.GetLocalRotation());
     }
 
     private void OnDestroy()
     {
-        _inventory.GetPlayerItems().Clear();
-        _inventory.GetAllItemsMap().Clear();
+        _inventory.Clear();
     }
 }

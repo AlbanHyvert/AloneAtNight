@@ -392,9 +392,9 @@ MonoBehaviour:
   - {fileID: 379301877}
   - {fileID: 713263910}
   _camera: {fileID: 1205628256}
-  _maxOutlineWidth: 0.1
-  _outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _meshRenderer: {fileID: 0}
+  _light: {fileID: 0}
+  _spawnKeyPos: {fileID: 0}
+  _key: {fileID: 0}
 --- !u!114 &1270561177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +410,7 @@ MonoBehaviour:
   _missingIndex: 1
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!114 &1270561171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +426,7 @@ MonoBehaviour:
   _missingIndex: 7
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!114 &1270561174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +442,7 @@ MonoBehaviour:
   _missingIndex: 4
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!114 &1270561173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,6 +458,7 @@ MonoBehaviour:
   _missingIndex: 5
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!114 &1270561172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +474,7 @@ MonoBehaviour:
   _missingIndex: 6
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!114 &1270561176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +490,7 @@ MonoBehaviour:
   _missingIndex: 2
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!114 &1270561175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,6 +506,7 @@ MonoBehaviour:
   _missingIndex: 3
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!114 &1270561178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +522,7 @@ MonoBehaviour:
   _missingIndex: 0
   _validRotation: {x: 0, y: 0, z: 0}
   _validScope: 10
+  _snapPosition: {fileID: 0}
 --- !u!1001 &4366999052696063813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -525,17 +533,17 @@ PrefabInstance:
     - target: {fileID: 3567278293886223956, guid: a7998d01b52ec024a9f7a56d74ee89b1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.2889035
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3567278293886223956, guid: a7998d01b52ec024a9f7a56d74ee89b1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.27
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3567278293886223956, guid: a7998d01b52ec024a9f7a56d74ee89b1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.0919578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3567278293886223956, guid: a7998d01b52ec024a9f7a56d74ee89b1,
         type: 3}
