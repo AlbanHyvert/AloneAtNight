@@ -7,7 +7,8 @@ public class FP_CameraController : MonoBehaviour
     [SerializeField] private D_FpCamera _cameraData = null;
     [Space]
     [SerializeField] private LayerMask _interactables = 0;
-    [SerializeField] private int _interactDist = 10;
+    [SerializeField] private LayerMask _checkLayer = 0;
+    [SerializeField] private float _maxInteractbleDistance = 10;
     [SerializeField] private OutlineEffect _outlineEffect = null;
     
     #region Variables
@@ -15,6 +16,7 @@ public class FP_CameraController : MonoBehaviour
     private float _currentY = 0;
     private float _rotationX = 0;
     private float _rotationY = 0;
+    private float _currentInteractbleDist = 0;
     private FP_Controller _fpPlayer = null;
     private bool _canInteract = false;
     private bool _isInteracting = false;
@@ -41,10 +43,12 @@ public class FP_CameraController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
 
+        _currentInteractbleDist = _maxInteractbleDistance;
+
         InputManager.Instance.UpdateMousePos += CameraRotation;
 
         _fpPlayer = player;
-
+        
         _outlineEffect.ClearOutline();
         _outlineEffect.LineIntensity = 0;
 
@@ -133,7 +137,11 @@ public class FP_CameraController : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables);
+        bool checkHit = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _currentInteractbleDist, _checkLayer);
+
+        _currentInteractbleDist = checkHit ? hit.distance : _maxInteractbleDistance;
+
+        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _currentInteractbleDist, _interactables);
 
         if (isInteractable != _canInteract)
         {
@@ -141,6 +149,8 @@ public class FP_CameraController : MonoBehaviour
 
             if(isInteractable == true)
             {
+                _currentInteractbleDist = hit.distance;
+
                 Transform t = hit.transform;
 
                 if (t.TryGetComponent(out Outline outline))
@@ -193,7 +203,7 @@ public class FP_CameraController : MonoBehaviour
         Transform interactive = null;
         RaycastHit hit;
 
-        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _interactDist, _interactables);
+        bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _maxInteractbleDistance, _interactables);
 
         if (isInteractable != _isInteracting)
         {
