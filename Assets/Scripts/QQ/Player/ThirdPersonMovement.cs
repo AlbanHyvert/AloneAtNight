@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonMovement : StateMachine
+public class ThirdPersonMovement : Tp_StateMachine
 {
 
     [SerializeField] private CharacterController _controller;
@@ -25,6 +25,14 @@ public class ThirdPersonMovement : StateMachine
 
             Vector3 moveDir = Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
             _controller.Move(moveDir.normalized * _speed * Time.deltaTime);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            State.IsClimbing(true);            
         }
     }
 }

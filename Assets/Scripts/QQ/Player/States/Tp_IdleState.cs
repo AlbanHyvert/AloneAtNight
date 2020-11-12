@@ -15,12 +15,13 @@ public class Tp_IdleState : Tp_State
 
     public override void IsPushing(bool value)
     {
-
+        
     }
 
     public override void IsClimbing(bool value)
     {
 
+        Player.SetState(new Tp_ClimbState(Player));
     }
 
     public override void IsThrowing(bool value)
