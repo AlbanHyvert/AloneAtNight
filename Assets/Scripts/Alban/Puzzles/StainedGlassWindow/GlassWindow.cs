@@ -161,10 +161,10 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         if (_validIndex >= _isValidList.Count)
         {
-            //Activate Something
-
             if (_light != null)
                 _light.SetActive(true);
+
+            GameManager.Instance.LoadScene("EndGameScene");
 
             GameLoopManager.Instance.UpdatePuzzles -= Tick;
         }
