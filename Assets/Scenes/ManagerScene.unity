@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe36be124b8ff64b825b47a4129ccc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: MenuScene
+  _sceneName: AlbanDevScene
   _hud: {fileID: 1861387544}
 --- !u!1 &1792928303
 GameObject:

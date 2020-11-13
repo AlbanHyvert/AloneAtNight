@@ -50,7 +50,12 @@ public class Fp_FallState : State
     {
         if (value == true)
         {
+            Player.Animator.SetBool("isFalling", false);
             Player.SetState(new Fp_IdleState(Player));
+        }
+        else
+        {
+            Player.Animator.SetBool("isFalling", true);
         }
     }
 }

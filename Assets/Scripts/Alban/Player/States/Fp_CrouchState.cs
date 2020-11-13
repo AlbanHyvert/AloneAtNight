@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Fp_CrouchState : State
 {
@@ -11,6 +9,7 @@ public class Fp_CrouchState : State
     public override void Start()
     {
         Player.transform.localScale = Player.GetData.crouchSize;
+        Player.Animator.SetBool("isCrouch", true);
         Player.SetCurrentState = E_PlayerState.CROUCHING;
     }
 
@@ -18,7 +17,12 @@ public class Fp_CrouchState : State
     {
         if (value == false)
         {
+            Player.Animator.SetBool("isCrouch", false);
             Player.SetState(new Fp_WalkState(Player));
+        }
+        else
+        {
+            Player.Animator.SetBool("isCrouch", true);
         }
     }
 
