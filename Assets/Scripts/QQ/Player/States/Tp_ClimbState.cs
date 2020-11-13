@@ -10,7 +10,7 @@ public class Tp_ClimbState : Tp_State
 
     public override void Start()
     {
-
+        
     }
 
     public override void IsPushing(bool value)
