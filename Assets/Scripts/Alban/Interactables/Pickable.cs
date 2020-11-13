@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(RespawnObject))]
+[RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(RespawnObject)), RequireComponent(typeof(AudioSource))]
 public class Pickable : MonoBehaviour, IInteractive
 {
     [SerializeField] private InventoryItem _pickableItem = null;
@@ -9,16 +9,22 @@ public class Pickable : MonoBehaviour, IInteractive
     [Space]
     [SerializeField] private ParticleSystem _particle = null;
     [SerializeField] private Rigidbody _rb = null;
+    [Space, Header("FX Audio ID")]
+    [SerializeField] private string _pickUpID = string.Empty;
+    [SerializeField] private string _dropID = string.Empty;
 
     private MeshRenderer _meshRenderer = null;
     private bool _isHold = false;
     private Color _particleBaseColor = Color.white;
+    private AudioSource _audioSource = null;
 
     public RespawnObject GetRespawner { get { return _respawner; } }
     public Rigidbody GetRigidbody { get { return _rb; } }
 
     private void Start()
     {
+        _audioSource = this.GetComponent<AudioSource>();
+
         _rb = this.GetComponent<Rigidbody>();
 
         _meshRenderer = this.GetComponent<MeshRenderer>();
@@ -62,9 +68,10 @@ public class Pickable : MonoBehaviour, IInteractive
             _particle.Stop();
         }
 
-        //_respawner.SetLastValidPosition = this.transform.position;
-
         this.transform.SetParent(parent);
+
+        if (_pickUpID != string.Empty && _audioSource != null)
+            _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_pickUpID));
 
         _rb.useGravity = false;
         _rb.isKinematic = true;
@@ -83,6 +90,9 @@ public class Pickable : MonoBehaviour, IInteractive
         }
 
         this.transform.SetParent(null);
+
+        if (_pickUpID != string.Empty && _audioSource != null)
+            _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_dropID));
 
         _rb.isKinematic = false;
         _rb.useGravity = true;

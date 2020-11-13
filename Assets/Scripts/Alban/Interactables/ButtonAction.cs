@@ -1,10 +1,12 @@
 ﻿using cakeslice;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class ButtonAction : MonoBehaviour, IInteractive
 {
     [SerializeField] private InventoryItem _objectItem = null;
     [SerializeField] private Transform _spawnPos = null;
+    [SerializeField] private AudioSource _audioSource = null;
 
     void IInteractive.Enter(Transform parent)
     {

@@ -11,7 +11,11 @@ public class GlassWindow : MonoBehaviour, IInteractive
     [Space]
     [SerializeField] private Transform _spawnKeyPos = null;
     [SerializeField] private GameObject _key = null;
-    
+    [Space]
+    [SerializeField] private AudioSource _audioSource = null;
+    [SerializeField] private string _interactID = string.Empty;
+    [SerializeField] private string _finishedID = string.Empty;
+
     private int _validIndex = 0;
     private int _index = 0;
     private List<bool> _isValidList = null;
@@ -53,6 +57,9 @@ public class GlassWindow : MonoBehaviour, IInteractive
         _index = 0;
 
         _camera.gameObject.SetActive(true);
+
+        if (_interactID != string.Empty)
+            _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_interactID));
 
         _player = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
 
@@ -161,6 +168,9 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         if (_validIndex >= _isValidList.Count)
         {
+            if (_interactID != string.Empty)
+                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_finishedID));
+
             if (_light != null)
                 _light.SetActive(true);
 

@@ -42,6 +42,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: {fileID: 11400000, guid: 18eb35298b2c9a14cb70101199134728, type: 2}
+  _audioSource: {fileID: 0}
+  _id: 
 --- !u!114 &6257741752520456406
 MonoBehaviour:
   m_ObjectHideFlags: 0

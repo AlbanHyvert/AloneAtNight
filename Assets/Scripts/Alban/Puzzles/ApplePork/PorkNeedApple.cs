@@ -6,6 +6,9 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
     [SerializeField] private Animator _wardrobeDoor = null;
     [Space]
     [SerializeField] private Transform _applePosition = null;
+    [Space]
+    [SerializeField] private AudioSource _audioSource = null;
+    [SerializeField] private string _id = string.Empty;
 
     public void Enter(Transform parent = null)
     {
@@ -28,6 +31,9 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
                 Destroy(pickable.GetComponent<Outline>());
                 Destroy(pickable);
                 Destroy(this);
+
+                if (_id != string.Empty)
+                    _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_id));
 
                 _wardrobeDoor.SetBool("IsActive", true);
 
