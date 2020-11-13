@@ -18,8 +18,8 @@ EditorBuildSettings:
     path: Assets/Scenes/AlbanDevScene.unity
     guid: dd4c5e1e4e5fc114b8bcd57cc091f5ed
   - enabled: 1
-    path: Assets/Scenes/Scene_Tristan.unity
-    guid: e1df7a24faa177b419d40b3924ec5cf8
+    path: Assets/Scenes/TestGAScene.unity
+    guid: aa5e1316cb9ec93418b2f9a72e90a899
   - enabled: 1
     path: Assets/Scenes/EndGameScene.unity
     guid: f186354b3641cea44b5e6af214dcdaf7

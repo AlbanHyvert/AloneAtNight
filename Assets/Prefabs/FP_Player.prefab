@@ -308,7 +308,7 @@ MonoBehaviour:
   _checkLayer:
     serializedVersion: 2
     m_Bits: 15671
-  _maxInteractbleDistance: 1.3
+  _maxInteractbleDistance: 2
   _outlineEffect: {fileID: 8132073899259549913}
 --- !u!1001 &8357147826189375762
 PrefabInstance:
