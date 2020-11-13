@@ -9,6 +9,7 @@ public class Fp_IdleCrouchState : State
     public override void Start()
     {
         Player.transform.localScale = Player.GetData.crouchSize;
+        Player.Animator.SetBool("isCrouch", true);
         Player.SetCurrentState = E_PlayerState.CROUCHING;
     }
 
@@ -16,6 +17,7 @@ public class Fp_IdleCrouchState : State
     {
         if (value == false)
         {
+            Player.Animator.SetBool("isCrouch", false);
             Player.SetState(new Fp_IdleState(Player));
         }
     }
@@ -34,7 +36,12 @@ public class Fp_IdleCrouchState : State
     {
         if (value == false)
         {
+            Player.Animator.SetBool("isFalling", true);
             Player.SetState(new Fp_FallState(Player));
+        }
+        else
+        {
+            Player.Animator.SetBool("isFalling", false);
         }
     }
 }

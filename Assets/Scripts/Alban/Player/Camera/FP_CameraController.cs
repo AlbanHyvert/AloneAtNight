@@ -10,8 +10,9 @@ public class FP_CameraController : MonoBehaviour
     [SerializeField] private LayerMask _checkLayer = 0;
     [SerializeField] private float _maxInteractbleDistance = 10;
     [SerializeField] private OutlineEffect _outlineEffect = null;
-    
+
     #region Variables
+    private Vector3 _defaultPos = Vector3.zero;
     private float _currentX = 0;
     private float _currentY = 0;
     private float _rotationX = 0;
@@ -39,6 +40,8 @@ public class FP_CameraController : MonoBehaviour
 
     public void Init(FP_Controller player)
     {
+        _defaultPos = transform.localPosition;
+
         _canInteract = false;
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -86,6 +89,19 @@ public class FP_CameraController : MonoBehaviour
         {
             InputManager.Instance.UpdateMousePos -= RotateObject;
             InputManager.Instance.UpdateMousePos += CameraRotation;
+        }
+    }
+
+    private void IsCrouch(bool value)
+    {
+        if(value == false)
+        {
+            transform.localPosition = _defaultPos;
+            _data.headBobbing.CurrentPosY = _data.headBobbing.DefaultPosY;
+        }
+        else
+        {
+            transform.localPosition = new Vector3(0, 0.52f, 0.129f);
         }
     }
 

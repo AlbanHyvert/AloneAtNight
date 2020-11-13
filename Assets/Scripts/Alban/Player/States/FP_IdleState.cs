@@ -9,6 +9,8 @@ public class Fp_IdleState : State
     public override void Start()
     {
         Player.transform.localScale = Player.GetData.standingSize;
+        Player.Animator.SetBool("isCrouch", false);
+        Player.Animator.SetFloat("WalkSpeed", 0);
         Player.SetCurrentState = E_PlayerState.IDLE;
     }
 
@@ -16,6 +18,7 @@ public class Fp_IdleState : State
     {
         if (value == true)
         {
+            Player.Animator.SetBool("isCrouch", true);
             Player.SetState(new Fp_IdleCrouchState(Player));
         }
     }
@@ -27,6 +30,8 @@ public class Fp_IdleState : State
             Player.SetState(new Fp_WalkState(Player));
         }
 
+        Player.Animator.SetFloat("WalkSpeed", 0);
+
         Player.GetData.cameraController.GetData.headBobbing.OnIdle();
     }
 
@@ -34,7 +39,12 @@ public class Fp_IdleState : State
     {
         if(value == false)
         {
+            Player.Animator.SetBool("isFalling", true);
             Player.SetState(new Fp_FallState(Player));
+        }
+        else
+        {
+            Player.Animator.SetBool("isFalling", false);
         }
     }
 }

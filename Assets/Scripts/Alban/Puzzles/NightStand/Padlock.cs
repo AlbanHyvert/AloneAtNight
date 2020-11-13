@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Padlock : MonoBehaviour
+public class Padlock : MonoBehaviour, IInteractive
 {
     [SerializeField] private Animator _nightstand = null;
     [Space]
@@ -61,5 +61,45 @@ public class Padlock : MonoBehaviour
     private void OnDestroy()
     {
         _nightstand.SetBool("IsActive", true);
+    }
+
+    public void Enter(Transform parent = null)
+    {
+        FP_Controller controller = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
+
+        if (controller.GetInventory.GetInventories().Count > 0)
+        {
+            for (int i = 0; i < controller.GetInventory.GetInventories().Count; i++)
+            {
+                if (controller.GetInventory.GetInventories()[i].GetPrefab().tag == "Key")
+                {
+                    GameObject key = CreateObjectInstance(controller.GetInventory.GetInventories()[i].GetPrefab(), _snapPosition);
+
+                    key.transform.SetParent(transform);
+
+                    key.transform.position = _snapPosition.position;
+                    key.transform.rotation = _snapPosition.rotation;
+
+                    key.gameObject.layer = 0;
+
+                    Destroy(this.gameObject);
+                }
+            }
+        }
+    }
+
+    public void Exit()
+    {
+       
+    }
+
+    public void OnSeen()
+    {
+        
+    }
+
+    public void OnUnseen()
+    {
+        
     }
 }

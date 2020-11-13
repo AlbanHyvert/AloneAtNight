@@ -31,6 +31,8 @@ public class Fp_WalkState : State
 
         Player.GetData.cameraController.GetData.headBobbing.OnWalk();
 
+        Player.Animator.SetFloat("WalkSpeed", speed);
+
         Player.Controller.Move(dir * speed * Time.deltaTime);
     }
 
@@ -38,7 +40,12 @@ public class Fp_WalkState : State
     {
         if (value == false)
         {
+            Player.Animator.SetBool("isFalling", true);
             Player.SetState(new Fp_FallState(Player));
+        }
+        else
+        {
+            Player.Animator.SetBool("isFalling", false);
         }
     }
 }

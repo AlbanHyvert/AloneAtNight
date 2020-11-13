@@ -9,6 +9,8 @@ public class FP_Controller : StateMachine
     [Space]
     [SerializeField] private Inventory _inventory = null;
     [Space]
+    [SerializeField] private Animator _animator = null;
+    [Space]
     [SerializeField] private LayerMask _groundLayer = 0;
     [SerializeField] private float _maxDistance = 0.1f;
 
@@ -41,6 +43,7 @@ public class FP_Controller : StateMachine
     public CharacterController Controller { get { return _controller; } }
     public D_FpController MovementData { get { return _movementData; } }
     public Inventory GetInventory { get { return _inventory; } }
+    public Animator Animator { get { return _animator; } }
     public E_PlayerState SetCurrentState { set { _currentState = value; } }
     public bool SetIsLookingAt
     {
