@@ -8,6 +8,7 @@ TagManager:
   - Key
   - Rope
   - Push
+  - Climb
   layers:
   - Default
   - TransparentFX
