@@ -9,6 +9,7 @@ public class FP_Controller : StateMachine
     [Space]
     [SerializeField] private Inventory _inventory = null;
     [Space]
+    [SerializeField] private AudioSource _audioSource = null;
     [SerializeField] private Animator _animator = null;
     [Space]
     [SerializeField] private LayerMask _groundLayer = 0;
@@ -357,6 +358,9 @@ public class FP_Controller : StateMachine
 
         if (t.TryGetComponent(out Pickable pickable))
         {
+            if(!string.IsNullOrEmpty(pickable.GetInventoryAudioID))
+                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(pickable.GetInventoryAudioID));
+
             _inventory.AddItem(pickable.GetItem());
 
             Destroy(pickable.gameObject);
