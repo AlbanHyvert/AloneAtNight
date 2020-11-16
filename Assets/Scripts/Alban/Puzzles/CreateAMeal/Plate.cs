@@ -8,6 +8,7 @@ public class Plate : MonoBehaviour, IInteractive
     [SerializeField] private Camera _dishCamera = null;
     [Space]
     [SerializeField] private Animator _wardrobeDoor = null;
+    [SerializeField] private Door _door = null;
     [Space]
     [SerializeField] private AudioSource _audioSource = null;
     [SerializeField] private string _audioFinishedID = string.Empty;
@@ -136,7 +137,7 @@ public class Plate : MonoBehaviour, IInteractive
             }
 
             if (!string.IsNullOrEmpty(_audioFinishedID))
-                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioFinishedID));
+                _door.AudioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioFinishedID));
 
             _wardrobeDoor.SetBool("IsActive", true);
 

@@ -4,11 +4,13 @@ using UnityEngine.UI;
 public class PorkNeedApple : MonoBehaviour, IInteractive
 {
     [SerializeField] private Animator _wardrobeDoor = null;
+    [SerializeField] private Door _door = null;
     [Space]
     [SerializeField] private Transform _applePosition = null;
     [Space]
     [SerializeField] private AudioSource _audioSource = null;
     [SerializeField] private string _audioID = string.Empty;
+    [SerializeField] private string _finisedID = string.Empty;
 
     public void Enter(Transform parent = null)
     {
@@ -34,6 +36,9 @@ public class PorkNeedApple : MonoBehaviour, IInteractive
 
                 if (!string.IsNullOrEmpty(_audioID))
                     _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioID));
+
+                if (!string.IsNullOrEmpty(_finisedID))
+                    _door.AudioSource.PlayOneShot(SoundManager.Instance.GetAudio(_finisedID));
 
                 _wardrobeDoor.SetBool("IsActive", true);
 
