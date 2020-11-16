@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 51117645809630075}
   - component: {fileID: 3970557142484890846}
   - component: {fileID: 1224618350586576916}
-  - component: {fileID: 7870212292967109633}
   m_Layer: 0
   m_Name: GA_Ribs_01
   m_TagString: Untagged
@@ -80,16 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &7870212292967109633
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 864211290322428353}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.17725927, y: 0.06371626, z: 0.18876787}
-  m_Center: {x: 0, y: 0.03185813, z: -0.024156205}

@@ -14,6 +14,7 @@ public class GlassWindow : MonoBehaviour, IInteractive
     [Space]
     [SerializeField] private AudioSource _audioSource = null;
     [SerializeField] private string _interactID = string.Empty;
+    [SerializeField] private string _placeGlassID = string.Empty;
     [SerializeField] private string _keySpawnID = string.Empty;
     [SerializeField] private string _finishedID = string.Empty;
 
@@ -153,6 +154,9 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
                     if(_isValidList[i] == true)
                     {
+                        if (!string.IsNullOrEmpty(_placeGlassID))
+                            _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_placeGlassID));
+
                         _validIndex += 1;
                         _fragmentList.Remove(currentFragment);
                         RemoveFragment(currentFragment);

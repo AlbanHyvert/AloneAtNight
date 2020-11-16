@@ -10,15 +10,17 @@ public class Pickable : MonoBehaviour, IInteractive
     [SerializeField] private ParticleSystem _particle = null;
     [SerializeField] private Rigidbody _rb = null;
     [Space, Header("FX Audio ID")]
+    [SerializeField] private AudioSource _audioSource = null;
     [SerializeField] private string _pickUpID = string.Empty;
+    [SerializeField] private string _inventoryAudioID = string.Empty;
     [SerializeField] private string _dropID = string.Empty;
 
     private MeshRenderer _meshRenderer = null;
     private bool _isHold = false;
     private Color _particleBaseColor = Color.white;
-    private AudioSource _audioSource = null;
 
     public RespawnObject GetRespawner { get { return _respawner; } }
+    public string GetInventoryAudioID { get { return _inventoryAudioID; } }
     public Rigidbody GetRigidbody { get { return _rb; } }
 
     private void Start()
@@ -91,7 +93,7 @@ public class Pickable : MonoBehaviour, IInteractive
 
         this.transform.SetParent(null);
 
-        if (_pickUpID != string.Empty && _audioSource != null)
+        if (_dropID != string.Empty && _audioSource != null)
             _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_dropID));
 
         _rb.isKinematic = false;
