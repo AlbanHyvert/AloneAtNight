@@ -4,10 +4,11 @@ public class UtensilCore : MonoBehaviour
 {
     [SerializeField] private UtensilShadow[] _shadows = null;
     [Space]
-    [SerializeField] private Animator _door = null;
+    [SerializeField] private Animator _doorAnim = null;
+    [SerializeField] private Door _door = null;
     [Space]
     [SerializeField] private AudioSource _audioSource = null;
-    [SerializeField] private string _audioFinisedID = string.Empty;
+    [SerializeField] private string _audioFinishedID = string.Empty;
 
     private int _index = 0;
 
@@ -33,10 +34,10 @@ public class UtensilCore : MonoBehaviour
 
         if (_index >= _shadows.Length)
         {
-            if (_audioFinisedID != string.Empty)
-                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioFinisedID));
+            if (!string.IsNullOrEmpty(_audioFinishedID))
+                _door.AudioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioFinishedID));
 
-            _door.SetBool("IsActive", true);
+            _doorAnim.SetBool("IsActive", true);
             GameLoopManager.Instance.UpdatePuzzles -= Tick;
         }
     }
