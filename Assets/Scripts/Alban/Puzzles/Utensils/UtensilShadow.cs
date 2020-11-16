@@ -5,6 +5,9 @@ public class UtensilShadow : MonoBehaviour
     [SerializeField] private E_Tableware _tableware = E_Tableware.FORK;
     [Space]
     [SerializeField] private Transform _snapPosition = null;
+    [Space]
+    [SerializeField] private AudioSource _audioSource = null;
+    [SerializeField] private string _audioSpawnID = string.Empty;
 
     private bool _hasTableware = false;
     private FP_Controller _controller = null;
@@ -48,6 +51,9 @@ public class UtensilShadow : MonoBehaviour
                 {
                     if (tableware.Type == _tableware)
                     {
+                        if (!string.IsNullOrEmpty(_audioSpawnID))
+                            _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioSpawnID));
+
                         GameObject tablewareInstance = CreateObjectInstance(tableware.gameObject, _snapPosition);
 
                         tablewareInstance.transform.SetParent(transform);

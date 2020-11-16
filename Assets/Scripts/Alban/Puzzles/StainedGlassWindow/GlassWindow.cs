@@ -14,6 +14,7 @@ public class GlassWindow : MonoBehaviour, IInteractive
     [Space]
     [SerializeField] private AudioSource _audioSource = null;
     [SerializeField] private string _interactID = string.Empty;
+    [SerializeField] private string _keySpawnID = string.Empty;
     [SerializeField] private string _finishedID = string.Empty;
 
     private int _validIndex = 0;
@@ -58,7 +59,7 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         _camera.gameObject.SetActive(true);
 
-        if (_interactID != string.Empty)
+        if (!string.IsNullOrEmpty(_interactID))
             _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_interactID));
 
         _player = PlayerManager.Instance.GetPlayersInstance.fpsPlayer;
@@ -162,13 +163,16 @@ public class GlassWindow : MonoBehaviour, IInteractive
 
         if (_key != null && _validIndex >= 7)
         {
+            if (!string.IsNullOrEmpty(_keySpawnID))
+                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_keySpawnID));
+
             Instantiate(_key, _spawnKeyPos.position, _key.transform.rotation);
             _key = null;
         }
 
         if (_validIndex >= _isValidList.Count)
         {
-            if (_interactID != string.Empty)
+            if (!string.IsNullOrEmpty(_finishedID))
                 _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_finishedID));
 
             if (_light != null)

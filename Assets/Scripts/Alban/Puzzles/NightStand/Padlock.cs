@@ -61,7 +61,7 @@ public class Padlock : MonoBehaviour, IInteractive
 
                     key.gameObject.layer = 0;
 
-                    if (_id != string.Empty)
+                    if (!string.IsNullOrEmpty(_id))
                         _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_id));
 
                     Destroy(this.gameObject);

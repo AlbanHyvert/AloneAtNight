@@ -6,16 +6,20 @@ public class ButtonAction : MonoBehaviour, IInteractive
 {
     [SerializeField] private InventoryItem _objectItem = null;
     [SerializeField] private Transform _spawnPos = null;
+    [Space]
     [SerializeField] private AudioSource _audioSource = null;
-
+    [SerializeField] private string _audioID = string.Empty;
+    
     void IInteractive.Enter(Transform parent)
     {
-        Debug.Log("Hi there");
-        
+        if (_audioID != string.Empty)
+            _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioID));
+
         SpawnObject();
 
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
 
+        Destroy(this);
     }
 
     private void SpawnObject()

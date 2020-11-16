@@ -8,6 +8,10 @@ public class Plate : MonoBehaviour, IInteractive
     [SerializeField] private Camera _dishCamera = null;
     [Space]
     [SerializeField] private Animator _wardrobeDoor = null;
+    [Space]
+    [SerializeField] private AudioSource _audioSource = null;
+    [SerializeField] private string _audioFinishedID = string.Empty;
+    [SerializeField] private string _audioEnterID = string.Empty;
 
     private int _index = 0;
     private int _wrongIndex = 0;
@@ -31,6 +35,9 @@ public class Plate : MonoBehaviour, IInteractive
         Inventory inventory = player.GetInventory;
 
         _dishCamera.gameObject.SetActive(true);
+
+        if (!string.IsNullOrEmpty(_audioEnterID))
+            _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioEnterID));
 
         for (int i = 0; i < inventory.GetInventories().Count; i++)
         {
@@ -128,11 +135,15 @@ public class Plate : MonoBehaviour, IInteractive
                 controller.GetInventory.RemoveItem(pickable.GetItem());
             }
 
+            if (!string.IsNullOrEmpty(_audioFinishedID))
+                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioFinishedID));
+
             _wardrobeDoor.SetBool("IsActive", true);
 
             _foodList.Clear();
 
             controller.SetStopEveryMovement = false;
+            
             Exit();
         }
         else if(_wrongIndex >= 3)

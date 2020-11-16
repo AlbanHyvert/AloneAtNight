@@ -6,7 +6,7 @@ public class CreateFood : MonoBehaviour, IInteractive
     [SerializeField] private InventoryItem food = null;
     [Space]
     [SerializeField] private AudioSource _audioSource = null;
-    [SerializeField] private string _id = string.Empty;
+    [SerializeField] private string _audioID = string.Empty;
 
     private bool _isStored = false;
 
@@ -27,8 +27,8 @@ public class CreateFood : MonoBehaviour, IInteractive
     {
         if (_isStored == false)
         {
-            if(_id != string.Empty)
-                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_id));
+            if (!string.IsNullOrEmpty(_audioID))
+                _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioID));
 
             PlayerManager.Instance.GetPlayersInstance.fpsPlayer.GetInventory.AddItem(food);
             _isStored = true;
