@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc2c985db1db4147acff0ceec235d03, type: 3}
   m_Name: CloseDoor
   m_EditorClassIdentifier: 
-  _id: 
+  _id: LockedDoor
   _clip: {fileID: 8300000, guid: 701a254b33d0e3d4d892aec372c5b0d0, type: 3}
