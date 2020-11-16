@@ -12,12 +12,12 @@ public class ButtonAction : MonoBehaviour, IInteractive
     
     void IInteractive.Enter(Transform parent)
     {
-        if (_audioID != string.Empty)
+        if (!string.IsNullOrEmpty(_audioID))
             _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_audioID));
 
         SpawnObject();
 
-        this.gameObject.SetActive(false);
+        this.GetComponent<MeshRenderer>().enabled = false;
 
         this.gameObject.layer = 0;
 
