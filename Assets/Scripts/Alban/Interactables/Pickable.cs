@@ -12,6 +12,7 @@ public class Pickable : MonoBehaviour, IInteractive
     [Space, Header("FX Audio ID")]
     [SerializeField] private AudioSource _audioSource = null;
     [SerializeField] private string _pickUpID = string.Empty;
+    [SerializeField] private string _inventoryAudioID = string.Empty;
     [SerializeField] private string _dropID = string.Empty;
 
     private MeshRenderer _meshRenderer = null;
@@ -19,6 +20,7 @@ public class Pickable : MonoBehaviour, IInteractive
     private Color _particleBaseColor = Color.white;
 
     public RespawnObject GetRespawner { get { return _respawner; } }
+    public string GetInventoryAudioID { get { return _inventoryAudioID; } }
     public Rigidbody GetRigidbody { get { return _rb; } }
 
     private void Start()
