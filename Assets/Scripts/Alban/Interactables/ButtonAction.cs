@@ -19,7 +19,12 @@ public class ButtonAction : MonoBehaviour, IInteractive
 
         this.gameObject.SetActive(false);
 
-        Destroy(this);
+        this.gameObject.layer = 0;
+
+        if (TryGetComponent(out Outline outline))
+        {
+            outline.DesactivateOutline();
+        }
     }
 
     private void SpawnObject()

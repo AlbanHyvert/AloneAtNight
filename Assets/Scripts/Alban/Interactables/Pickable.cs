@@ -93,7 +93,7 @@ public class Pickable : MonoBehaviour, IInteractive
 
         this.transform.SetParent(null);
 
-        if (_pickUpID != string.Empty && _audioSource != null)
+        if (_dropID != string.Empty && _audioSource != null)
             _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_dropID));
 
         _rb.isKinematic = false;
