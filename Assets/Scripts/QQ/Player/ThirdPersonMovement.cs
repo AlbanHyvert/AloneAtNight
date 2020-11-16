@@ -8,6 +8,7 @@ public class ThirdPersonMovement : Tp_StateMachine
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Transform _camera;
     [SerializeField] private float _speed = 6.0f;
+    [SerializeField] private float _gravity = 9.81f;
     [SerializeField] private float _turnSmoothTime = 0.1f;
     private float _turnSmoothVelocity;
 
@@ -16,6 +17,7 @@ public class ThirdPersonMovement : Tp_StateMachine
     [SerializeField] private Transform _t = null;
     [SerializeField] private Vector3 _tInit = Vector3.zero;
     [SerializeField] private bool _isClimbing = false;
+    [SerializeField] private bool _isFalling = false;
     #endregion Variables
 
     void Update()
@@ -35,12 +37,29 @@ public class ThirdPersonMovement : Tp_StateMachine
             
 
                 Vector3 moveDir = Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
+                moveDir.y -= _gravity * Time.deltaTime;
                 _controller.Move(moveDir.normalized * _speed * Time.deltaTime);
 
                 if (_isPushing == true)
                 {
                     _t.position = transform.position + _tInit;
                 }
+            }
+            else
+            {
+                Vector3 moveDir = new Vector3(0, 0, 0);
+                moveDir.y -= _gravity * Time.deltaTime;
+                _controller.Move(moveDir.normalized * _speed * Time.deltaTime);
+            }
+
+
+            if (_controller.isGrounded == false)
+            {
+                _isFalling = true;
+            }
+            else
+            {
+                _isFalling = false;
             }
             return;
         }
