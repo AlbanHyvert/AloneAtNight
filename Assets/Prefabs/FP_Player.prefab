@@ -86,7 +86,7 @@ MonoBehaviour:
     standingSize: {x: 1, y: 1, z: 1}
   _body: {fileID: 8675865129229889905}
   _inventory: {fileID: 11400000, guid: e31267df7470afd419407aeecc27d33d, type: 2}
-  _audioSource: {fileID: 0}
+  _audioSource: {fileID: 5222217222159537334}
   _animator: {fileID: 3352632551114009355}
   _groundLayer:
     serializedVersion: 2
