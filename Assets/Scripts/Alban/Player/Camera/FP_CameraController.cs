@@ -155,7 +155,15 @@ public class FP_CameraController : MonoBehaviour
 
         bool checkHit = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _currentInteractbleDist, _checkLayer);
 
-        _currentInteractbleDist = checkHit ? hit.distance : _maxInteractbleDistance;
+        if(checkHit == true)
+        {
+            float diffBetweenValue = _currentInteractbleDist - hit.distance;
+
+            if(diffBetweenValue < -0.1f && diffBetweenValue >= 0.15f)
+            {
+                _currentInteractbleDist = hit.distance;
+            }
+        }
 
         bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _currentInteractbleDist, _interactables);
 
