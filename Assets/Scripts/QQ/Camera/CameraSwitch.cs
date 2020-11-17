@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class CameraSwitch : MonoBehaviour
 {
-
-    public GameObject camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8;
+    [SerializeField] private GameObject camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8;
 
     AudioListener camera0AudioLis, camera1AudioLis, camera2AudioLis, camera3AudioLis, camera4AudioLis, camera5AudioLis, camera6AudioLis, camera7AudioLis, camera8AudioLis;
 
-    // Use this for initialization
     void Start()
     {
-
-        //Get Camera Listeners
         camera0AudioLis = camera0.GetComponent<AudioListener>();
         camera1AudioLis = camera1.GetComponent<AudioListener>();
         camera2AudioLis = camera2.GetComponent<AudioListener>();
@@ -41,24 +37,19 @@ public class CameraSwitch : MonoBehaviour
         camera8AudioLis.enabled = false;
         camera8.SetActive(false);
 
-        //Camera Position Set
         cameraPositionChange(PlayerPrefs.GetInt("CameraPosition"));
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //Change Camera Keyboard
         switchCamera();
     }
 
-    //UI JoyStick Method
     public void cameraPositonM()
     {
         cameraIncCounter();
     }
 
-    //Change Camera Keyboard
     void switchCamera()
     {
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftAlt))
@@ -72,7 +63,6 @@ public class CameraSwitch : MonoBehaviour
         }
     }
 
-    //Camera Counter
     void cameraIncCounter()
     {
         int cameraPositionCounter = PlayerPrefs.GetInt("CameraPosition");
@@ -87,7 +77,6 @@ public class CameraSwitch : MonoBehaviour
         cameraPositionChange(cameraPositionCounter);
     }
 
-    //Camera change Logic
     void cameraPositionChange(int camPosition)
     {
         if (camPosition > 8)
@@ -100,10 +89,9 @@ public class CameraSwitch : MonoBehaviour
         }
 
 
-        //Set camera position database
         PlayerPrefs.SetInt("CameraPosition", camPosition);
 
-        //Set camera position 1
+        #region Switch Cam
         if (camPosition == 0)
         {
             camera0.SetActive(true);
@@ -116,7 +104,6 @@ public class CameraSwitch : MonoBehaviour
             camera1.SetActive(false);
         }
 
-        //Set camera position 2
         if (camPosition == 1)
         {
             camera1.SetActive(true);
@@ -212,5 +199,6 @@ public class CameraSwitch : MonoBehaviour
             camera0AudioLis.enabled = false;
             camera0.SetActive(false);
         }
+        #endregion
     }
 }
