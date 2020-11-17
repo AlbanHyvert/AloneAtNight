@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2300706748658645380}
   - component: {fileID: 2900910849947039265}
   - component: {fileID: 1127848540118942443}
+  - component: {fileID: -7689065701774777130}
   m_Layer: 0
   m_Name: GA_wall_croner_little
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &-7689065701774777130
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487894549875663678}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3203252142612001214, guid: ff7fd469cb950fb44982472c1c4e6506, type: 3}
