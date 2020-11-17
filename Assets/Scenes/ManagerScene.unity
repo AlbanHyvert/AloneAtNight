@@ -454,7 +454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49a0fffe866a36418397ecdb911764f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 1385180677}
 --- !u!1 &1029353021
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe36be124b8ff64b825b47a4129ccc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: MenuScene
+  _sceneName: AlbanDevScene
   _loadingUI: {fileID: 923517634}
   _hud: {fileID: 1861387544}
 --- !u!1 &1385180673

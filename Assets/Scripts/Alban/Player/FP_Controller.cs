@@ -7,6 +7,8 @@ public class FP_Controller : StateMachine
     [SerializeField] private D_FpController _movementData = null;
     [SerializeField] private Data _data = new Data();
     [Space]
+    [SerializeField] private Transform _body = null;
+    [Space]
     [SerializeField] private Inventory _inventory = null;
     [Space]
     [SerializeField] private AudioSource _audioSource = null;
@@ -16,6 +18,7 @@ public class FP_Controller : StateMachine
     [SerializeField] private float _maxDistance = 0.1f;
 
     #region Variables
+    private Vector3 _bodyPos = Vector3.zero;
     private bool _isCrouch = false;
     private bool _stopEveryMovement = false;
     private bool _isGrounded = false;
@@ -137,6 +140,8 @@ public class FP_Controller : StateMachine
 
     private void Awake()
     {
+        _bodyPos = _body.localPosition;
+
         _cursorUI = PlayerManager.Instance.GetFpCursorUI;
 
         _cursorUI.gameObject.SetActive(true);
@@ -177,6 +182,9 @@ public class FP_Controller : StateMachine
         {
             SetIsGrounded = RaycastIsGrounded();
         }
+
+        if (_body.localPosition != _bodyPos)
+            _body.localPosition = _bodyPos;
 
         State.Move(dir);
     }
