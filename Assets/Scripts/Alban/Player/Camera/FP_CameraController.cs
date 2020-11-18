@@ -23,7 +23,19 @@ public class FP_CameraController : MonoBehaviour
     private bool _isInteracting = false;
     #endregion Variables
 
-    public bool SetIsInteracting { set { _isInteracting = value; } }
+    public bool SetIsInteracting
+    { 
+        set
+        {
+            _isInteracting = value;
+            
+            if(value == false)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+    }
     public Data GetData { get { return _data; } }
     public D_FpCamera GetMovementData { get { return _cameraData; } }
 
@@ -44,10 +56,12 @@ public class FP_CameraController : MonoBehaviour
 
         _canInteract = false;
 
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
         _currentInteractbleDist = _maxInteractbleDistance;
 
+        GameLoopManager.Instance.UpdatePause += IsPaused;
         InputManager.Instance.UpdateMousePos += CameraRotation;
 
         _fpPlayer = player;
@@ -57,6 +71,24 @@ public class FP_CameraController : MonoBehaviour
 
         _fpPlayer.OnLookAt += IsLookingAt;
         _fpPlayer.OnStopEveryMovement += StopCamera;
+    }
+
+    private void IsPaused(bool value)
+    {
+        if(value == true)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            InputManager.Instance.UpdateMousePos -= CameraRotation;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
+            InputManager.Instance.UpdateMousePos += CameraRotation;
+        }
     }
 
     private void StopCamera(bool value)
