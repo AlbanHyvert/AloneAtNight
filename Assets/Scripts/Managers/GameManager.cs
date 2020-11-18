@@ -1,4 +1,5 @@
 ﻿using Engine.Singleton;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,12 +20,20 @@ public class GameManager : Singleton<GameManager>
 
         DontDestroyOnLoad(_hud);
 
-        LoadScene(SceneName);
+        _loadingUI.Enter();
+        SceneManager.LoadSceneAsync(_sceneName);
     }
 
     public void LoadScene(string name)
     {
         _loadingUI.Enter();
+
+        StartCoroutine(StartLoadingScene(name));
+    }
+
+    private IEnumerator StartLoadingScene(string name)
+    {
+        yield return new WaitForSecondsRealtime(2f);
 
         SceneManager.LoadSceneAsync(name);
     }
@@ -34,6 +43,8 @@ public class GameManager : Singleton<GameManager>
         if(scene.isLoaded)
         {
             _loadingUI.Exit();
+
+            StopAllCoroutines();
         }
     }
 }
