@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuScene.unity
     guid: d104292f3b83eb24bb02e859d7c8880b
   - enabled: 1
-    path: Assets/Scenes/TestGAScene.unity
+    path: Assets/Scenes/FPScene.unity
     guid: aa5e1316cb9ec93418b2f9a72e90a899
   - enabled: 1
     path: Assets/Scenes/EndGameScene.unity

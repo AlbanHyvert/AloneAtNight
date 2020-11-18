@@ -64,7 +64,7 @@ public class Padlock : MonoBehaviour, IInteractive
                     if (!string.IsNullOrEmpty(_id))
                         _audioSource.PlayOneShot(SoundManager.Instance.GetAudio(_id));
 
-                    Destroy(this.gameObject);
+                    Destroy(this.gameObject, _audioSource.clip.length);
                 }
             }
         }
