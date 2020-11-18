@@ -330,6 +330,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5730368214674565217, guid: 434db3525f467294c88f76a0476ede4a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730368214674565217, guid: 434db3525f467294c88f76a0476ede4a,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730368214674565217, guid: 434db3525f467294c88f76a0476ede4a,
+        type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730368214674565217, guid: 434db3525f467294c88f76a0476ede4a,
+        type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5730368214674565223, guid: 434db3525f467294c88f76a0476ede4a,
         type: 3}
       propertyPath: m_Name
