@@ -23,39 +23,11 @@ public class ThirdPersonMovement : Tp_StateMachine
     [SerializeField] private bool _isFalling = false;
     #endregion Variables
 
-    [SerializeField] private GameObject camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8;
-    AudioListener camera0AudioLis, camera1AudioLis, camera2AudioLis, camera3AudioLis, camera4AudioLis, camera5AudioLis, camera6AudioLis, camera7AudioLis, camera8AudioLis;
+    [SerializeField] private Transform camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8;
 
     void Start()
     {
-        camera0AudioLis = camera0.GetComponent<AudioListener>();
-        camera1AudioLis = camera1.GetComponent<AudioListener>();
-        camera2AudioLis = camera2.GetComponent<AudioListener>();
-        camera3AudioLis = camera3.GetComponent<AudioListener>();
-        camera4AudioLis = camera4.GetComponent<AudioListener>();
-        camera5AudioLis = camera5.GetComponent<AudioListener>();
-        camera6AudioLis = camera6.GetComponent<AudioListener>();
-        camera7AudioLis = camera7.GetComponent<AudioListener>();
-        camera8AudioLis = camera8.GetComponent<AudioListener>();
-
-        camera1AudioLis.enabled = false;
-        camera1.SetActive(false);
-        camera2AudioLis.enabled = false;
-        camera2.SetActive(false);
-        camera3AudioLis.enabled = false;
-        camera3.SetActive(false);
-        camera4AudioLis.enabled = false;
-        camera4.SetActive(false);
-        camera5AudioLis.enabled = false;
-        camera5.SetActive(false);
-        camera6AudioLis.enabled = false;
-        camera6.SetActive(false);
-        camera7AudioLis.enabled = false;
-        camera7.SetActive(false);
-        camera8AudioLis.enabled = false;
-        camera8.SetActive(false);
-
-        //cameraPositionChange(PlayerPrefs.GetInt("CameraPosition"));
+        _camera.position = camera0.position;
     }
 
     void Update()
@@ -180,11 +152,6 @@ public class ThirdPersonMovement : Tp_StateMachine
         }
     }
 
-    public void cameraPositonM()
-    {
-        cameraIncCounter();
-    }
-
     void switchCamera()
     {
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftAlt))
@@ -231,119 +198,47 @@ public class ThirdPersonMovement : Tp_StateMachine
         #region Switch Cam
         if (camPosition == 0)
         {
-            camera0.SetActive(true);
-            camera0AudioLis.enabled = true;
-            _camera = camera0.transform;
-
-            camera8AudioLis.enabled = false;
-            camera8.SetActive(false);
-
-            camera1AudioLis.enabled = false;
-            camera1.SetActive(false);
+            _camera.position = camera0.position;
         }
 
         if (camPosition == 1)
         {
-            camera1.SetActive(true);
-            camera1AudioLis.enabled = true;
-            _camera = camera1.transform;
-
-            camera0AudioLis.enabled = false;
-            camera0.SetActive(false);
-
-            camera2AudioLis.enabled = false;
-            camera2.SetActive(false);
+            _camera.position = camera1.position;
         }
 
         if (camPosition == 2)
         {
-            camera2.SetActive(true);
-            camera2AudioLis.enabled = true;
-            _camera = camera2.transform;
-
-            camera1AudioLis.enabled = false;
-            camera1.SetActive(false);
-
-            camera3AudioLis.enabled = false;
-            camera3.SetActive(false);
+            _camera.position = camera2.position;
         }
 
         if (camPosition == 3)
         {
-            camera3.SetActive(true);
-            camera3AudioLis.enabled = true;
-            _camera = camera3.transform;
-
-            camera2AudioLis.enabled = false;
-            camera2.SetActive(false);
-
-            camera4AudioLis.enabled = false;
-            camera4.SetActive(false);
+            _camera.position = camera3.position;
         }
 
         if (camPosition == 4)
         {
-            camera4.SetActive(true);
-            camera4AudioLis.enabled = true;
-            _camera = camera4.transform;
-
-            camera3AudioLis.enabled = false;
-            camera3.SetActive(false);
-
-            camera5AudioLis.enabled = false;
-            camera5.SetActive(false);
+            _camera.position = camera4.position;
         }
 
         if (camPosition == 5)
         {
-            camera5.SetActive(true);
-            camera5AudioLis.enabled = true;
-            _camera = camera5.transform;
-
-            camera4AudioLis.enabled = false;
-            camera4.SetActive(false);
-
-            camera6AudioLis.enabled = false;
-            camera6.SetActive(false);
+            _camera.position = camera5.position;
         }
 
         if (camPosition == 6)
         {
-            camera6.SetActive(true);
-            camera6AudioLis.enabled = true;
-            _camera = camera6.transform;
-
-            camera5AudioLis.enabled = false;
-            camera5.SetActive(false);
-
-            camera7AudioLis.enabled = false;
-            camera7.SetActive(false);
+            _camera.position = camera6.position;
         }
 
         if (camPosition == 7)
         {
-            camera7.SetActive(true);
-            camera7AudioLis.enabled = true;
-            _camera = camera7.transform;
-
-            camera6AudioLis.enabled = false;
-            camera6.SetActive(false);
-
-            camera8AudioLis.enabled = false;
-            camera8.SetActive(false);
+            _camera.position = camera7.position;
         }
 
         if (camPosition == 8)
         {
-            camera8.SetActive(true);
-            camera8AudioLis.enabled = true;
-            _camera = camera8.transform;
-
-            camera7AudioLis.enabled = false;
-            camera7.SetActive(false);
-
-            camera0AudioLis.enabled = false;
-            camera0.SetActive(false);
+            _camera.position = camera8.position;
         }
         #endregion
     }
