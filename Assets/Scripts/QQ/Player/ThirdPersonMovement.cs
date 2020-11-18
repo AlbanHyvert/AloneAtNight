@@ -8,11 +8,14 @@ public class ThirdPersonMovement : Tp_StateMachine
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Transform _camera;
     [SerializeField] private float _speed = 6.0f;
+    [SerializeField] private float _jumpSpeed = 3.5f;
+    private float _directionY = 0.0f;
     [SerializeField] private float _gravity = 9.81f;
     [SerializeField] private float _turnSmoothTime = 0.1f;
     private float _turnSmoothVelocity;
 
     #region Variables
+    [SerializeField] private float _timing = 2.0f;
     [SerializeField] private bool _isPushing = false;
     [SerializeField] private Transform _t = null;
     [SerializeField] private Vector3 _tInit = Vector3.zero;
@@ -58,6 +61,7 @@ public class ThirdPersonMovement : Tp_StateMachine
     void Update()
     {
         switchCamera();
+        timing();
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -65,6 +69,12 @@ public class ThirdPersonMovement : Tp_StateMachine
         if(_isClimbing == false)
         {
             Vector3 direction = new Vector3(horizontal, 0.0f, vertical).normalized;
+
+            if ((_controller.isGrounded == true) && (Input.GetKeyDown(KeyCode.Space)))
+            {
+                Debug.Log("Jump");
+                _directionY = _jumpSpeed;
+            }
 
             if (direction.magnitude >= 0.1f)
             {
@@ -74,9 +84,12 @@ public class ThirdPersonMovement : Tp_StateMachine
             
 
                 Vector3 moveDir = Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
-                moveDir.y -= _gravity * Time.deltaTime;
-                _controller.Move(moveDir.normalized * _speed * Time.deltaTime);
 
+
+                _directionY -= _gravity * Time.deltaTime;
+                moveDir.y = _directionY;
+                _controller.Move(moveDir * _speed * Time.deltaTime);
+                
                 if (_isPushing == true)
                 {
                     _t.position = transform.position + _tInit;
@@ -85,13 +98,15 @@ public class ThirdPersonMovement : Tp_StateMachine
             else
             {
                 Vector3 moveDir = new Vector3(0, 0, 0);
-                moveDir.y -= _gravity * Time.deltaTime;
-                _controller.Move(moveDir.normalized * _speed * Time.deltaTime);
+                _directionY -= _gravity * Time.deltaTime;
+                moveDir.y = _directionY;
+                _controller.Move(moveDir * _speed * Time.deltaTime);
             }
 
 
             if (_controller.isGrounded == false)
             {
+
                 _isFalling = true;
             }
             else
@@ -103,18 +118,19 @@ public class ThirdPersonMovement : Tp_StateMachine
         else
         {
             Vector3 moveDir = new Vector3(0.0f, vertical, 0.0f);
-            _controller.Move(moveDir.normalized * _speed * Time.deltaTime);
+            _controller.Move(moveDir * _speed * Time.deltaTime);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if ((Input.GetKeyDown(KeyCode.E)) && (_timing <= 0.0f))
         {
             if (other.tag == "Push")
             {
                 if (_isPushing == false)
                 {
+                    _timing = 2.0f;
                     _t = other.gameObject.transform;
                     _tInit = _t.position - transform.position;
                     _isPushing = true;
@@ -122,6 +138,7 @@ public class ThirdPersonMovement : Tp_StateMachine
                 }
                 else
                 {
+                    _timing = 2.0f;
                     _t = null;
                     _tInit = Vector3.zero;
                     _isPushing = false;
@@ -133,13 +150,13 @@ public class ThirdPersonMovement : Tp_StateMachine
             {
                 if (_isClimbing == false)
                 {
-
+                    _timing = 2.0f;
                     _isClimbing = true;
                     //State.IsPushing(_isClimbing);
                 }
                 else
                 {
-
+                    _timing = 2.0f;
                     _isClimbing = false;
                     //State.IsPushing(_isClimbing);
                 }
@@ -152,6 +169,14 @@ public class ThirdPersonMovement : Tp_StateMachine
         if (other.tag == "Climb")
         {
             _isClimbing = false;
+        }
+    }
+
+    void timing()
+    {
+        if (_timing > 0.0f)
+        {
+            _timing -= Time.deltaTime;
         }
     }
 
