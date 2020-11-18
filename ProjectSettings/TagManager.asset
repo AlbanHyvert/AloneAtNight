@@ -9,6 +9,7 @@ TagManager:
   - Rope
   - Push
   - Climb
+  - Break
   layers:
   - Default
   - TransparentFX
