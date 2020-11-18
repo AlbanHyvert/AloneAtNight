@@ -6,6 +6,7 @@ public class ThirdPersonMovement : Tp_StateMachine
 {
 
     [SerializeField] private CharacterController _controller;
+    [SerializeField] private Animator _animator;
     [SerializeField] private Transform _camera;
     [SerializeField] private float _speed = 6.0f;
     [SerializeField] private float _jumpSpeed = 3.5f;
@@ -50,6 +51,8 @@ public class ThirdPersonMovement : Tp_StateMachine
 
             if (direction.magnitude >= 0.1f)
             {
+                _animator.SetFloat("WalkSpeed", _speed);
+
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, _turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
@@ -69,6 +72,8 @@ public class ThirdPersonMovement : Tp_StateMachine
             }
             else
             {
+                _animator.SetFloat("WalkSpeed", 0.0f);
+
                 Vector3 moveDir = new Vector3(0, 0, 0);
                 _directionY -= _gravity * Time.deltaTime;
                 moveDir.y = _directionY;
