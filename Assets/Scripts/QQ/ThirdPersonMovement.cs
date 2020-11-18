@@ -2,10 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraSwitch : MonoBehaviour
+public class ThirdPersonMovement : Tp_StateMachine
 {
-    [SerializeField] private GameObject camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8;
 
+    [SerializeField] private CharacterController _controller;
+    [SerializeField] private Transform _camera;
+    [SerializeField] private float _speed = 6.0f;
+    [SerializeField] private float _jumpSpeed = 3.5f;
+    private float _directionY = 0.0f;
+    [SerializeField] private float _gravity = 9.81f;
+    [SerializeField] private float _turnSmoothTime = 0.1f;
+    private float _turnSmoothVelocity;
+
+    #region Variables
+    [SerializeField] private float _timing = 2.0f;
+    [SerializeField] private bool _isPushing = false;
+    [SerializeField] private Transform _t = null;
+    [SerializeField] private Vector3 _tInit = Vector3.zero;
+    [SerializeField] private bool _isClimbing = false;
+    [SerializeField] private bool _isFalling = false;
+    #endregion Variables
+
+    [SerializeField] private GameObject camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8;
     AudioListener camera0AudioLis, camera1AudioLis, camera2AudioLis, camera3AudioLis, camera4AudioLis, camera5AudioLis, camera6AudioLis, camera7AudioLis, camera8AudioLis;
 
     void Start()
@@ -37,12 +55,129 @@ public class CameraSwitch : MonoBehaviour
         camera8AudioLis.enabled = false;
         camera8.SetActive(false);
 
-        cameraPositionChange(PlayerPrefs.GetInt("CameraPosition"));
+        //cameraPositionChange(PlayerPrefs.GetInt("CameraPosition"));
     }
 
     void Update()
     {
         switchCamera();
+        timing();
+
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        if(_isClimbing == false)
+        {
+            Vector3 direction = new Vector3(horizontal, 0.0f, vertical).normalized;
+
+            if ((_controller.isGrounded == true) && (Input.GetKeyDown(KeyCode.Space)))
+            {
+                Debug.Log("Jump");
+                _directionY = _jumpSpeed;
+            }
+
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, _turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
+            
+
+                Vector3 moveDir = Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
+
+
+                _directionY -= _gravity * Time.deltaTime;
+                moveDir.y = _directionY;
+                _controller.Move(moveDir * _speed * Time.deltaTime);
+                
+                if (_isPushing == true)
+                {
+                    _t.position = transform.position + _tInit;
+                }
+            }
+            else
+            {
+                Vector3 moveDir = new Vector3(0, 0, 0);
+                _directionY -= _gravity * Time.deltaTime;
+                moveDir.y = _directionY;
+                _controller.Move(moveDir * _speed * Time.deltaTime);
+            }
+
+
+            if (_controller.isGrounded == false)
+            {
+
+                _isFalling = true;
+            }
+            else
+            {
+                _isFalling = false;
+            }
+            return;
+        }
+        else
+        {
+            Vector3 moveDir = new Vector3(0.0f, vertical, 0.0f);
+            _controller.Move(moveDir * _speed * Time.deltaTime);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if ((Input.GetKeyDown(KeyCode.E)) && (_timing <= 0.0f))
+        {
+            if (other.tag == "Push")
+            {
+                if (_isPushing == false)
+                {
+                    _timing = 2.0f;
+                    _t = other.gameObject.transform;
+                    _tInit = _t.position - transform.position;
+                    _isPushing = true;
+                    //State.IsPushing(_isPushing);
+                }
+                else
+                {
+                    _timing = 2.0f;
+                    _t = null;
+                    _tInit = Vector3.zero;
+                    _isPushing = false;
+                    //State.IsPushing(_isPushing);
+                }
+                return;
+            }
+            else if (other.tag == "Climb")
+            {
+                if (_isClimbing == false)
+                {
+                    _timing = 2.0f;
+                    _isClimbing = true;
+                    //State.IsPushing(_isClimbing);
+                }
+                else
+                {
+                    _timing = 2.0f;
+                    _isClimbing = false;
+                    //State.IsPushing(_isClimbing);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Climb")
+        {
+            _isClimbing = false;
+        }
+    }
+
+    void timing()
+    {
+        if (_timing > 0.0f)
+        {
+            _timing -= Time.deltaTime;
+        }
     }
 
     public void cameraPositonM()
@@ -54,12 +189,14 @@ public class CameraSwitch : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftAlt))
         {
-            cameraIncCounter();
+            Debug.Log("C");
+            cameraDecCounter();
         }
 
         if (Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.RightAlt))
         {
-            cameraDecCounter();
+            Debug.Log("V");
+            cameraIncCounter();
         }
     }
 
@@ -96,6 +233,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera0.SetActive(true);
             camera0AudioLis.enabled = true;
+            _camera = camera0.transform;
 
             camera8AudioLis.enabled = false;
             camera8.SetActive(false);
@@ -108,6 +246,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera1.SetActive(true);
             camera1AudioLis.enabled = true;
+            _camera = camera1.transform;
 
             camera0AudioLis.enabled = false;
             camera0.SetActive(false);
@@ -120,6 +259,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera2.SetActive(true);
             camera2AudioLis.enabled = true;
+            _camera = camera2.transform;
 
             camera1AudioLis.enabled = false;
             camera1.SetActive(false);
@@ -132,6 +272,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera3.SetActive(true);
             camera3AudioLis.enabled = true;
+            _camera = camera3.transform;
 
             camera2AudioLis.enabled = false;
             camera2.SetActive(false);
@@ -144,6 +285,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera4.SetActive(true);
             camera4AudioLis.enabled = true;
+            _camera = camera4.transform;
 
             camera3AudioLis.enabled = false;
             camera3.SetActive(false);
@@ -156,6 +298,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera5.SetActive(true);
             camera5AudioLis.enabled = true;
+            _camera = camera5.transform;
 
             camera4AudioLis.enabled = false;
             camera4.SetActive(false);
@@ -168,6 +311,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera6.SetActive(true);
             camera6AudioLis.enabled = true;
+            _camera = camera6.transform;
 
             camera5AudioLis.enabled = false;
             camera5.SetActive(false);
@@ -180,6 +324,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera7.SetActive(true);
             camera7AudioLis.enabled = true;
+            _camera = camera7.transform;
 
             camera6AudioLis.enabled = false;
             camera6.SetActive(false);
@@ -192,6 +337,7 @@ public class CameraSwitch : MonoBehaviour
         {
             camera8.SetActive(true);
             camera8AudioLis.enabled = true;
+            _camera = camera8.transform;
 
             camera7AudioLis.enabled = false;
             camera7.SetActive(false);
