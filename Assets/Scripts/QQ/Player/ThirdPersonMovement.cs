@@ -113,8 +113,10 @@ public class ThirdPersonMovement : Tp_StateMachine
         {
             if (other.tag == "Push")
             {
+                Debug.Log("Push");
                 if (_isPushing == false)
                 {
+
                     _t = other.gameObject.transform;
                     _tInit = _t.position - transform.position;
                     _isPushing = true;
@@ -131,6 +133,7 @@ public class ThirdPersonMovement : Tp_StateMachine
             }
             else if (other.tag == "Climb")
             {
+                Debug.Log("Climb");
                 if (_isClimbing == false)
                 {
 
