@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FallingObject : MonoBehaviour
 {
-    [SerializeField] private Transform _object = null;
 
     // Start is called before the first frame update
     void Start()

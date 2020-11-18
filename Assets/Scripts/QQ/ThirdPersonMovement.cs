@@ -100,6 +100,7 @@ public class ThirdPersonMovement : Tp_StateMachine
         {
             if (other.tag == "Push")
             {
+                Debug.Log("Push");
                 if (_isPushing == false)
                 {
                     _timing = 2.0f;
