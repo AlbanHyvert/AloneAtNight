@@ -310,7 +310,7 @@ MonoBehaviour:
     m_Bits: 256
   _checkLayer:
     serializedVersion: 2
-    m_Bits: 15671
+    m_Bits: 15415
   _maxInteractbleDistance: 2
   _outlineEffect: {fileID: 8132073899259549913}
 --- !u!82 &5222217222159537334

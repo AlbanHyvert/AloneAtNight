@@ -159,10 +159,14 @@ public class FP_CameraController : MonoBehaviour
         {
             float diffBetweenValue = _currentInteractbleDist - hit.distance;
 
-            if(diffBetweenValue < -0.1f && diffBetweenValue >= 0.15f)
+            if(diffBetweenValue > 0.4f)
             {
                 _currentInteractbleDist = hit.distance;
             }
+        }
+        else
+        {
+            _currentInteractbleDist = _maxInteractbleDistance;
         }
 
         bool isInteractable = Physics.Raycast(_data.camera.transform.position, _data.camera.transform.forward, out hit, _currentInteractbleDist, _interactables);
