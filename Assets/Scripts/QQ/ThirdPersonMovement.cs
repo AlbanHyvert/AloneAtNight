@@ -23,7 +23,7 @@ public class ThirdPersonMovement : Tp_StateMachine
     [SerializeField] private bool _isFalling = false;
     #endregion Variables
 
-    [SerializeField] private Transform camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8;
+    [SerializeField] private Transform camera0, camera1, camera2, camera3, camera4, camera5, camera6, camera7, camera8, camera9;
 
     void Start()
     {
@@ -184,13 +184,13 @@ public class ThirdPersonMovement : Tp_StateMachine
 
     void cameraPositionChange(int camPosition)
     {
-        if (camPosition > 8)
+        if (camPosition > 9)
         {
             camPosition = 0;
         }
         else if (camPosition < 0)
         {
-            camPosition = 8;
+            camPosition = 9;
         }
 
 
@@ -240,6 +240,11 @@ public class ThirdPersonMovement : Tp_StateMachine
         if (camPosition == 8)
         {
             _camera.position = camera8.position;
+        }
+
+        if (camPosition == 9)
+        {
+            _camera.position = camera9.position;
         }
         #endregion
     }
